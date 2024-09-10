@@ -1,0 +1,59 @@
+image:
+  repository: athou/commafeed
+  pullPolicy: IfNotPresent
+  #tag: 5.1.1-postgresql
+
+global:
+  web:
+    ports:
+      - containerPort: 8082
+    options:
+      publicUrl: localhost
+    environments: {}
+      #- name: key
+      #  value: value
+
+  postgres:
+    external:
+      enabled: false
+      host: 127.0.0.1
+      port: 5432
+    internal:
+      enabled: true
+    options:
+      database: commafeed
+      username: commafeed
+      password: commafeed
+    environments: {}
+      #- name: key
+      #  value: value
+
+service:
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8082
+
+resources:
+  limits:
+    web:
+      cpu: 100m
+      memory: 128Mi
+    postgres:
+      cpu: 100m
+      memory: 512Mi
+  requests:
+    web:
+      storage: 256Mi
+    postgres:
+      storage: 1Gi
+
+replicaCount: 1
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

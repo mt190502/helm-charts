@@ -1,0 +1,191 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-web
+  {{ if eq .Release.Namespace "default" }}
+  {{- printf "namespace: %s" "paperless-ngx-k8s" -}}
+  {{ else }}
+  {{- printf "namespace: %s" .Release.Namespace -}}
+  {{ end }}
+spec:
+  replicas: {{ .Values.replicaCount | default (printf "%d" 1) }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-web
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-web
+    spec:
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{-  with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Release.Name }}-web
+          image: {{ template "paperless-ngx.image" . }}
+          env:
+            - name: PAPERLESS_REDIS
+              value: {{ template "redis.url" . }}
+            - name: PAPERLESS_DBENGINE
+              value: "postgresql"
+            - name: PAPERLESS_DBHOST
+              value: "{{ .Release.Name }}-postgres"
+            - name: PAPERLESS_DBNAME
+              value: {{ .Values.global.postgres.options.database | quote }}
+            - name: PAPERLESS_DBUSER
+              value: {{ .Values.global.postgres.options.username | quote }}
+            - name: PAPERLESS_DBPASS
+              value: {{ .Values.global.postgres.options.password | quote }}
+            - name: PAPERLESS_PORT
+              value: {{ .Values.global.web.options.paperless_port | quote }}
+            - name: PAPERLESS_URL
+              value: {{ .Values.global.web.options.paperless_url | quote }}
+            - name: USERMAP_UID
+              value: {{ .Values.global.web.options.usermap_uid | quote }}
+            - name: USERMAP_GID
+              value: {{ .Values.global.web.options.usermap_gid | quote }}
+          {{- range .Values.global.web.environments }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+          {{- end }}
+          {{- with .Values.resources.limits.web }}
+          resources:
+            limits:
+              {{- toYaml . | nindent 14 }}
+          {{- end }}
+          volumeMounts:
+            - name: {{ .Release.Name }}-data
+              mountPath: /usr/src/paperless/data
+            - name: {{ .Release.Name }}-media
+              mountPath: /usr/src/paperless/media
+            - name: {{ .Release.Name }}-export
+              mountPath: /usr/src/paperless/export
+      volumes:
+        - name: {{ .Release.Name }}-data
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-data-pvc
+        - name: {{ .Release.Name }}-media
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-media-pvc
+        - name: {{ .Release.Name }}-export
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-export-pvc
+{{ if eq .Values.global.redis.internal.enabled true }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-broker
+  {{ if eq .Release.Namespace "default" }}
+  {{- printf "namespace: %s" "paperless-ngx-k8s" -}}
+  {{ else }}
+  {{- printf "namespace: %s" .Release.Namespace -}}
+  {{ end }}
+spec:
+  replicas: {{ .Values.replicaCount | default (printf "%d" 1) }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-broker
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-broker
+    spec:
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{-  with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Release.Name }}-broker
+          image: redis:7
+          ports:
+            - containerPort: 6379
+          {{- if .Values.global.redis.environments }}
+          env:
+          {{- range .Values.global.redis.environments }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+          {{- end }}
+          {{- end }}
+          volumeMounts:
+            - name: {{ .Release.Name }}-broker-data
+              mountPath: /data
+      volumes:
+        - name: {{ .Release.Name }}-broker-data
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-broker-pvc
+{{- end }}
+{{ if eq .Values.global.postgres.internal.enabled true }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-postgres
+  {{ if eq .Release.Namespace "default" }}
+  {{- printf "namespace: %s" "paperless-ngx-k8s" -}}
+  {{ else }}
+  {{- printf "namespace: %s" .Release.Namespace -}}
+  {{ end }}
+spec:
+  replicas: {{ .Values.replicaCount | default (printf "%d" 1) }} 
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-postgres
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-postgres
+    spec:
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{-  with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Release.Name }}-postgres
+          image: postgres:latest
+          env:
+            - name: POSTGRES_DB
+              value: {{ .Values.global.postgres.options.database | quote }}
+            - name: POSTGRES_USER
+              value: {{ .Values.global.postgres.options.username | quote }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.global.postgres.options.password | quote }}
+          {{- range .Values.global.postgres.environments }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+          {{- end }}
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: {{ .Release.Name }}-postgres-data
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: {{ .Release.Name }}-postgres-data
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-postgres-pvc
+{{- end }}

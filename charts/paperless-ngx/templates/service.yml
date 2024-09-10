@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-web
+  {{ if eq .Release.Namespace "default" }}
+  {{- printf "namespace: %s" "paperless-ngx-k8s" -}}
+  {{ else }}
+  {{- printf "namespace: %s" .Release.Namespace -}}
+  {{ end }}
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    app: {{ .Release.Name }}-web
+  {{- with .Values.service.ports }}
+  ports:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{ if eq .Values.global.redis.internal.enabled true }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-broker
+  {{ if eq .Release.Namespace "default" }}
+  {{- printf "namespace: %s" "paperless-ngx-k8s" -}}
+  {{ else }}
+  {{- printf "namespace: %s" .Release.Namespace -}}
+  {{ end }}
+spec:
+  ports:
+    - port: 6379
+  selector:
+    app: {{ .Release.Name }}-broker
+{{- end }}
+{{ if eq .Values.global.postgres.internal.enabled true }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-postgres
+  {{ if eq .Release.Namespace "default" }}
+  {{- printf "namespace: %s" "paperless-ngx-k8s" -}}
+  {{ else }}
+  {{- printf "namespace: %s" .Release.Namespace -}}
+  {{ end }}
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: {{ .Release.Name }}-postgres
+{{- end }}

@@ -1,0 +1,122 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-web
+  {{ if eq .Release.Namespace "default" }}
+  {{- printf "namespace: %s" "commafeed-k8s" -}}
+  {{ else }}
+  {{- printf "namespace: %s" .Release.Namespace -}}
+  {{ end }}
+spec:
+  replicas: {{ .Values.replicaCount | default (printf "%d" 1) }} 
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-web
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-web
+    spec:
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        kubernetes.io/arch: amd64
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{-  with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Release.Name }}-web
+          image: {{ template "commafeed.image" . }}
+          env:
+            - name: QUARKUS_DATASOURCE_JDBC_URL
+              value: {{ template "postgres.jdbc" . }}
+            - name: QUARKUS_DATASOURCE_USERNAME
+              value: {{ .Values.global.postgres.options.username | quote }}
+            - name: QUARKUS_DATASOURCE_PASSWORD
+              value: {{ .Values.global.postgres.options.password | quote }}
+            - name: CF_APP_PUBLICURL
+              value: {{ .Values.global.web.options.publicUrl | quote }}
+          {{- range .Values.global.web.environments }}
+            - name:  {{ .name }}
+              value: {{ .value | quote }}
+          {{- end }}
+          {{- with .Values.global.web.ports }}
+          ports:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.resources.limits.web }}
+          resources:
+            limits:
+              {{- toYaml . | nindent 14 }}
+          {{- end }}
+          volumeMounts:
+            - name: {{ .Release.Name }}-data
+              mountPath: /commafeed/data
+      volumes:
+        - name: {{ .Release.Name }}-data
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-data-pvc
+
+{{ if eq .Values.global.postgres.internal.enabled true }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-postgres
+  {{ if eq .Release.Namespace "default" }}
+  {{- printf "namespace: %s" "commafeed-k8s" -}}
+  {{ else }}
+  {{- printf "namespace: %s" .Release.Namespace -}}
+  {{ end }}
+spec:
+  replicas: {{ .Values.replicaCount | default (printf "%d" 1) }} 
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-postgres
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-postgres
+    spec:
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{-  with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Release.Name }}-postgres
+          image: postgres:latest
+          env:
+            - name: POSTGRES_DB
+              value: {{ .Values.global.postgres.options.database | quote }}
+            - name: POSTGRES_USER
+              value: {{ .Values.global.postgres.options.username | quote }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.global.postgres.options.password | quote }}
+          {{- range .Values.global.postgres.environments }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+          {{- end }}
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: {{ .Release.Name }}-postgres-data
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: {{ .Release.Name }}-postgres-data
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-postgres-pvc
+{{- end }}

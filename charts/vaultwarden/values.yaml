@@ -1,0 +1,61 @@
+image:
+  repository: vaultwarden/server
+  pullPolicy: IfNotPresent
+  #tag: 1.32.0
+
+global:
+  web:
+    ports:
+      - containerPort: 8080
+    options:
+      enable_websocket: true
+      signups_allowed: false
+      invitations_allowed: false
+      show_password_hint: false
+      rocket_port: 8080
+    environments: {}
+      # - name: key
+      #  value: value
+
+  postgres:
+    external:
+      enabled: false
+      host: 127.0.0.1
+      port: 5432
+    internal:
+      enabled: true
+    options:
+      database: vaultwarden
+      username: vaultwarden
+      password: vaultwarden
+    environments: {}
+      # - name: key
+      #   value: value
+
+service:
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+
+resources:
+  limits:
+    web:
+      memory: 512Mi
+    postgres:
+      memory: 512Mi
+  requests:
+    web:
+      storage: 256Mi
+    postgres:
+      storage: 1Gi
+
+replicaCount: 1
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

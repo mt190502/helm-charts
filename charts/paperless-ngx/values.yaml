@@ -1,0 +1,77 @@
+image:
+  repository: ghcr.io/paperless-ngx/paperless-ngx
+  pullPolicy: IfNotPresent
+
+global:
+  web:
+    ports:
+      - containerPort: 8000
+    options:
+      paperless_port: 8000
+      paperless_url: https://localhost
+      usermap_uid: 1000
+      usermap_gid: 1000
+    environments: {}
+      # - name: key
+      #   value: value
+
+  redis:
+    external:
+      enabled: false
+      host: 127.0.0.1
+      port: 6379
+    internal:
+      enabled: true
+    environments: {}
+
+  postgres:
+    external:
+      enabled: false
+      host: 127.0.0.1
+      port: 5432
+    internal:
+      enabled: true
+    options:
+      database: paperless-ngx
+      username: paperless-ngx
+      password: paperless-ngx
+    environments: {}
+      # - name: key
+      #   value: value
+
+service:
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8000
+      targetPort: 8000
+
+resources:
+  limits:
+    web:
+      cpu: 1
+      memory: 2048Mi
+    redis:
+      memory: 512Mi
+    postgres:
+      memory: 512Mi
+  requests:
+    web:
+      storage: 1Gi
+    media:
+      storage: 2Gi
+    export:
+      storage: 512Mi
+    broker:
+      storage: 1Gi
+    postgres:
+      storage: 1Gi
+
+replicaCount: 1
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

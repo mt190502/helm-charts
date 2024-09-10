@@ -1,0 +1,125 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-web
+  {{ if eq .Release.Namespace "default" }}
+  {{- printf "namespace: %s" "vaultwarden-k8s" -}}
+  {{ else }}
+  {{- printf "namespace: %s" .Release.Namespace -}}
+  {{ end }}
+spec:
+  replicas: {{ .Values.replicaCount | default (printf "%d" 1) }} 
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-web
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-web
+    spec:
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{-  with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Release.Name }}-web
+          image: {{ template "vaultwarden.image" . }}
+          env:
+            - name: DATABASE_URL
+              value: {{ template "postgres.url" . }}
+            - name: ENABLE_WEBSOCKET
+              value: {{ .Values.global.web.options.enable_websocket | quote }}
+            - name: SIGNUPS_ALLOWED
+              value: {{ .Values.global.web.options.signups_allowed | quote }}
+            - name: INVITATIONS_ALLOWED
+              value: {{ .Values.global.web.options.invitations_allowed | quote }}
+            - name: SHOW_PASSWORD_HINT
+              value: {{ .Values.global.web.options.show_password_hint | quote }}
+            - name: ROCKET_PORT
+              value: {{ .Values.global.web.options.rocket_port | quote }}
+          {{- range .Values.global.web.environments }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+          {{- end }}
+          {{- with .Values.global.web.ports }}
+          ports:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.resources.limits.web }}
+          resources:
+            limits:
+              {{- toYaml . | nindent 14 }}
+          {{- end }}
+          volumeMounts:
+            - name: {{ .Release.Name }}-data
+              mountPath: /data
+      volumes:
+        - name: {{ .Release.Name }}-data
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-data-pvc
+
+{{ if eq .Values.global.postgres.internal.enabled true }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-postgres
+  {{ if eq .Release.Namespace "default" }}
+  {{- printf "namespace: %s" "vaultwarden-k8s" -}}
+  {{ else }}
+  {{- printf "namespace: %s" .Release.Namespace -}}
+  {{ end }}
+spec:
+  replicas: {{ .Values.replicaCount | default (printf "%d" 1) }} 
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-postgres
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-postgres
+    spec:
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{-  with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Release.Name }}-postgres
+          image: postgres:latest
+          env:
+            - name: POSTGRES_DB
+              value: {{ .Values.global.postgres.options.database | quote }}
+            - name: POSTGRES_USER
+              value: {{ .Values.global.postgres.options.username | quote }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.global.postgres.options.password | quote }}
+          {{- range .Values.global.postgres.environments }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+          {{- end }}
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: {{ .Release.Name }}-postgres-data
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: {{ .Release.Name }}-postgres-data
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-postgres-pvc
+{{- end }}
