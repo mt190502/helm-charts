@@ -39,10 +39,10 @@ service:
 resources:
   limits:
     web:
-      cpu: 100m
-      memory: 128Mi
+      cpu: 1
+      memory: 512Mi
     postgres:
-      cpu: 100m
+      cpu: 1
       memory: 512Mi
   requests:
     web:
