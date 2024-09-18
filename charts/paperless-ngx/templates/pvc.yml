@@ -1,83 +1,65 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ .Release.Name }}-data-pvc
-  {{ if eq .Release.Namespace "default" }}
-  {{- printf "namespace: %s" "paperless-ngx-k8s" -}}
-  {{ else }}
-  {{- printf "namespace: %s" .Release.Namespace -}}
-  {{ end }}
+  name: "{{ .Release.Name }}-data-pvc"
+  namespace: "{{ if eq .Release.Namespace "default" }}paperless-ngx-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: {{ .Values.resources.requests.web.storage }}
+      storage: "{{ .Values.resources.requests.web.storage }}"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ .Release.Name }}-media-pvc
-  {{ if eq .Release.Namespace "default" }}
-  {{- printf "namespace: %s" "paperless-ngx-k8s" -}}
-  {{ else }}
-  {{- printf "namespace: %s" .Release.Namespace -}}
-  {{ end }}
+  name: "{{ .Release.Name }}-media-pvc"
+  namespace: "{{ if eq .Release.Namespace "default" }}paperless-ngx-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: {{ .Values.resources.requests.media.storage }}
+      storage: "{{ .Values.resources.requests.media.storage }}"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ .Release.Name }}-export-pvc
-  {{ if eq .Release.Namespace "default" }}
-  {{- printf "namespace: %s" "paperless-ngx-k8s" -}}
-  {{ else }}
-  {{- printf "namespace: %s" .Release.Namespace -}}
-  {{ end }}
+  name: "{{ .Release.Name }}-export-pvc"
+  namespace: "{{ if eq .Release.Namespace "default" }}paperless-ngx-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: {{ .Values.resources.requests.export.storage }}
+      storage: "{{ .Values.resources.requests.export.storage }}"
+
 {{ if eq .Values.global.redis.internal.enabled true }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ .Release.Name }}-broker-pvc
-  {{ if eq .Release.Namespace "default" }}
-  {{- printf "namespace: %s" "paperless-ngx-k8s" -}}
-  {{ else }}
-  {{- printf "namespace: %s" .Release.Namespace -}}
-  {{ end }}
+  name: "{{ .Release.Name }}-broker-pvc"
+  namespace: "{{ if eq .Release.Namespace "default" }}paperless-ngx-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: {{ .Values.resources.requests.broker.storage }}
+      storage: "{{ .Values.resources.requests.broker.storage }}"
 {{- end }}
+
 {{ if eq .Values.global.postgres.internal.enabled true }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ .Release.Name }}-postgres-pvc
-  {{ if eq .Release.Namespace "default" }}
-  {{- printf "namespace: %s" "paperless-ngx-k8s" -}}
-  {{ else }}
-  {{- printf "namespace: %s" .Release.Namespace -}}
-  {{ end }}
+  name: "{{ .Release.Name }}-postgres-pvc"
+  namespace: "{{ if eq .Release.Namespace "default" }}paperless-ngx-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: {{ .Values.resources.requests.postgres.storage }}
+      storage: "{{ .Values.resources.requests.postgres.storage }}"
 {{- end }}

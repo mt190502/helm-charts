@@ -1,21 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-web
-  {{ if eq .Release.Namespace "default" }}
-  {{- printf "namespace: %s" "paperless-ngx-k8s" -}}
-  {{ else }}
-  {{- printf "namespace: %s" .Release.Namespace -}}
-  {{ end }}
+  name: "{{ .Release.Name }}-web"
+  namespace: "{{ if eq .Release.Namespace "default" }}paperless-ngx-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
 spec:
   replicas: {{ .Values.replicaCount | default (printf "%d" 1) }}
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-web
+      app: "{{ .Release.Name }}-web"
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}-web
+        app: "{{ .Release.Name }}-web"
     spec:
       {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -30,7 +26,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-        - name: {{ .Release.Name }}-web
+        - name: "{{ .Release.Name }}-web"
           image: {{ template "paperless-ngx.image" . }}
           env:
             - name: PAPERLESS_REDIS
@@ -63,42 +59,39 @@ spec:
               {{- toYaml . | nindent 14 }}
           {{- end }}
           volumeMounts:
-            - name: {{ .Release.Name }}-data
+            - name: "{{ .Release.Name }}-data"
               mountPath: /usr/src/paperless/data
-            - name: {{ .Release.Name }}-media
+            - name: "{{ .Release.Name }}-media"
               mountPath: /usr/src/paperless/media
-            - name: {{ .Release.Name }}-export
+            - name: "{{ .Release.Name }}-export"
               mountPath: /usr/src/paperless/export
       volumes:
-        - name: {{ .Release.Name }}-data
+        - name: "{{ .Release.Name }}-data"
           persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-data-pvc
-        - name: {{ .Release.Name }}-media
+            claimName: "{{ .Release.Name }}-data-pvc"
+        - name: "{{ .Release.Name }}-media"
           persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-media-pvc
-        - name: {{ .Release.Name }}-export
+            claimName: "{{ .Release.Name }}-media-pvc"
+        - name: "{{ .Release.Name }}-export"
           persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-export-pvc
+            claimName: "{{ .Release.Name }}-export-pvc"
+
 {{ if eq .Values.global.redis.internal.enabled true }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-broker
-  {{ if eq .Release.Namespace "default" }}
-  {{- printf "namespace: %s" "paperless-ngx-k8s" -}}
-  {{ else }}
-  {{- printf "namespace: %s" .Release.Namespace -}}
-  {{ end }}
+  name: "{{ .Release.Name }}-broker"
+  namespace: "{{ if eq .Release.Namespace "default" }}paperless-ngx-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
 spec:
   replicas: {{ .Values.replicaCount | default (printf "%d" 1) }}
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-broker
+      app: "{{ .Release.Name }}-broker"
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}-broker
+        app: "{{ .Release.Name }}-broker"
     spec:
       {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -113,7 +106,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-        - name: {{ .Release.Name }}-broker
+        - name: "{{ .Release.Name }}-broker"
           image: redis:7
           ports:
             - containerPort: 6379
@@ -125,33 +118,30 @@ spec:
           {{- end }}
           {{- end }}
           volumeMounts:
-            - name: {{ .Release.Name }}-broker-data
+            - name: "{{ .Release.Name }}-broker-data"
               mountPath: /data
       volumes:
-        - name: {{ .Release.Name }}-broker-data
+        - name: "{{ .Release.Name }}-broker-data"
           persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-broker-pvc
+            claimName: "{{ .Release.Name }}-broker-pvc"
 {{- end }}
+
 {{ if eq .Values.global.postgres.internal.enabled true }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-postgres
-  {{ if eq .Release.Namespace "default" }}
-  {{- printf "namespace: %s" "paperless-ngx-k8s" -}}
-  {{ else }}
-  {{- printf "namespace: %s" .Release.Namespace -}}
-  {{ end }}
+  name: "{{ .Release.Name }}-postgres"
+  namespace: "{{ if eq .Release.Namespace "default" }}paperless-ngx-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
 spec:
-  replicas: {{ .Values.replicaCount | default (printf "%d" 1) }} 
+  replicas: {{ .Values.replicaCount | default (printf "%d" 1) }}
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-postgres
+      app: "{{ .Release.Name }}-postgres"
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}-postgres
+        app: "{{ .Release.Name }}-postgres"
     spec:
       {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -166,7 +156,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-        - name: {{ .Release.Name }}-postgres
+        - name: "{{ .Release.Name }}-postgres"
           image: postgres:latest
           env:
             - name: POSTGRES_DB
@@ -182,10 +172,10 @@ spec:
           ports:
             - containerPort: 5432
           volumeMounts:
-            - name: {{ .Release.Name }}-postgres-data
+            - name: "{{ .Release.Name }}-postgres-data"
               mountPath: /var/lib/postgresql/data
       volumes:
-        - name: {{ .Release.Name }}-postgres-data
+        - name: "{{ .Release.Name }}-postgres-data"
           persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-postgres-pvc
+            claimName: "{{ .Release.Name }}-postgres-pvc"
 {{- end }}
