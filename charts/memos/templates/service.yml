@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Release.Name }}-web"
+  namespace: "{{ if eq .Release.Namespace "default" }}memos-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
+spec:
+  type: "{{ .Values.service.type }}"
+  selector:
+    app: "{{ .Release.Name }}-web"
+  {{- with .Values.service.ports }}
+  ports:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+    
+{{ if eq .Values.global.postgres.internal.enabled true }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Release.Name }}-postgres"
+  namespace: "{{ if eq .Release.Namespace "default" }}memos-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: "{{ .Release.Name }}-postgres"
+{{- end }}
