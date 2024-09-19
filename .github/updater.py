@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from packaging.version import Version
+
 import re
 import requests
 import os
@@ -58,7 +60,7 @@ def update_version():
    
         response = requests.get(f'https://api.github.com/repos/{image}/tags')
         versions = [re.sub(r'[a-zA-Z]', '', tag['name']) for tag in response.json()]
-        versions.sort(reverse=True)
+        versions.sort(key=Version, reverse=True)
         latest_version = parse_version(versions[0])
         version_status = compare_versions(chart_app_version, latest_version)
 
