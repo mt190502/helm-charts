@@ -32,15 +32,15 @@ spec:
             - name: CMD_DB_URL
               value: {{ template "postgres.url" . }}
             - name: CMD_USECDN
-              value: {{ codimd_usecdn | quote }}
+              value: {{ .Values.global.web.options.codimd_usecdn | quote }}
             - name: CMD_DOMAIN
-              value: {{ codimd_domain | quote }}
+              value: {{ .Values.global.web.options.codimd_domain | quote }}
             - name: CMD_ALLOW_ANONYMOUS
-              value: {{ codimd_allow_anonymous | quote }}
+              value: {{ .Values.global.web.options.codimd_allow_anonymous | quote }}
             - name: CMD_ALLOW_EMAIL_REGISTER
-              value: {{ codimd_allow_email_registration | quote }}
+              value: {{ .Values.global.web.options.codimd_allow_email_registration | quote }}
             - name: CMD_PROTOCOL_USESSL
-              value: {{ codimd_protocol_usessl | quote }}
+              value: {{ .Values.global.web.options.codimd_protocol_usessl | quote }}
           {{- range .Values.global.web.environments }}
             - name: {{ .name }}
               value: {{ .value | quote }}
