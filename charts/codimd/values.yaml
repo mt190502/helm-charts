@@ -1,0 +1,61 @@
+image:
+  repository: nabo.codimd.dev/hackmdio/hackmd
+  pullPolicy: IfNotPresent
+  #tag: 1.32.0
+
+global:
+  web:
+    ports:
+      - containerPort: 3000
+    options:
+      codimd_usecdn: false
+      codimd_domain: localhost
+      codimd_allow_anonymous: false
+      codimd_allow_email_registration: false
+      codimd_protocol_usessl: true
+    environments: {}
+      # - name: key
+      #  value: value
+
+  postgres:
+    external:
+      enabled: false
+      host: 127.0.0.1
+      port: 5432
+    internal:
+      enabled: true
+    options:
+      database: codimd
+      username: codimd
+      password: codimd
+    environments: {}
+      # - name: key
+      #   value: value
+
+service:
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
+
+resources:
+  limits:
+    web:
+      memory: 512Mi
+    postgres:
+      memory: 512Mi
+  requests:
+    web:
+      storage: 256Mi
+    postgres:
+      storage: 1Gi
+
+replicaCount: 1
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
