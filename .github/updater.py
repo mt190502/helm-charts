@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from packaging.version import Version
+from packaging.version import Version, InvalidVersion
 
 import re
 import requests
@@ -21,6 +21,20 @@ def compare_versions(current, latest):
         return 'downgrade'
     else:
         return 'no change'
+
+
+def filter_valid_versions(version_list):
+    valid_versions = []
+
+    for version in version_list:
+        try:
+            Version(version)
+            valid_versions.append(version)
+        except InvalidVersion:
+            continue
+
+    return valid_versions
+
 
 
 def parse_version(version):
@@ -59,7 +73,7 @@ def update_version():
         chart_app_version = parse_version(str(chart_data.get('appVersion')))
    
         response = requests.get(f'https://api.github.com/repos/{image}/tags')
-        versions = [re.sub(r'[a-zA-Z]', '', tag['name']) for tag in response.json()]
+        versions = filter_valid_versions([re.sub(r'[a-zA-Z]', '', tag['name']) for tag in response.json()])
         versions.sort(key=Version, reverse=True)
         latest_version = parse_version(versions[0])
         version_status = compare_versions(chart_app_version, latest_version)
