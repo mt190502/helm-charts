@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-web"
+  namespace: "{{ if eq .Release.Namespace "default" }}filestash-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
+spec:
+  replicas: {{ .Values.replicaCount | default (printf "%d" 1) }}
+  selector:
+    matchLabels:
+      app: "{{ .Release.Name }}-web"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Release.Name }}-web"
+    spec:
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{-  with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: "{{ .Release.Name }}-web"
+          image: {{ template "filestash.image" . }}
+          env:
+            - name: APPLICATION_URL
+              value: {{ .Values.global.web.options.application_url | quote }}
+            - name: ONLYOFFICE_URL
+              value: {{ .Values.global.web.options.onlyoffice_url | quote }}
+          {{- range .Values.global.web.environments }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+          {{- end }}
+          {{- with .Values.global.web.ports }}
+          ports:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.resources.limits.web }}
+          resources:
+            limits:
+              {{- toYaml . | nindent 14 }}
+          {{- end }}
+          volumeMounts:
+            - name: "{{ .Release.Name }}-data"
+              mountPath: /app/data/state
+      volumes:
+        - name: "{{ .Release.Name }}-data"
+          persistentVolumeClaim:
+            claimName: "{{ .Release.Name }}-data-pvc"

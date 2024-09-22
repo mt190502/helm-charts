@@ -1,0 +1,39 @@
+image:
+  repository: machines/filestash
+  pullPolicy: IfNotPresent
+  # tag: latest
+
+global:
+  web:
+    ports:
+      - containerPort: 8334
+    options:
+      application_url: http://localhost
+      onlyoffice_url: http://onlyoffice
+    environments: {}
+      # - name: key
+      #  value: value
+
+service:
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8334
+      targetPort: 8334
+
+resources:
+  limits:
+    web:
+      memory: 512Mi
+  requests:
+    web:
+      storage: 256Mi
+
+replicaCount: 1
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
