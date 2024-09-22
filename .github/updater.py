@@ -71,6 +71,10 @@ def update_version():
         image = chart_data.get('projectUrl').split("github.com/")[1]
         chart_app_name = chart_data.get('name')
         chart_app_version = parse_version(str(chart_data.get('appVersion')))
+
+        if chart_data.get('appVersion') == 'latest':
+            print(f"App '{chart_app_name}' has not valid version, skipping...")
+            continue
    
         response = requests.get(f'https://api.github.com/repos/{image}/tags')
         versions = filter_valid_versions([re.sub(r'[a-zA-Z]', '', tag['name']) for tag in response.json()])
