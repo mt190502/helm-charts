@@ -27,7 +27,7 @@ spec:
       {{- end }}
       containers:
         - name: "{{ .Release.Name }}-web"
-          image: {{ template "paperless-ngx.image" . }}
+          image: {{ template "paperless-ngx.web.image" . }}
           env:
             - name: PAPERLESS_REDIS
               value: {{ template "redis.url" . }}
@@ -107,7 +107,7 @@ spec:
       {{- end }}
       containers:
         - name: "{{ .Release.Name }}-broker"
-          image: redis:7
+          image: {{ template "paperless-ngx.broker.image" . }}
           ports:
             - containerPort: 6379
           {{- if .Values.global.redis.environments }}
@@ -157,7 +157,7 @@ spec:
       {{- end }}
       containers:
         - name: "{{ .Release.Name }}-postgres"
-          image: postgres:latest
+          image: {{ template "paperless-ngx.postgres.image" . }}
           env:
             - name: POSTGRES_DB
               value: {{ .Values.global.postgres.options.database | quote }}

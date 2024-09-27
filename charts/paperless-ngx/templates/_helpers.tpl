@@ -1,8 +1,24 @@
-{{- define "paperless-ngx.image" -}}
-{{- if .Values.image.tag -}}
-{{- printf "%s:%s" .Values.image.repository .Values.image.tag -}}
+{{- define "paperless-ngx.web.image" -}}
+{{- if .Values.image.web.tag -}}
+{{- printf "%s:%s" .Values.image.web.repository (.Values.image.web.tag | toString) -}}
 {{- else -}}
-{{- printf "%s:%s" .Values.image.repository .Chart.AppVersion -}}
+{{- printf "%s:%s" .Values.image.web.repository .Chart.AppVersion -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "paperless-ngx.postgres.image" -}}
+{{- if .Values.image.postgres.tag -}}
+{{- printf "%s:%s" .Values.image.postgres.repository (.Values.image.postgres.tag | toString) -}}
+{{- else -}}
+{{- printf "%s:latest" .Values.image.postgres.repository -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "paperless-ngx.broker.image" -}}
+{{- if .Values.image.broker.tag -}}
+{{- printf "%s:%s" .Values.image.broker.repository (.Values.image.broker.tag | toString) -}}
+{{- else -}}
+{{- printf "%s:latest" .Values.image.broker.repository -}}
 {{- end -}}
 {{- end -}}
 

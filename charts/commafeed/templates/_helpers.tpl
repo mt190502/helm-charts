@@ -1,8 +1,16 @@
-{{- define "commafeed.image" -}}
-{{- if .Values.image.tag -}}
-{{- printf "%s:%s-postgresql" .Values.image.repository .Values.image.tag -}}
+{{- define "commafeed.web.image" -}}
+{{- if .Values.image.web.tag -}}
+{{- printf "%s:%s" .Values.image.web.repository (.Values.image.web.tag | toString) -}}
 {{- else -}}
-{{- printf "%s:%s-postgresql" .Values.image.repository .Chart.AppVersion -}}
+{{- printf "%s:%s" .Values.image.web.repository .Chart.AppVersion -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "commafeed.postgres.image" -}}
+{{- if .Values.image.postgres.tag -}}
+{{- printf "%s:%s" .Values.image.postgres.repository (.Values.image.postgres.tag | toString) -}}
+{{- else -}}
+{{- printf "%s:latest" .Values.image.postgres.repository -}}
 {{- end -}}
 {{- end -}}
 

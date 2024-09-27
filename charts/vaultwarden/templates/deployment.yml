@@ -27,7 +27,7 @@ spec:
       {{- end }}
       containers:
         - name: "{{ .Release.Name }}-web"
-          image: {{ template "vaultwarden.image" . }}
+          image: {{ template "vaultwarden.web.image" . }}
           env:
             - name: DATABASE_URL
               value: {{ template "postgres.url" . }}
@@ -93,7 +93,7 @@ spec:
       {{- end }}
       containers:
         - name: "{{ .Release.Name }}-postgres"
-          image: postgres:latest
+          image: {{ template "vaultwarden.postgres.image" . }}
           env:
             - name: POSTGRES_DB
               value: {{ .Values.global.postgres.options.database | quote }}

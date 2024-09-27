@@ -27,7 +27,7 @@ spec:
       {{- end }}
       containers:
         - name: "{{ .Release.Name }}-web"
-          image: {{ template "memos.image" . }}
+          image: {{ template "memos.web.image" . }}
           env:
             - name: MEMOS_DSN
               value: {{ template "postgres.url" . }}
@@ -85,7 +85,7 @@ spec:
       {{- end }}
       containers:
         - name: "{{ .Release.Name }}-postgres"
-          image: postgres:latest
+          image: {{ template "memos.postgres.image" . }}
           env:
             - name: POSTGRES_DB
               value: {{ .Values.global.postgres.options.database | quote }}

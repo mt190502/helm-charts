@@ -1,6 +1,16 @@
 image:
-  repository: ghcr.io/paperless-ngx/paperless-ngx
-  pullPolicy: IfNotPresent
+  web:
+    repository: ghcr.io/paperless-ngx/paperless-ngx
+    pullPolicy: IfNotPresent
+    #tag: 2.12.1
+  postgres:
+    repository: postgres
+    pullPolicy: IfNotPresent
+    tag: 17
+  broker:
+    repository: redis
+    pullPolicy: IfNotPresent
+    tag: 7
 
 global:
   web:

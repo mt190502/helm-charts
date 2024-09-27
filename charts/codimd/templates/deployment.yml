@@ -27,7 +27,7 @@ spec:
       {{- end }}
       containers:
         - name: "{{ .Release.Name }}-web"
-          image: {{ template "codimd.image" . }}
+          image: {{ template "codimd.web.image" . }}
           env:
             - name: CMD_DB_URL
               value: {{ template "postgres.url" . }}
@@ -93,7 +93,7 @@ spec:
       {{- end }}
       containers:
         - name: "{{ .Release.Name }}-postgres"
-          image: postgres:latest
+          image: {{ template "codimd.postgres.image" . }}
           env:
             - name: POSTGRES_DB
               value: {{ .Values.global.postgres.options.database | quote }}

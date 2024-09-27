@@ -1,7 +1,12 @@
 image:
-  repository: nabo.codimd.dev/hackmdio/hackmd
-  pullPolicy: IfNotPresent
-  #tag: 1.32.0
+  web:
+    repository: nabo.codimd.dev/hackmdio/hackmd
+    pullPolicy: IfNotPresent
+    #tag: 1.32.0
+  postgres:
+    repository: postgres
+    pullPolicy: IfNotPresent
+    tag: 17
 
 global:
   web:

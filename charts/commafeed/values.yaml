@@ -1,7 +1,12 @@
 image:
-  repository: athou/commafeed
-  pullPolicy: IfNotPresent
-  #tag: 5.1.1-postgresql
+  web:
+    repository: athou/commafeed
+    pullPolicy: IfNotPresent
+    #tag: 5.1.1-postgresql
+  postgres:
+    repository: postgres
+    pullPolicy: IfNotPresent
+    tag: 17
 
 global:
   web:
