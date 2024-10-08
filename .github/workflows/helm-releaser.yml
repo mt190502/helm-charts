@@ -27,25 +27,25 @@ jobs:
               id: check_changes
               run: |
                   if git diff --quiet HEAD HEAD~1; then
-                    echo "::set-output name=changes::false"
+                    echo "changes=false" >> $GITHUB_ENV
                   else
-                    echo "::set-output name=changes::true"
+                    echo "changes=true" >> $GITHUB_ENV
                   fi
 
             - name: Configure Git
-              if: steps.check_changes.outputs.changes == 'true'
+              if: env.changes == 'true'
               run: |
                   git config user.name "$GITHUB_ACTOR"
                   git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
             - name: Install Helm
-              if: steps.check_changes.outputs.changes == 'true'
+              if: env.changes == 'true'
               uses: azure/setup-helm@v4
               env:
                   GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
 
             - name: Run chart-releaser
-              if: steps.check_changes.outputs.changes == 'true'
+              if: env.changes == 'true'
               uses: helm/chart-releaser-action@v1.6.0
               with:
                   charts_dir: 'charts'
