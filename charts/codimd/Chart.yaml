@@ -2,9 +2,9 @@ apiVersion: v2
 name: codimd
 description: A self hosted markdown compatible note taking app
 type: application
-version: 2.5.41
+version: 1.0.0
 appVersion: 2.5.4
 projectUrl: https://github.com/hackmdio/codimd
 maintainers:
-- name: Taha
-  email: mt190502@mtaha.dev
+    - name: Taha
+      email: mt190502@mtaha.dev

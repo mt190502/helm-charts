@@ -2,9 +2,9 @@ apiVersion: v2
 name: memos
 description: A self hosted note taking app
 type: application
-version: 0.22.51
+version: 1.0.0
 appVersion: 0.22.5
 projectUrl: https://github.com/usememos/memos
 maintainers:
-  - name: Taha
-    email: mt190502@mtaha.dev
+    - name: Taha
+      email: mt190502@mtaha.dev
