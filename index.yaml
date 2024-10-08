@@ -1,0 +1,88 @@
+apiVersion: v1
+entries:
+  codimd:
+  - apiVersion: v2
+    appVersion: 2.5.4
+    created: "2024-10-08T10:05:16.415405634Z"
+    description: A self hosted markdown compatible note taking app
+    digest: 027f8315287789a163d8feddfcf4e84ec0a810b7e58b57fca109fa3eb2711454
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: codimd
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/codimd-1.0.0/codimd-1.0.0.tgz
+    version: 1.0.0
+  commafeed:
+  - apiVersion: v2
+    appVersion: 5.3.1
+    created: "2024-10-08T10:05:16.599773216Z"
+    description: A RSS Aggregator
+    digest: cc45fc7d30de96c0088f6aaf0d09041473ba355ad084c352e19dbe18f130181a
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: commafeed
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/commafeed-1.0.0/commafeed-1.0.0.tgz
+    version: 1.0.0
+  filestash:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2024-10-08T10:05:16.78746419Z"
+    description: A Dropbox-like file manager that let you manage your data anywhere
+    digest: 35433d72322aea86b52dd258ea9470305bfec53b880acca49b3de10f113b4757
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: filestash
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/filestash-1.0.0/filestash-1.0.0.tgz
+    version: 1.0.0
+  memos:
+  - apiVersion: v2
+    appVersion: 0.22.5
+    created: "2024-10-08T10:05:17.048224789Z"
+    description: A self hosted note taking app
+    digest: 1ba4bb32cc8b75d302c99fe9699646a0ffa22d1af34eaa915e75d435f8227fe4
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: memos
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/memos-1.0.0/memos-1.0.0.tgz
+    version: 1.0.0
+  paperless-ngx:
+  - apiVersion: v2
+    appVersion: 2.12.1
+    created: "2024-10-08T10:05:17.233593579Z"
+    description: A community-supported supercharged version of paperless; scan, index
+      and archive all your physical documents
+    digest: 9bc4fe0fcfe85f95eedb6069ded222451cfe5ffb87eef36c07b719706ef2f80e
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: paperless-ngx
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/paperless-ngx-1.0.0/paperless-ngx-1.0.0.tgz
+    version: 1.0.0
+  vaultwarden:
+  - apiVersion: v2
+    appVersion: 1.32.1
+    created: "2024-10-08T10:05:17.439239601Z"
+    description: A self hosted password manager
+    digest: 5006d2e65b4ce2c419246c39af9283a4c9c0e32a313c15a9f782c0b7eb8c1d2d
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: vaultwarden
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/vaultwarden-1.0.0/vaultwarden-1.0.0.tgz
+    version: 1.0.0
+generated: "2024-10-08T10:05:17.439252244Z"
