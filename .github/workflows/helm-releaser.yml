@@ -26,10 +26,14 @@ jobs:
             - name: Check for Changes
               id: check_changes
               run: |
-                  if [[ ! "$(git diff --quiet -- charts/**)" ]] && [[ "$(git diff --quiet HEAD HEAD~1 -- charts/**)" ]]; then
-                    echo "changes=true" >> $GITHUB_ENV
+                  last_update_commit=$(git log --oneline | grep 'updated helm charts' | head -n 1 | awk '{print $1}')
+                  last_update_commit_date=$(git show -s --format=%ct $last_update_commit)
+                  current_date_timestamp=$(date +%s)
+
+                  if [ "$((current_date_timestamp - last_update_commit_date_timestamp))" -le "1800" ]; then
+                      echo changes=true >> $GITHUB_ENV
                   else
-                    echo "changes=false" >> $GITHUB_ENV
+                      echo changes=false >> $GITHUB_ENV
                   fi
 
             - name: Configure Git
