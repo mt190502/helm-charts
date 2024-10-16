@@ -26,10 +26,10 @@ jobs:
             - name: Check for Changes
               id: check_changes
               run: |
-                  if git diff --quiet -- charts/**; then
-                    echo "changes=false" >> $GITHUB_ENV
-                  else
+                  if [[ ! "$(git diff --quiet -- charts/**)" ]] && [[ "$(git diff --quiet HEAD HEAD~1 -- charts/**)" ]]; then
                     echo "changes=true" >> $GITHUB_ENV
+                  else
+                    echo "changes=false" >> $GITHUB_ENV
                   fi
 
             - name: Configure Git
