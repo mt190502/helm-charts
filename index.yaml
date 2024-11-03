@@ -84,6 +84,20 @@ entries:
     version: 1.0.0
   paperless-ngx:
   - apiVersion: v2
+    appVersion: 2.13.4
+    created: "2024-11-03T18:18:47.502852142Z"
+    description: A community-supported supercharged version of paperless; scan, index
+      and archive all your physical documents
+    digest: 77a6e41662363b624230d67b24d3a7905438708aff73f28a39b4fa4be2027e2f
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: paperless-ngx
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/paperless-ngx-1.1.4/paperless-ngx-1.1.4.tgz
+    version: 1.1.4
+  - apiVersion: v2
     appVersion: 2.13.3
     created: "2024-11-03T06:20:53.324436411Z"
     description: A community-supported supercharged version of paperless; scan, index
@@ -193,4 +207,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vaultwarden-1.0.0/vaultwarden-1.0.0.tgz
     version: 1.0.0
-generated: "2024-11-03T06:20:53.324470735Z"
+generated: "2024-11-03T18:18:47.502890945Z"
