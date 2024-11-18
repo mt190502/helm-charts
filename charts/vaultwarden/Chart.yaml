@@ -2,8 +2,8 @@ apiVersion: v2
 name: vaultwarden
 description: A self hosted password manager
 type: application
-version: 1.0.5
-appVersion: 1.32.4
+version: 1.0.6
+appVersion: 1.32.5
 projectUrl: https://github.com/dani-garcia/vaultwarden
 maintainers:
 - name: Taha
