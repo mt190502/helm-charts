@@ -209,6 +209,19 @@ entries:
     version: 1.0.0
   vaultwarden:
   - apiVersion: v2
+    appVersion: 1.32.6
+    created: "2024-12-11T01:13:36.716407536Z"
+    description: A self hosted password manager
+    digest: e949bedb1f667dcda7ab56f47333256dc74de445c61c0c462dad4068f1666fb1
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: vaultwarden
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/vaultwarden-1.0.7/vaultwarden-1.0.7.tgz
+    version: 1.0.7
+  - apiVersion: v2
     appVersion: 1.32.5
     created: "2024-11-18T12:30:47.716937804Z"
     description: A self hosted password manager
@@ -273,4 +286,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vaultwarden-1.0.0/vaultwarden-1.0.0.tgz
     version: 1.0.0
-generated: "2024-12-02T18:21:23.206667825Z"
+generated: "2024-12-11T01:13:36.716460395Z"
