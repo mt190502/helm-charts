@@ -1,0 +1,10 @@
+apiVersion: v2
+name: umami
+description: A self hosted web analytics platform
+type: application
+version: 1.0.0
+appVersion: 2.14.0
+projectUrl: https://github.com/umami-software/umami
+maintainers:
+  - name: Taha
+    email: mt190502@mtaha.dev

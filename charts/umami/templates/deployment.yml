@@ -1,0 +1,158 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-web"
+  namespace: "{{ if eq .Release.Namespace "default" }}umami-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
+spec:
+  replicas: {{ .Values.replicaCount | default (printf "%d" 1) }}
+  selector:
+    matchLabels:
+      app: "{{ .Release.Name }}-web"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Release.Name }}-web"
+    spec:
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{-  with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: "{{ .Release.Name }}-web"
+          image: {{ template "umami.web.image" . }}
+          env:
+            - name: DATABASE_URL
+              value: {{ if eq .Values.global.mysql.selected true }}{{ template "mysql.url" . }}{{ else }}{{ template "postgres.url" . }}{{ end }}
+            - name: DATABASE_TYPE
+              value: {{ if eq .Values.global.mysql.selected true }}mysql{{ else }}postgresql{{ end }}
+            - name: APP_SECRET
+              value: {{ .Values.global.web.options.app_secret | quote }}
+          {{- range .Values.global.web.environments }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+          {{- end }}
+          {{- with .Values.global.web.ports }}
+          ports:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.resources.limits.web }}
+          resources:
+            limits:
+              {{- toYaml . | nindent 14 }}
+          {{- end }}
+
+{{ if and .Values.global.postgres.internal.enabled .Values.global.postgres.selected }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-postgres"
+  namespace: "{{ if eq .Release.Namespace "default" }}umami-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
+spec:
+  replicas: {{ .Values.replicaCount | default (printf "%d" 1) }}
+  selector:
+    matchLabels:
+      app: "{{ .Release.Name }}-postgres"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Release.Name }}-postgres"
+    spec:
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{-  with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: "{{ .Release.Name }}-postgres"
+          image: {{ template "umami.postgres.image" . }}
+          env:
+            - name: POSTGRES_DB
+              value: {{ .Values.global.postgres.options.database | quote }}
+            - name: POSTGRES_USER
+              value: {{ .Values.global.postgres.options.username | quote }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.global.postgres.options.password | quote }}
+          {{- range .Values.global.postgres.environments }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+          {{- end }}
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: "{{ .Release.Name }}-postgres-data"
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: "{{ .Release.Name }}-postgres-data"
+          persistentVolumeClaim:
+            claimName: "{{ .Release.Name }}-postgres-pvc"
+{{- end }}
+
+{{ if and .Values.global.mysql.internal.enabled .Values.global.mysql.selected}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-mysql"
+  namespace: "{{ if eq .Release.Namespace "default" }}umami-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
+spec:
+  replicas: {{ .Values.replicaCount | default (printf "%d" 1) }}
+  selector:
+    matchLabels:
+      app: "{{ .Release.Name }}-mysql"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Release.Name }}-mysql"
+    spec:
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{-  with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: "{{ .Release.Name }}-mysql"
+          image: {{ template "umami.mysql.image" . }}
+          env:
+            - name: {{ if eq .Values.image.mysql.repository "mariadb"}}MARIADB{{ else }}MYSQL{{ end }}_DATABASE
+              value: {{ .Values.global.mysql.options.database | quote }}
+            - name: {{ if eq .Values.image.mysql.repository "mariadb"}}MARIADB{{ else }}MYSQL{{ end }}_USER
+              value: {{ .Values.global.mysql.options.username | quote }}
+            - name: {{ if eq .Values.image.mysql.repository "mariadb"}}MARIADB{{ else }}MYSQL{{ end }}_PASSWORD
+              value: {{ .Values.global.mysql.options.password | quote }}
+          {{- range .Values.global.mysql.environments }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+          {{- end }}
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: "{{ .Release.Name }}-mysql-data"
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: "{{ .Release.Name }}-mysql-data"
+          persistentVolumeClaim:
+            claimName: "{{ .Release.Name }}-mysql-pvc"
+{{- end }}
