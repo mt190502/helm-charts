@@ -207,6 +207,20 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/paperless-ngx-1.0.0/paperless-ngx-1.0.0.tgz
     version: 1.0.0
+  umami:
+  - apiVersion: v2
+    appVersion: 2.14.0
+    created: "2024-12-12T09:30:17.836406659Z"
+    description: A self hosted web analytics platform
+    digest: ffdb2cb0fe36d1ab4a5f84b5029a301bdd0c1b927d0339b7569de6f147381009
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: umami
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/umami-1.1.0/umami-1.1.0.tgz
+    version: 1.1.0
   vaultwarden:
   - apiVersion: v2
     appVersion: 1.32.6
@@ -286,4 +300,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vaultwarden-1.0.0/vaultwarden-1.0.0.tgz
     version: 1.0.0
-generated: "2024-12-11T01:13:36.716460395Z"
+generated: "2024-12-12T09:30:17.836443969Z"
