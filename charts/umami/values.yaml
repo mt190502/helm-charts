@@ -74,8 +74,6 @@ resources:
     mysql:
       memory: 512Mi
   requests:
-    web:
-      storage: 256Mi
     postgres:
       storage: 1Gi
     mysql:
