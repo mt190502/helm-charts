@@ -96,6 +96,19 @@ entries:
     version: 1.0.0
   memos:
   - apiVersion: v2
+    appVersion: 0.23.0
+    created: "2024-12-15T18:19:20.099409195Z"
+    description: A self hosted note taking app
+    digest: fab26f317e89b3c03c81239e147e8eeb8cd9cbf4202505ef662829be3f0f7006
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: memos
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/memos-1.1.0/memos-1.1.0.tgz
+    version: 1.1.0
+  - apiVersion: v2
     appVersion: 0.22.5
     created: "2024-10-08T10:05:17.048224789Z"
     description: A self hosted note taking app
@@ -339,4 +352,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vaultwarden-1.0.0/vaultwarden-1.0.0.tgz
     version: 1.0.0
-generated: "2024-12-15T01:18:37.961590347Z"
+generated: "2024-12-15T18:19:20.099457916Z"
