@@ -14,13 +14,30 @@
 {{- end -}}
 {{- end -}}
 
-{{- define "postgres.jdbc" -}}
+{{- define "postgres.credentials" -}}
 {{- if eq .Values.global.postgres.external.enabled .Values.global.postgres.internal.enabled -}}
-{{- fail "postgres.jdbc: postgres.external.enabled and postgres.internal.enabled are equal" -}}
+{{- fail "postgres.url: postgres.external.enabled and postgres.internal.enabled are equal" -}}
 {{- end -}}
-{{- if .Values.global.postgres.external.enabled -}}
-{{- printf "jdbc:postgresql://%s:%.0f/%s" .Values.global.postgres.external.host .Values.global.postgres.external.port .Values.global.postgres.options.database | quote -}}
+{{- $namespace := (lookup "v1" "Namespace" "" .Release.Namespace) -}}
+{{- $secret := (lookup "v1" "Secret" .Release.Namespace (printf "%s-postgres" .Release.Name)) -}}
+{{- if and $namespace $secret }}
+  {{- $data := $secret.data -}}
+  {{- $username := (get $data .Values.global.postgres.secret.usernameKey | b64dec) -}}
+  {{- $password := (get $data .Values.global.postgres.secret.passwordKey | b64dec) -}}
+  {{- $database := (get $data .Values.global.postgres.secret.databaseKey | b64dec) -}}
+  {{- if .Values.global.postgres.external.enabled -}}
+    {{- printf "%s %s %s %s %.0f" $username $password $database .Values.global.postgres.external.host .Values.global.postgres.external.port -}}
+  {{- else -}}
+    {{- printf "%s %s %s %s %d" $username $password $database (printf "%s-postgres" .Release.Name) 5432 -}}
+  {{- end -}}
 {{- else -}}
-{{- printf "jdbc:postgresql://%s-postgres:5432/%s" .Release.Name .Values.global.postgres.options.database | quote -}}
+  {{- $username := .Values.global.postgres.options.username -}}
+  {{- $password := .Values.global.postgres.options.password -}}
+  {{- $database := .Values.global.postgres.options.database -}}
+  {{- if .Values.global.postgres.external.enabled -}}
+    {{- printf "%s %s %s %s %.0f" $username $password $database .Values.global.postgres.external.host .Values.global.postgres.external.port -}}
+  {{- else -}}
+    {{- printf "%s %s %s %s %d" $username $password $database (printf "%s-postgres" .Release.Name) 5432 -}}
+  {{- end -}}
 {{- end -}}
 {{- end -}}

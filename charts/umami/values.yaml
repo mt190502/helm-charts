@@ -18,8 +18,7 @@ global:
       - containerPort: 3000
     options:
       app_secret: 'replace-me-with-a-random-string'
-    environments:
-      {}
+    environments: {}
       # - name: key
       #  value: value
 
@@ -31,6 +30,11 @@ global:
       port: 5432
     internal:
       enabled: true
+    secret:
+      enabled: true
+      usernameKey: postgres_username
+      passwordKey: postgres_password
+      databaseKey: postgres_database
     options:
       database: umami
       username: umami
@@ -48,12 +52,18 @@ global:
       port: 3306
     internal:
       enabled: true
+    secret:
+      enabled: true
+      usernameKey: mysql_username
+      passwordKey: mysql_password
+      rootPasswordKey: mysql_root_password
+      databaseKey: mysql_database
     options:
       database: umami
       username: umami
       password: umami
-    environments:
-      {}
+      rootPassword: my_secret_root_password
+    environments: {}
       # - name: key
       #   value: value
 
