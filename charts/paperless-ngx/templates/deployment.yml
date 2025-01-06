@@ -34,13 +34,38 @@ spec:
             - name: PAPERLESS_DBENGINE
               value: "postgresql"
             - name: PAPERLESS_DBHOST
+            {{- if .Values.global.postgres.external.enabled }}
+              value: {{ printf "%s:%d" .Values.global.postgres.external.host .Values.global.postgres.external.port | quote }}q
+            {{- else }}
               value: "{{ .Release.Name }}-postgres"
+            {{- end }}
             - name: PAPERLESS_DBNAME
+            {{- if .Values.global.postgres.secret.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-postgres
+                  key: {{ .Values.global.postgres.secret.databaseKey | quote }}
+            {{- else }}
               value: {{ .Values.global.postgres.options.database | quote }}
+            {{- end }}
             - name: PAPERLESS_DBUSER
+            {{- if .Values.global.postgres.secret.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-postgres
+                  key: {{ .Values.global.postgres.secret.usernameKey | quote }}
+            {{- else }}
               value: {{ .Values.global.postgres.options.username | quote }}
+            {{- end }}
             - name: PAPERLESS_DBPASS
+            {{- if .Values.global.postgres.secret.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-postgres
+                  key: {{ .Values.global.postgres.secret.passwordKey | quote }}
+            {{- else }}
               value: {{ .Values.global.postgres.options.password | quote }}
+            {{- end }}
             - name: PAPERLESS_PORT
               value: {{ .Values.global.web.options.paperless_port | quote }}
             - name: PAPERLESS_URL
@@ -160,11 +185,32 @@ spec:
           image: {{ template "paperless-ngx.postgres.image" . }}
           env:
             - name: POSTGRES_DB
+            {{- if .Values.global.postgres.secret.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-postgres
+                  key: {{ .Values.global.postgres.secret.databaseKey | quote }}
+            {{- else }}
               value: {{ .Values.global.postgres.options.database | quote }}
+            {{- end }}
             - name: POSTGRES_USER
+            {{- if .Values.global.postgres.secret.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-postgres
+                  key: {{ .Values.global.postgres.secret.usernameKey | quote }}
+            {{- else }}
               value: {{ .Values.global.postgres.options.username | quote }}
+            {{- end }}
             - name: POSTGRES_PASSWORD
+            {{- if .Values.global.postgres.secret.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-postgres
+                  key: {{ .Values.global.postgres.secret.passwordKey | quote }}
+            {{- else }}
               value: {{ .Values.global.postgres.options.password | quote }}
+            {{- end }}
           {{- range .Values.global.postgres.environments }}
             - name: {{ .name }}
               value: {{ .value | quote }}

@@ -25,10 +25,16 @@ global:
       port: 5432
     internal:
       enabled: true
+    secret:
+      enabled: true
+      usernameKey: postgres_username
+      passwordKey: postgres_password
+      databaseKey: postgres_database
     options:
       database: memos
       username: memos
       password: memos
+      sslmode: disable
     environments: {}
       # - name: key
       #   value: value
