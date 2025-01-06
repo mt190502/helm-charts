@@ -3,6 +3,19 @@ entries:
   codimd:
   - apiVersion: v2
     appVersion: 2.5.4
+    created: "2025-01-06T16:56:59.407060838Z"
+    description: A self hosted markdown compatible note taking app
+    digest: 5193c4c7b0fa34564f859257ee108da581c20718927da13f35af9ae43ca61eaf
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: codimd
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/codimd-1.0.1/codimd-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
+    appVersion: 2.5.4
     created: "2024-10-08T10:05:16.415405634Z"
     description: A self hosted markdown compatible note taking app
     digest: 027f8315287789a163d8feddfcf4e84ec0a810b7e58b57fca109fa3eb2711454
@@ -15,6 +28,19 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/codimd-1.0.0/codimd-1.0.0.tgz
     version: 1.0.0
   commafeed:
+  - apiVersion: v2
+    appVersion: 5.3.6
+    created: "2025-01-06T16:56:59.505208976Z"
+    description: A RSS Aggregator
+    digest: a340dbf9631457dad8a2c32b9ad8815d326c8eba2316b3e0dfdb37d02e6bd3bb
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: commafeed
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/commafeed-1.0.5/commafeed-1.0.5.tgz
+    version: 1.0.5
   - apiVersion: v2
     appVersion: 5.3.6
     created: "2024-12-02T18:21:23.206618022Z"
@@ -97,6 +123,19 @@ entries:
   memos:
   - apiVersion: v2
     appVersion: 0.23.0
+    created: "2025-01-06T16:56:59.624634283Z"
+    description: A self hosted note taking app
+    digest: 55ef08a0fd0f424cf327f0104bbcd426ba15b5f03e93493fd1175f8b34eb4136
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: memos
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/memos-1.1.1/memos-1.1.1.tgz
+    version: 1.1.1
+  - apiVersion: v2
+    appVersion: 0.23.0
     created: "2024-12-15T18:19:20.099409195Z"
     description: A self hosted note taking app
     digest: fab26f317e89b3c03c81239e147e8eeb8cd9cbf4202505ef662829be3f0f7006
@@ -122,6 +161,20 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/memos-1.0.0/memos-1.0.0.tgz
     version: 1.0.0
   paperless-ngx:
+  - apiVersion: v2
+    appVersion: 2.13.5
+    created: "2025-01-06T16:56:59.758823702Z"
+    description: A community-supported supercharged version of paperless; scan, index
+      and archive all your physical documents
+    digest: 0e864b58e223b99daa79605890d69ef19633824a638b13c42076370a0fbaff55
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: paperless-ngx
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/paperless-ngx-1.1.6/paperless-ngx-1.1.6.tgz
+    version: 1.1.6
   - apiVersion: v2
     appVersion: 2.13.5
     created: "2024-11-10T18:17:11.204024755Z"
@@ -223,6 +276,19 @@ entries:
   umami:
   - apiVersion: v2
     appVersion: 2.15.1
+    created: "2025-01-06T16:56:59.856450803Z"
+    description: A self hosted web analytics platform
+    digest: 33993d32d1d27e1ec3ea11257bbec7f74ba7c5d90c19b00e001fcee2cff3741a
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: umami
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/umami-1.2.2/umami-1.2.2.tgz
+    version: 1.2.2
+  - apiVersion: v2
+    appVersion: 2.15.1
     created: "2024-12-15T01:18:37.961548158Z"
     description: A self hosted web analytics platform
     digest: b1f6428e17e1645e4be600e5a572cb9ec9881deda001a0c65b330423b98e83b5
@@ -274,6 +340,19 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/umami-1.1.0/umami-1.1.0.tgz
     version: 1.1.0
   vaultwarden:
+  - apiVersion: v2
+    appVersion: 1.32.7
+    created: "2025-01-06T16:57:00.000931904Z"
+    description: A self hosted password manager
+    digest: e97d08f45a6a09433965eed6a24e6f3ebb56742ce0fd1cb677e94c4b480efa7d
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: vaultwarden
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/vaultwarden-1.0.9/vaultwarden-1.0.9.tgz
+    version: 1.0.9
   - apiVersion: v2
     appVersion: 1.32.7
     created: "2024-12-20T12:27:53.60126709Z"
@@ -365,4 +444,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vaultwarden-1.0.0/vaultwarden-1.0.0.tgz
     version: 1.0.0
-generated: "2024-12-20T12:27:53.601329506Z"
+generated: "2025-01-06T16:57:00.001040868Z"
