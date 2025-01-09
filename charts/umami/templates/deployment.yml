@@ -25,28 +25,35 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      initContainers:
+        - name: "{{ .Release.Name }}-web-init"
+          image: busybox
+          command:
+            - sh
+            - -c
+            - |
+            {{- if and (eq .Values.global.postgres.internal.enabled true) (eq .Values.global.postgres.selected true) }}
+              until nc -z -v -w30 {{ .Release.Name }}-postgres 5432
+            {{- else if and (eq .Values.global.postgres.external.enabled true) (eq .Values.global.postgres.selected true) }}
+              until nc -z -v -w30 {{ .Values.global.postgres.external.host }} {{ .Values.global.postgres.external.port }}
+            {{- else if and (eq .Values.global.mysql.internal.enabled true) (eq .Values.global.mysql.selected true) }}
+              until nc -z -v -w30 {{ .Release.Name }}-mysql 3306
+            {{- else if and (eq .Values.global.mysql.external.enabled true) (eq .Values.global.mysql.selected true) }}
+              until nc -z -v -w30 {{ .Values.global.mysql.external.host }} {{ .Values.global.mysql.external.port }}
+            {{- end }}
+              do
+                echo "Waiting for the database to be ready..."
+                sleep 5
+              done
       containers:
         - name: "{{ .Release.Name }}-web"
           image: {{ template "umami.web.image" . }}
           env:
             - name: DATABASE_URL
-            {{- if .Values.global.postgres.secret.enabled }}
-              valueFrom:
-                secretKeyRef:
-                {{- if eq .Values.global.postgres.selected true }}
-                  name: {{ .Release.Name }}-postgres
-                {{- else }}
-                  name: {{ .Release.Name }}-mysql
-                {{- end }}
-                  key: conn_string
+            {{- if eq .Values.global.postgres.selected true }}
+              value: {{ template "postgres.credentials" . }}
             {{- else }}
-              {{- if eq .Values.global.postgres.selected true }}
-                {{- $credentials := split " " (include "postgres.credentials" .) }}
-              value: {{ printf "postgresql://%s:%s@%s:%s/%s" $credentials._0 $credentials._1 $credentials._3 $credentials._4 $credentials._2 | quote }}
-              {{- else }}
-                {{- $credentials := split " " (include "mysql.credentials" .) }}
-              value: {{ printf "mysql://%s:%s@%s:%s/%s" $credentials._0 $credentials._1 $credentials._3 $credentials._4 $credentials._2 | quote }}
-              {{- end }}
+              value: {{ template "mysql.credentials" . }}
             {{- end }}
             - name: DATABASE_TYPE
               value: {{ if eq .Values.global.mysql.selected true }}mysql{{ else }}postgresql{{ end }}

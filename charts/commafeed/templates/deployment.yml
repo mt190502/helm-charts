@@ -26,20 +26,28 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      initContainers:
+        - name: "{{ .Release.Name }}-web-init"
+          image: busybox
+          command:
+            - sh
+            - -c
+            - |
+            {{- if eq .Values.global.postgres.internal.enabled true }}
+              until nc -z -v -w30 {{ .Release.Name }}-postgres 5432
+            {{- else }}
+              until nc -z -v -w30 {{ .Values.global.postgres.external.host }} {{ .Values.global.postgres.external.port }}
+            {{- end }}
+              do
+                echo "Waiting for the database to be ready..."
+                sleep 5
+              done
       containers:
         - name: "{{ .Release.Name }}-web"
           image: {{ template "commafeed.web.image" . }}
           env:
             - name: QUARKUS_DATASOURCE_JDBC_URL
-            {{- if .Values.global.postgres.secret.enabled }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Release.Name }}-postgres
-                  key: "conn_string"
-            {{- else }}
-              {{- $credentials := split " " (include "postgres.credentials" .) }}
-              value: {{ printf "jdbc:postgresql://%s:%s/%s" $credentials._3 $credentials._4 $credentials._2 | quote }}
-            {{- end }}
+              value:  {{ template "postgres.credentials" . }}
             - name: QUARKUS_DATASOURCE_USERNAME
             {{- if .Values.global.postgres.secret.enabled }}
               valueFrom:

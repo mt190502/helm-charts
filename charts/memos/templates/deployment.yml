@@ -25,20 +25,28 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      initContainers:
+        - name: "{{ .Release.Name }}-web-init"
+          image: busybox
+          command:
+            - sh
+            - -c
+            - |
+            {{- if eq .Values.global.postgres.internal.enabled true }}
+              until nc -z -v -w30 {{ .Release.Name }}-postgres 5432
+            {{- else }}
+              until nc -z -v -w30 {{ .Values.global.postgres.external.host }} {{ .Values.global.postgres.external.port }}
+            {{- end }}
+              do
+                echo "Waiting for the database to be ready..."
+                sleep 5
+              done
       containers:
         - name: "{{ .Release.Name }}-web"
           image: {{ template "memos.web.image" . }}
           env:
             - name: MEMOS_DSN
-            {{- if .Values.global.postgres.secret.enabled }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Release.Name }}-postgres
-                  key: "conn_string"
-            {{- else }}
-              {{- $credentials := split " " (include "postgres.credentials" .) }}
-              value: {{ printf "postgresql://%s:%s@%s:%s?sslmode=%s" $credentials._3 $credentials._4 $credentials._2 .Values.global.postgres.options.sslmode | quote }}
-            {{- end }}
+              value: {{ template "postgres.credentials" . }}
             - name: MEMOS_DRIVER
               value: {{ .Values.global.web.options.memos_driver | quote }}
           {{- range .Values.global.web.environments }}

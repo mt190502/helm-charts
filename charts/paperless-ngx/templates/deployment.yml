@@ -25,6 +25,22 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      initContainers:
+        - name: "{{ .Release.Name }}-web-init"
+          image: busybox
+          command:
+            - sh
+            - -c
+            - |
+            {{- if eq .Values.global.postgres.internal.enabled true }}
+              until nc -z -v -w30 {{ .Release.Name }}-postgres 5432
+            {{- else }}
+              until nc -z -v -w30 {{ .Values.global.postgres.external.host }} {{ .Values.global.postgres.external.port }}
+            {{- end }}
+              do
+                echo "Waiting for the database to be ready..."
+                sleep 5
+              done
       containers:
         - name: "{{ .Release.Name }}-web"
           image: {{ template "paperless-ngx.web.image" . }}
@@ -35,7 +51,7 @@ spec:
               value: "postgresql"
             - name: PAPERLESS_DBHOST
             {{- if .Values.global.postgres.external.enabled }}
-              value: {{ printf "%s:%d" .Values.global.postgres.external.host .Values.global.postgres.external.port | quote }}q
+              value: {{ printf "%s:%d" .Values.global.postgres.external.host .Values.global.postgres.external.port | quote }}
             {{- else }}
               value: "{{ .Release.Name }}-postgres"
             {{- end }}
@@ -77,6 +93,10 @@ spec:
           {{- range .Values.global.web.environments }}
             - name: {{ .name }}
               value: {{ .value | quote }}
+          {{- end }}
+          {{- with .Values.global.web.ports }}
+          ports:
+            {{- toYaml . | nindent 12 }}
           {{- end }}
           {{- with .Values.resources.limits.web }}
           resources:

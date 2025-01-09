@@ -32,6 +32,8 @@ global:
       enabled: true
     secret:
       enabled: true
+      autoCreate: true
+      name: umami-postgres
       usernameKey: postgres_username
       passwordKey: postgres_password
       databaseKey: postgres_database
@@ -54,6 +56,8 @@ global:
       enabled: true
     secret:
       enabled: true
+      autoCreate: true
+      name: umami-mysql
       usernameKey: mysql_username
       passwordKey: mysql_password
       rootPasswordKey: mysql_root_password

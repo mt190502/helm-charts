@@ -20,24 +20,43 @@
 {{- end -}}
 {{- $namespace := (lookup "v1" "Namespace" "" .Release.Namespace) -}}
 {{- $secret := (lookup "v1" "Secret" .Release.Namespace (printf "%s-postgres" .Release.Name)) -}}
-{{- if and $namespace $secret }}
+{{- $raw := (default false .raw) -}}
+{{- if and (not $secret) .Values.global.postgres.secret.enabled (eq .Values.global.postgres.secret.autoCreate false) }}
+{{- fail (printf "secret not found in '%s' namespace and autoCreate secret is '%v'" .Release.Namespace .Values.global.postgres.secret.autoCreate) }}
+{{- else if and $namespace $secret }}
   {{- $data := $secret.data -}}
   {{- $username := (get $data .Values.global.postgres.secret.usernameKey | b64dec) -}}
   {{- $password := (get $data .Values.global.postgres.secret.passwordKey | b64dec) -}}
   {{- $database := (get $data .Values.global.postgres.secret.databaseKey | b64dec) -}}
   {{- if .Values.global.postgres.external.enabled -}}
-    {{- printf "%s %s %s %s %.0f" $username $password $database .Values.global.postgres.external.host .Values.global.postgres.external.port -}}
+    {{- if $raw -}}
+      {{- printf "%s %s %s %s %.0f" $username $password $database .Values.global.postgres.external.host .Values.global.postgres.external.port -}}
+    {{- else -}}
+      {{- printf "postgresql://%s:%s@%s:%d/%s?sslmode=%s" $username $password .Values.global.postgres.external.host .Values.global.postgres.external.port $database .Values.global.postgres.options.sslmode -}}
+    {{- end -}}
   {{- else -}}
-    {{- printf "%s %s %s %s %d" $username $password $database (printf "%s-postgres" .Release.Name) 5432 -}}
+    {{- if $raw -}}
+      {{- printf "%s %s %s %s %d" $username $password $database (printf "%s-postgres" .Release.Name) 5432 -}}
+    {{- else -}}
+      {{- printf "postgresql://%s:%s@%s:%d/%s?sslmode=%s" $username $password (printf "%s-postgres" .Release.Name) 5432 $database .Values.global.postgres.options.sslmode -}}
+    {{- end -}}
   {{- end -}}
 {{- else -}}
   {{- $username := .Values.global.postgres.options.username -}}
   {{- $password := .Values.global.postgres.options.password -}}
   {{- $database := .Values.global.postgres.options.database -}}
   {{- if .Values.global.postgres.external.enabled -}}
-    {{- printf "%s %s %s %s %.0f" $username $password $database .Values.global.postgres.external.host .Values.global.postgres.external.port -}}
+    {{- if $raw -}}
+      {{- printf "%s %s %s %s %.0f" $username $password $database .Values.global.postgres.external.host .Values.global.postgres.external.port -}}
+    {{- else -}}
+      {{- printf "postgresql://%s:%s@%s:%d/%s?sslmode=%s" $username $password .Values.global.postgres.external.host .Values.global.postgres.external.port $database .Values.global.postgres.options.sslmode -}}
+    {{- end -}}
   {{- else -}}
-    {{- printf "%s %s %s %s %d" $username $password $database (printf "%s-postgres" .Release.Name) 5432 -}}
+    {{- if $raw -}}
+      {{- printf "%s %s %s %s %d" $username $password $database (printf "%s-postgres" .Release.Name) 5432 -}}
+    {{- else -}}
+      {{- printf "postgresql://%s:%s@%s:%d/%s?sslmode=%s" $username $password (printf "%s-postgres" .Release.Name) 5432 $database .Values.global.postgres.options.sslmode -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 {{- end -}}

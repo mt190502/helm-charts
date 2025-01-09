@@ -25,53 +25,79 @@
 {{- end -}}
 
 {{- define "postgres.credentials" -}}
-{{- if and .Values.global.postgres.selected (eq .Values.global.postgres.external.enabled .Values.global.postgres.internal.enabled) -}}
+{{- if eq .Values.global.postgres.external.enabled .Values.global.postgres.internal.enabled -}}
 {{- fail "postgres.url: postgres.external.enabled and postgres.internal.enabled are equal" -}}
-{{- else if eq .Values.global.postgres.selected .Values.global.mysql.selected -}}
-{{- fail "postgres.url: postgres.selected and mysql.selected cannot both" -}}
 {{- end -}}
 {{- $namespace := (lookup "v1" "Namespace" "" .Release.Namespace) -}}
 {{- $secret := (lookup "v1" "Secret" .Release.Namespace (printf "%s-postgres" .Release.Name)) -}}
-{{- if and $namespace $secret }}
+{{- $raw := (default false .raw) -}}
+{{- if and (not $secret) .Values.global.postgres.secret.enabled (eq .Values.global.postgres.secret.autoCreate false) }}
+{{- fail (printf "secret not found in '%s' namespace and autoCreate secret is '%v'" .Release.Namespace .Values.global.postgres.secret.autoCreate) }}
+{{- else if and $namespace $secret }}
   {{- $data := $secret.data -}}
   {{- $username := (get $data .Values.global.postgres.secret.usernameKey | b64dec) -}}
   {{- $password := (get $data .Values.global.postgres.secret.passwordKey | b64dec) -}}
   {{- $database := (get $data .Values.global.postgres.secret.databaseKey | b64dec) -}}
   {{- if .Values.global.postgres.external.enabled -}}
-    {{- printf "%s %s %s %s %.0f" $username $password $database .Values.global.postgres.external.host .Values.global.postgres.external.port -}}
+    {{- if $raw -}}
+      {{- printf "%s %s %s %s %.0f" $username $password $database .Values.global.postgres.external.host .Values.global.postgres.external.port -}}
+    {{- else -}}
+      {{- printf "postgresql://%s:%s@%s:%d/%s" $username $password .Values.global.postgres.external.host .Values.global.postgres.external.port $database -}}
+    {{- end -}}
   {{- else -}}
-    {{- printf "%s %s %s %s %d" $username $password $database (printf "%s-postgres" .Release.Name) 5432 -}}
+    {{- if $raw -}}
+      {{- printf "%s %s %s %s %d" $username $password $database (printf "%s-postgres" .Release.Name) 5432 -}}
+    {{- else -}}
+      {{- printf "postgresql://%s:%s@%s:%d/%s" $username $password (printf "%s-postgres" .Release.Name) 5432 $database -}}
+    {{- end -}}
   {{- end -}}
 {{- else -}}
   {{- $username := .Values.global.postgres.options.username -}}
   {{- $password := .Values.global.postgres.options.password -}}
   {{- $database := .Values.global.postgres.options.database -}}
   {{- if .Values.global.postgres.external.enabled -}}
-    {{- printf "%s %s %s %s %.0f" $username $password $database .Values.global.postgres.external.host .Values.global.postgres.external.port -}}
+    {{- if $raw -}}
+      {{- printf "%s %s %s %s %.0f" $username $password $database .Values.global.postgres.external.host .Values.global.postgres.external.port -}}
+    {{- else -}}
+      {{- printf "postgresql://%s:%s@%s:%d/%s" $username $password .Values.global.postgres.external.host .Values.global.postgres.external.port $database -}}
+    {{- end -}}
   {{- else -}}
-    {{- printf "%s %s %s %s %d" $username $password $database (printf "%s-postgres" .Release.Name) 5432 -}}
+    {{- if $raw -}}
+      {{- printf "%s %s %s %s %d" $username $password $database (printf "%s-postgres" .Release.Name) 5432 -}}
+    {{- else -}}
+      {{- printf "postgresql://%s:%s@%s:%d/%s" $username $password (printf "%s-postgres" .Release.Name) 5432 $database -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 {{- end -}}
 
 {{- define "mysql.credentials" -}}
-{{- if and .Values.global.mysql.selected (eq .Values.global.mysql.external.enabled .Values.global.mysql.internal.enabled) -}}
+{{- if eq .Values.global.mysql.external.enabled .Values.global.mysql.internal.enabled -}}
 {{- fail "mysql.url: mysql.external.enabled and mysql.internal.enabled are equal" -}}
-{{- else if eq .Values.global.postgres.selected .Values.global.mysql.selected -}}
-{{- fail "mysql.url: postgres.selected and mysql.selected cannot both" -}}
 {{- end -}}
 {{- $namespace := (lookup "v1" "Namespace" "" .Release.Namespace) -}}
 {{- $secret := (lookup "v1" "Secret" .Release.Namespace (printf "%s-mysql" .Release.Name)) -}}
-{{- if and $namespace $secret }}
+{{- $raw := (default false .raw) -}}
+{{- if and (not $secret) .Values.global.mysql.secret.enabled (eq .Values.global.mysql.secret.autoCreate false) }}
+{{- fail (printf "secret not found in '%s' namespace and autoCreate secret is '%v'" .Release.Namespace .Values.global.mysql.secret.autoCreate) }}
+{{- else if and $namespace $secret }}
   {{- $data := $secret.data -}}
   {{- $username := (get $data .Values.global.mysql.secret.usernameKey | b64dec) -}}
   {{- $password := (get $data .Values.global.mysql.secret.passwordKey | b64dec) -}}
   {{- $database := (get $data .Values.global.mysql.secret.databaseKey | b64dec) -}}
   {{- $rootPassword := (get $data .Values.global.mysql.secret.rootPasswordKey | b64dec) -}}
   {{- if .Values.global.mysql.external.enabled -}}
-    {{- printf "%s %s %s %s %s %.0f" $username $password $database $rootPassword .Values.global.mysql.external.host .Values.global.mysql.external.port -}}
+    {{- if $raw -}}
+      {{- printf "%s %s %s %s %s %.0f" $username $password $database $rootPassword .Values.global.mysql.external.host .Values.global.mysql.external.port -}}
+    {{- else -}}
+      {{- printf "mysql://%s:%s@%s:%d/%s" $username $password .Values.global.mysql.external.host .Values.global.mysql.external.port $database -}}
+    {{- end -}}
   {{- else -}}
-    {{- printf "%s %s %s %s %s %d" $username $password $database $rootPassword (printf "%s-mysql" .Release.Name) 3306 -}}
+    {{- if $raw -}}
+      {{- printf "%s %s %s %s %s %d" $username $password $database $rootPassword (printf "%s-mysql" .Release.Name) 3306 -}}
+    {{- else -}}
+      {{- printf "mysql://%s:%s@%s:%d/%s" $username $password (printf "%s-mysql" .Release.Name) 3306 $database -}}
+    {{- end -}}
   {{- end -}}
 {{- else -}}
   {{- $username := .Values.global.mysql.options.username -}}
@@ -79,9 +105,17 @@
   {{- $database := .Values.global.mysql.options.database -}}
   {{- $rootPassword := .Values.global.mysql.options.rootPassword -}}
   {{- if .Values.global.mysql.external.enabled -}}
-    {{- printf "%s %s %s %s %s %.0f" $username $password $database $rootPassword .Values.global.mysql.external.host .Values.global.mysql.external.port -}}
+    {{- if $raw -}}
+      {{- printf "%s %s %s %s %s %.0f" $username $password $database $rootPassword .Values.global.mysql.external.host .Values.global.mysql.external.port -}}
+    {{- else -}}
+      {{- printf "mysql://%s:%s@%s:%d/%s" $username $password .Values.global.mysql.external.host .Values.global.mysql.external.port $database -}}
+    {{- end -}}
   {{- else -}}
-    {{- printf "%s %s %s %s %s %d" $username $password $database $rootPassword (printf "%s-mysql" .Release.Name) 3306 -}}
+    {{- if $raw -}}
+      {{- printf "%s %s %s %s %s %d" $username $password $database $rootPassword (printf "%s-mysql" .Release.Name) 3306 -}}
+    {{- else -}}
+      {{- printf "mysql://%s:%s@%s:%d/%s" $username $password (printf "%s-mysql" .Release.Name) 3306 $database -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 {{- end -}}

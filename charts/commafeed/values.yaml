@@ -27,6 +27,8 @@ global:
       enabled: true
     secret:
       enabled: true
+      autoCreate: true
+      name: commafeed-postgres
       usernameKey: postgres_username
       passwordKey: postgres_password
       databaseKey: postgres_database
