@@ -31,7 +31,7 @@
 {{- $namespace := (lookup "v1" "Namespace" "" .Release.Namespace) -}}
 {{- $secret := (lookup "v1" "Secret" .Release.Namespace (printf "%s-postgres" .Release.Name)) -}}
 {{- $raw := (default false .raw) -}}
-{{- if and (not $secret) .Values.global.postgres.secret.enabled (eq .Values.global.postgres.secret.autoCreate false) }}
+{{- if and (not $secret) .Values.global.postgres.secret.enabled (eq (.Values.global.postgres.secret.autoCreate | toString) "false") }}
 {{- fail (printf "secret not found in '%s' namespace and autoCreate secret is '%v'" .Release.Namespace .Values.global.postgres.secret.autoCreate) }}
 {{- else if and $namespace $secret }}
   {{- $data := $secret.data -}}
@@ -78,7 +78,7 @@
 {{- $namespace := (lookup "v1" "Namespace" "" .Release.Namespace) -}}
 {{- $secret := (lookup "v1" "Secret" .Release.Namespace (printf "%s-mysql" .Release.Name)) -}}
 {{- $raw := (default false .raw) -}}
-{{- if and (not $secret) .Values.global.mysql.secret.enabled (eq .Values.global.mysql.secret.autoCreate false) }}
+{{- if and (not $secret) .Values.global.mysql.secret.enabled (eq (.Values.global.mysql.secret.autoCreate | toString) "false") }}
 {{- fail (printf "secret not found in '%s' namespace and autoCreate secret is '%v'" .Release.Namespace .Values.global.mysql.secret.autoCreate) }}
 {{- else if and $namespace $secret }}
   {{- $data := $secret.data -}}
