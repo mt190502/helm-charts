@@ -6,6 +6,14 @@ image:
 
 global:
   web:
+    tls:
+      ########################
+      ###   For DoH/DoQ    ###
+      ########################
+      enabled: true
+      serverName: dns.example.com
+      secretName: wildcard-example.com-tls
+      secretNamespace: traefik
     ports:
       #########################
       ###     Plain DNS     ###
@@ -28,11 +36,6 @@ global:
       - containerPort: 8853
         protocol: UDP
       #########################
-      ###   Initial setup   ###
-      #########################
-      - containerPort: 3000
-        protocol: TCP
-      #########################
       ###     Web server    ###
       #########################
       - containerPort: 80
@@ -49,7 +52,6 @@ global:
     environments: {}
       # - name: key
       #  value: value
-
 
 service:
   type: ClusterIP
@@ -78,10 +80,6 @@ service:
       port: 8853
       targetPort: 8853
       protocol: UDP
-    - name: initial-setup
-      port: 3000
-      targetPort: 3000
-      protocol: TCP
     - name: web
       port: 80
       targetPort: 80
@@ -98,7 +96,6 @@ service:
       port: 5443
       targetPort: 5443
       protocol: UDP
-
 
 resources:
   limits:
