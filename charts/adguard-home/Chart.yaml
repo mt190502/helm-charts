@@ -1,0 +1,10 @@
+apiVersion: v2
+name: adguard-home
+description: A self hosted DNS server with ad blocking capabilities
+type: application
+version: 2.0.0
+appVersion: 0.107.55
+projectUrl: https://github.com/AdguardTeam/AdGuardHome
+maintainers:
+  - name: Taha
+    email: mt190502@mtaha.dev
