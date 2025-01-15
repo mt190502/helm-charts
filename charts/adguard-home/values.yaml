@@ -13,7 +13,6 @@ global:
       enabled: true
       serverName: dns.example.com
       secretName: wildcard-example.com-tls
-      secretNamespace: traefik
     ports:
       #########################
       ###     Plain DNS     ###
@@ -49,7 +48,8 @@ global:
         protocol: TCP
       - containerPort: 5443
         protocol: UDP
-    environments: {}
+    environments:
+      {}
       # - name: key
       #  value: value
 

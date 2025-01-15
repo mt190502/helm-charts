@@ -42,23 +42,15 @@ spec:
                 echo "AdGuardHome is not initialized, skipping TLS certificate loading"
                 exit 0
               fi
-              echo $TLS_CERTIFICATE | base64 -d > /opt/adguardhome/tls/certificate.crt
-              echo $TLS_PRIVATE_KEY | base64 -d > /opt/adguardhome/tls/private.key
-              yq eval  '.tls.private_key_path = "/opt/adguardhome/tls/private.key" | 
-                        .tls.certificate_path = "/opt/adguardhome/tls/certificate.crt" |
+              yq eval  '.tls.private_key_path = "/opt/adguardhome/tls/tls.key" | 
+                        .tls.certificate_path = "/opt/adguardhome/tls/tls.crt" |
                         .tls.enabled = true |
                         .tls.server_name = "{{ .Values.global.web.tls.serverName }}" |
                         .tls.force_https = true' /opt/adguardhome/conf/AdGuardHome.yaml > /tmp/AdGuardHome.yaml.new \
                         && mv /tmp/AdGuardHome.yaml.new /opt/adguardhome/conf/AdGuardHome.yaml
           env:
             - name: TLS_IS_ENABLED
-              value: {{ .Values.global.web.tls.enabled | quote }}
-            - name: TLS_CERTIFICATE
-              value: |
-                {{ include "getSecretValue" (dict "Release" .Release "Values" .Values "key" "tls.crt") }}
-            - name: TLS_PRIVATE_KEY
-              value: |
-                {{ include "getSecretValue" (dict "Release" .Release "Values" .Values "key" "tls.key") }}
+              value: {{ .Values.global.web.tls.enabled | quote }} 
           volumeMounts:
             - name: "{{ .Release.Name }}-data"
               mountPath: /opt/adguardhome/work
@@ -66,9 +58,8 @@ spec:
             - name: "{{ .Release.Name }}-data"
               mountPath: /opt/adguardhome/conf
               subPath: conf
-            - name: "{{ .Release.Name }}-data"
-              mountPath: /opt/adguardhome/tls
-              subPath: tls
+            - name: "{{ .Release.Name }}-tls"
+              mountPath: /opt/adguardhome/tls      
       containers:
         - name: "{{ .Release.Name }}-web"
           image: {{ template "adguard-home.web.image" . }}
@@ -95,10 +86,12 @@ spec:
             - name: "{{ .Release.Name }}-data"
               mountPath: /opt/adguardhome/conf
               subPath: conf
-            - name: "{{ .Release.Name }}-data"
+            - name: "{{ .Release.Name }}-tls"
               mountPath: /opt/adguardhome/tls
-              subPath: tls
       volumes:
         - name: "{{ .Release.Name }}-data"
           persistentVolumeClaim:
             claimName: "{{ .Release.Name }}-data-pvc"
+        - name: "{{ .Release.Name }}-tls"
+          secret:
+            secretName: "{{ .Values.global.web.tls.secretName }}"
