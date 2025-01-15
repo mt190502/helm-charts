@@ -13,7 +13,7 @@
 {{- $value := index $secret.data .key -}}
 {{- $value -}}
 {{- else -}}
-{{- printf "Error: Key '%s' not found in Secret '%s/%s'" .Values.global.web.tls.key .Values.global.web.tls.secretNamespace .Values.global.web.tls.secretName -}}
+{{- printf "Error: Key '%s' not found in Secret '%s/%s'" .key .Values.global.web.tls.secretNamespace .Values.global.web.tls.secretName -}}
 {{- end -}}
 {{- end -}}
 {{- end -}}
