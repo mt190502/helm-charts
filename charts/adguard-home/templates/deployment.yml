@@ -48,6 +48,12 @@ spec:
                         .tls.server_name = "{{ .Values.global.web.tls.serverName }}" |
                         .tls.force_https = true' /opt/adguardhome/conf/AdGuardHome.yaml > /tmp/AdGuardHome.yaml.new \
                         && mv /tmp/AdGuardHome.yaml.new /opt/adguardhome/conf/AdGuardHome.yaml
+              if [ "$(yq eval '.dns.trusted_proxies' /opt/adguardhome/conf/AdGuardHome.yaml | grep -q "{{ .Values.global.web.podCIDR }}"; echo $?)" -eq 0 ]; then
+                echo "Trusted proxies already contains: {{ .Values.global.web.podCIDR }}, skipping"
+                exit 0
+              fi
+              yq eval '.dns.trusted_proxies += ["{{ .Values.global.web.podCIDR }}"]' /opt/adguardhome/conf/AdGuardHome.yaml > /tmp/AdGuardHome.yaml.new \
+                        && mv /tmp/AdGuardHome.yaml.new /opt/adguardhome/conf/AdGuardHome.yaml
           env:
             - name: TLS_IS_ENABLED
               value: {{ .Values.global.web.tls.enabled | quote }} 

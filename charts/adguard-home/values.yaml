@@ -6,6 +6,7 @@ image:
 
 global:
   web:
+    podCIDR: 172.16.0.0/16
     tls:
       ########################
       ###   For DoH/DoQ    ###
