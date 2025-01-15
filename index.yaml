@@ -3,6 +3,19 @@ entries:
   adguard-home:
   - apiVersion: v2
     appVersion: 0.107.55
+    created: "2025-01-15T18:19:35.758609597Z"
+    description: A self hosted DNS server with ad blocking capabilities
+    digest: 3242a1d6f6710c832cf25c40a22b6077ed4da44c3e0af9e3a1a686bd4c775537
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: adguard-home
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/adguard-home-2.0.3/adguard-home-2.0.3.tgz
+    version: 2.0.3
+  - apiVersion: v2
+    appVersion: 0.107.55
     created: "2025-01-15T09:47:31.9733661Z"
     description: A self hosted DNS server with ad blocking capabilities
     digest: 45c165d230f23f4ab354f56dd7aedc90605acb736e2a4875c8097250c71f179c
@@ -710,4 +723,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vaultwarden-1.0.0/vaultwarden-1.0.0.tgz
     version: 1.0.0
-generated: "2025-01-15T09:47:31.973477366Z"
+generated: "2025-01-15T18:19:35.758727818Z"
