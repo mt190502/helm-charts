@@ -82,7 +82,7 @@ def update_version():
         versions.sort(key=Version, reverse=True)
         if not versions:
             response = requests.get(f'https://api.github.com/repos/{image}/releases/latest')
-            versions = filter_valid_versions([re.sub(r'[a-zA-Z]', '', release['tag_name']) for release in response.json()])
+            versions = filter_valid_versions([re.sub(r'[a-zA-Z]', '', response.json()['tag_name'])])
             versions.sort(key=Version, reverse=True)
         latest_version = parse_version(versions[0])
         version_status = compare_versions(chart_app_version, latest_version)
