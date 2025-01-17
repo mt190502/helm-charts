@@ -103,6 +103,18 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      initContainers:
+        - name: "{{ .Release.Name }}-postgres-init"
+          image: busybox
+          command:
+            - sh
+            - -c
+            - |
+              [ -d "/mnt/lost+found" ] && rm -rf /mnt/lost+found
+              exit 0
+          volumeMounts:
+            - name: "{{ .Release.Name }}-postgres-data"
+              mountPath: /mnt
       containers:
         - name: "{{ .Release.Name }}-postgres"
           image: {{ template "umami.postgres.image" . }}
@@ -178,6 +190,18 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      initContainers:
+        - name: "{{ .Release.Name }}-mysql-init"
+          image: busybox
+          command:
+            - sh
+            - -c
+            - |
+              [ -d "/mnt/lost+found" ] && rm -rf /mnt/lost+found
+              exit 0
+          volumeMounts:
+            - name: "{{ .Release.Name }}-mysql-data"
+              mountPath: /mnt
       containers:
         - name: "{{ .Release.Name }}-mysql"
           image: {{ template "umami.mysql.image" . }}
