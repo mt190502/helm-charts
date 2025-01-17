@@ -108,10 +108,10 @@ spec:
             - name: "{{ .Release.Name }}-data"
               mountPath: /usr/src/paperless/data
               subPath: data
-            - name: "{{ .Release.Name }}-media"
+            - name: "{{ .Release.Name }}-data"
               mountPath: /usr/src/paperless/media
               subPath: media
-            - name: "{{ .Release.Name }}-export"
+            - name: "{{ .Release.Name }}-data"
               mountPath: /usr/src/paperless/export
               subPath: export
       volumes:
