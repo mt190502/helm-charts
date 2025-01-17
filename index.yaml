@@ -56,6 +56,19 @@ entries:
   codimd:
   - apiVersion: v2
     appVersion: 2.5.4
+    created: "2025-01-17T16:33:25.234012641Z"
+    description: A self hosted markdown compatible note taking app
+    digest: ce267122ec96d5458c9b6be9baafa33d0fc1a64a127152a2b38f2579811d7a12
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: codimd
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/codimd-2.1.1/codimd-2.1.1.tgz
+    version: 2.1.1
+  - apiVersion: v2
+    appVersion: 2.5.4
     created: "2025-01-10T08:02:20.038778657Z"
     description: A self hosted markdown compatible note taking app
     digest: f252594ecd402fce8efd44a04ad50d183c454f576283df2a2aefd3cca927e96a
@@ -107,6 +120,19 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/codimd-1.0.0/codimd-1.0.0.tgz
     version: 1.0.0
   commafeed:
+  - apiVersion: v2
+    appVersion: 5.4.0
+    created: "2025-01-17T16:33:25.358106782Z"
+    description: A RSS Aggregator
+    digest: 719fc236bd4a74194099d44b850d2f5324deca6ac5a78ea486e18690c56ad713
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: commafeed
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/commafeed-2.2.0/commafeed-2.2.0.tgz
+    version: 2.2.0
   - apiVersion: v2
     appVersion: 5.3.6
     created: "2025-01-10T08:02:20.241207081Z"
@@ -214,6 +240,19 @@ entries:
   filestash:
   - apiVersion: v2
     appVersion: latest
+    created: "2025-01-17T16:33:25.478669233Z"
+    description: A Dropbox-like file manager that let you manage your data anywhere
+    digest: 041a250123b9faa38ea02525517f57f468a017e084dee33e242c14cfc316e84f
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: filestash
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/filestash-2.1.1/filestash-2.1.1.tgz
+    version: 2.1.1
+  - apiVersion: v2
+    appVersion: latest
     created: "2025-01-10T08:02:20.429423165Z"
     description: A Dropbox-like file manager that let you manage your data anywhere
     digest: a662fc13671f62a76b779a7665324e4561630a234acc14bbfd529371d8568e40
@@ -252,6 +291,19 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/filestash-1.0.0/filestash-1.0.0.tgz
     version: 1.0.0
   memos:
+  - apiVersion: v2
+    appVersion: 0.23.0
+    created: "2025-01-17T16:33:25.586453486Z"
+    description: A self hosted note taking app
+    digest: 3f2607c140f4f347d7ffecdb3955087bac17b8722c166b9d6abefbe0b55ccba9
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: memos
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/memos-2.1.1/memos-2.1.1.tgz
+    version: 2.1.1
   - apiVersion: v2
     appVersion: 0.23.0
     created: "2025-01-10T08:02:20.629918199Z"
@@ -318,6 +370,20 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/memos-1.0.0/memos-1.0.0.tgz
     version: 1.0.0
   paperless-ngx:
+  - apiVersion: v2
+    appVersion: 2.14.3
+    created: "2025-01-17T16:33:25.700083732Z"
+    description: A community-supported supercharged version of paperless; scan, index
+      and archive all your physical documents
+    digest: e86cf65eb681221346a30d08016bfac832f6095dd8706876dfed7eff4b1f7765
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: paperless-ngx
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/paperless-ngx-3.1.3/paperless-ngx-3.1.3.tgz
+    version: 3.1.3
   - apiVersion: v2
     appVersion: 2.14.3
     created: "2025-01-16T06:19:38.844139537Z"
@@ -517,6 +583,19 @@ entries:
   umami:
   - apiVersion: v2
     appVersion: 2.15.1
+    created: "2025-01-17T16:33:25.852958734Z"
+    description: A self hosted web analytics platform
+    digest: 844167f568c19746af88615aecbb3c2d4601d5864302ad7c1ab4da9c59acc629
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: umami
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/umami-2.1.1/umami-2.1.1.tgz
+    version: 2.1.1
+  - apiVersion: v2
+    appVersion: 2.15.1
     created: "2025-01-10T08:02:21.024940118Z"
     description: A self hosted web analytics platform
     digest: 88c2e3cad67d7bf63b1cecf686a25c45238515b6976f50b40f61f1fef7564dda
@@ -607,6 +686,19 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/umami-1.1.0/umami-1.1.0.tgz
     version: 1.1.0
   vaultwarden:
+  - apiVersion: v2
+    appVersion: 1.32.7
+    created: "2025-01-17T16:33:26.02635224Z"
+    description: A self hosted password manager
+    digest: 87109594fb9e17ed5fec69962939c7b19c36c6c33c6c1075c38d5a4eeb830523
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: vaultwarden
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/vaultwarden-2.1.1/vaultwarden-2.1.1.tgz
+    version: 2.1.1
   - apiVersion: v2
     appVersion: 1.32.7
     created: "2025-01-10T08:02:21.21906903Z"
@@ -737,4 +829,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vaultwarden-1.0.0/vaultwarden-1.0.0.tgz
     version: 1.0.0
-generated: "2025-01-16T06:19:38.844334131Z"
+generated: "2025-01-17T16:33:26.026552094Z"
