@@ -10,30 +10,6 @@ spec:
   resources:
     requests:
       storage: "{{ .Values.resources.requests.web.storage }}"
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: "{{ .Release.Name }}-media-pvc"
-  namespace: "{{ if eq .Release.Namespace "default" }}paperless-ngx-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: "{{ .Values.resources.requests.media.storage }}"
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: "{{ .Release.Name }}-export-pvc"
-  namespace: "{{ if eq .Release.Namespace "default" }}paperless-ngx-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: "{{ .Values.resources.requests.export.storage }}"
 
 {{ if eq .Values.global.redis.internal.enabled true }}
 ---

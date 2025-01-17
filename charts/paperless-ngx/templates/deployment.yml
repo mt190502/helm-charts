@@ -107,20 +107,17 @@ spec:
           volumeMounts:
             - name: "{{ .Release.Name }}-data"
               mountPath: /usr/src/paperless/data
+              subPath: data
             - name: "{{ .Release.Name }}-media"
               mountPath: /usr/src/paperless/media
+              subPath: media
             - name: "{{ .Release.Name }}-export"
               mountPath: /usr/src/paperless/export
+              subPath: export
       volumes:
         - name: "{{ .Release.Name }}-data"
           persistentVolumeClaim:
             claimName: "{{ .Release.Name }}-data-pvc"
-        - name: "{{ .Release.Name }}-media"
-          persistentVolumeClaim:
-            claimName: "{{ .Release.Name }}-media-pvc"
-        - name: "{{ .Release.Name }}-export"
-          persistentVolumeClaim:
-            claimName: "{{ .Release.Name }}-export-pvc"
 
 {{ if eq .Values.global.redis.internal.enabled true }}
 ---
