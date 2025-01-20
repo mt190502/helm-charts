@@ -50,17 +50,17 @@ spec:
             - name: DB_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-postgres
+                  name: {{ if .Values.global.postgres.secret.name }}{{ .Values.global.postgres.secret.name }}{{ else }}{{ .Release.Name }}-postgres{{ end }}
                   key: {{ .Values.global.postgres.secret.usernameKey | quote }}
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-postgres
+                  name: {{ if .Values.global.postgres.secret.name }}{{ .Values.global.postgres.secret.name }}{{ else }}{{ .Release.Name }}-postgres{{ end }}
                   key: {{ .Values.global.postgres.secret.passwordKey | quote }}
             - name: DB_DATABASE
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-postgres
+                  name: {{ if .Values.global.postgres.secret.name }}{{ .Values.global.postgres.secret.name }}{{ else }}{{ .Release.Name }}-postgres{{ end }}
                   key: {{ .Values.global.postgres.secret.databaseKey | quote }}
             - name: DB_HOST
               {{- if eq .Values.global.postgres.internal.enabled true }}
@@ -157,7 +157,7 @@ spec:
             {{- if .Values.global.postgres.secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-postgres
+                  name: {{ if .Values.global.postgres.secret.name }}{{ .Values.global.postgres.secret.name }}{{ else }}{{ .Release.Name }}-postgres{{ end }}
                   key: {{ .Values.global.postgres.secret.databaseKey | quote }}
             {{- else }}
               value: {{ .Values.global.postgres.options.database | quote }}
@@ -166,7 +166,7 @@ spec:
             {{- if .Values.global.postgres.secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-postgres
+                  name: {{ if .Values.global.postgres.secret.name }}{{ .Values.global.postgres.secret.name }}{{ else }}{{ .Release.Name }}-postgres{{ end }}
                   key: {{ .Values.global.postgres.secret.usernameKey | quote }}
             {{- else }}
               value: {{ .Values.global.postgres.options.username | quote }}
@@ -175,7 +175,7 @@ spec:
             {{- if .Values.global.postgres.secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-postgres
+                  name: {{ if .Values.global.postgres.secret.name }}{{ .Values.global.postgres.secret.name }}{{ else }}{{ .Release.Name }}-postgres{{ end }}
                   key: {{ .Values.global.postgres.secret.passwordKey | quote }}
             {{- else }}
               value: {{ .Values.global.postgres.options.password | quote }}

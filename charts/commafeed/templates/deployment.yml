@@ -63,14 +63,14 @@ spec:
             - name: DB_DATABASE
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-postgres
+                  name: {{ if .Values.global.postgres.secret.name }}{{ .Values.global.postgres.secret.name }}{{ else }}{{ .Release.Name }}-postgres{{ end }}
                   key: {{ .Values.global.postgres.secret.databaseKey | quote }}
             {{- end }}
             - name: QUARKUS_DATASOURCE_USERNAME
             {{- if .Values.global.postgres.secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-postgres
+                  name: {{ if .Values.global.postgres.secret.name }}{{ .Values.global.postgres.secret.name }}{{ else }}{{ .Release.Name }}-postgres{{ end }}
                   key: {{ .Values.global.postgres.secret.usernameKey | quote }}
             {{- else }}
               value: {{ .Values.global.postgres.options.username | quote }}
@@ -79,7 +79,7 @@ spec:
             {{- if .Values.global.postgres.secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-postgres
+                  name: {{ if .Values.global.postgres.secret.name }}{{ .Values.global.postgres.secret.name }}{{ else }}{{ .Release.Name }}-postgres{{ end }}
                   key: {{ .Values.global.postgres.secret.passwordKey | quote }}
             {{- else }}
               value: {{ .Values.global.postgres.options.password | quote }}
@@ -158,7 +158,7 @@ spec:
             {{- if .Values.global.postgres.secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-postgres
+                  name: {{ if .Values.global.postgres.secret.name }}{{ .Values.global.postgres.secret.name }}{{ else }}{{ .Release.Name }}-postgres{{ end }}
                   key: {{ .Values.global.postgres.secret.databaseKey | quote }}
             {{- else }}
               value: {{ .Values.global.postgres.options.database | quote }}
@@ -167,7 +167,7 @@ spec:
             {{- if .Values.global.postgres.secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-postgres
+                  name: {{ if .Values.global.postgres.secret.name }}{{ .Values.global.postgres.secret.name }}{{ else }}{{ .Release.Name }}-postgres{{ end }}
                   key: {{ .Values.global.postgres.secret.usernameKey | quote }}
             {{- else }}
               value: {{ .Values.global.postgres.options.username | quote }}
@@ -176,7 +176,7 @@ spec:
             {{- if .Values.global.postgres.secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-postgres
+                  name: {{ if .Values.global.postgres.secret.name }}{{ .Values.global.postgres.secret.name }}{{ else }}{{ .Release.Name }}-postgres{{ end }}
                   key: {{ .Values.global.postgres.secret.passwordKey | quote }}
             {{- else }}
               value: {{ .Values.global.postgres.options.password | quote }}

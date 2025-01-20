@@ -55,17 +55,17 @@ spec:
             - name: POSTGRES_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-postgres
+                  name: {{ if .Values.global.postgres.secret.name }}{{ .Values.global.postgres.secret.name }}{{ else }}{{ .Release.Name }}-postgres{{ end }}
                   key: {{ .Values.global.postgres.secret.usernameKey | quote }}
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-postgres
+                  name: {{ if .Values.global.postgres.secret.name }}{{ .Values.global.postgres.secret.name }}{{ else }}{{ .Release.Name }}-postgres{{ end }}
                   key: {{ .Values.global.postgres.secret.passwordKey | quote }}
             - name: POSTGRES_DATABASE
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-postgres
+                  name: {{ if .Values.global.postgres.secret.name }}{{ .Values.global.postgres.secret.name }}{{ else }}{{ .Release.Name }}-postgres{{ end }}
                   key: {{ .Values.global.postgres.secret.databaseKey | quote }}
             - name: POSTGRES_HOST
               {{- if eq .Values.global.postgres.internal.enabled true }}
@@ -85,17 +85,17 @@ spec:
             - name: MYSQL_DATABASE
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-mysql
+                  name: {{ if .Values.global.mysql.secret.name }}{{ .Values.global.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
                   key: {{ .Values.global.mysql.secret.databaseKey | quote }}
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-mysql
+                  name: {{ if .Values.global.mysql.secret.name }}{{ .Values.global.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
                   key: {{ .Values.global.mysql.secret.usernameKey | quote }}
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-mysql
+                  name: {{ if .Values.global.mysql.secret.name }}{{ .Values.global.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
                   key: {{ .Values.global.mysql.secret.passwordKey | quote }}
             - name: MYSQL_HOST
               {{- if eq .Values.global.mysql.internal.enabled true }}
@@ -184,7 +184,7 @@ spec:
             {{- if .Values.global.postgres.secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-postgres
+                  name: {{ if .Values.global.postgres.secret.name }}{{ .Values.global.postgres.secret.name }}{{ else }}{{ .Release.Name }}-postgres{{ end }}
                   key: {{ .Values.global.postgres.secret.databaseKey | quote }}
             {{- else }}
               value: {{ .Values.global.postgres.options.database | quote }}
@@ -193,7 +193,7 @@ spec:
             {{- if .Values.global.postgres.secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-postgres
+                  name: {{ if .Values.global.postgres.secret.name }}{{ .Values.global.postgres.secret.name }}{{ else }}{{ .Release.Name }}-postgres{{ end }}
                   key: {{ .Values.global.postgres.secret.usernameKey | quote }}
             {{- else }}
               value: {{ .Values.global.postgres.options.username | quote }}
@@ -202,7 +202,7 @@ spec:
             {{- if .Values.global.postgres.secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-postgres
+                  name: {{ if .Values.global.postgres.secret.name }}{{ .Values.global.postgres.secret.name }}{{ else }}{{ .Release.Name }}-postgres{{ end }}
                   key: {{ .Values.global.postgres.secret.passwordKey | quote }}
             {{- else }}
               value: {{ .Values.global.postgres.options.password | quote }}
@@ -271,7 +271,7 @@ spec:
             {{- if .Values.global.mysql.secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-mysql
+                  name: {{ if .Values.global.mysql.secret.name }}{{ .Values.global.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
                   key: {{ .Values.global.mysql.secret.databaseKey | quote }}
             {{- else }}
               value: {{ .Values.global.mysql.options.database | quote }}
@@ -280,7 +280,7 @@ spec:
             {{- if .Values.global.mysql.secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-mysql
+                  name: {{ if .Values.global.mysql.secret.name }}{{ .Values.global.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
                   key: {{ .Values.global.mysql.secret.usernameKey | quote }}
             {{- else }}
               value: {{ .Values.global.mysql.options.username | quote }}
@@ -289,7 +289,7 @@ spec:
             {{- if .Values.global.mysql.secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-mysql
+                  name: {{ if .Values.global.mysql.secret.name }}{{ .Values.global.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
                   key: {{ .Values.global.mysql.secret.passwordKey | quote }}
             {{- else }}
               value: {{ .Values.global.mysql.options.password | quote }}
@@ -298,7 +298,7 @@ spec:
             {{- if .Values.global.mysql.secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-mysql
+                  name: {{ if .Values.global.mysql.secret.name }}{{ .Values.global.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
                   key: {{ .Values.global.mysql.secret.rootPasswordKey | quote }}
             {{- else }}
               value: {{ .Values.global.mysql.options.rootPasswordKey | quote }}
