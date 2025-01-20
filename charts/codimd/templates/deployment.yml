@@ -46,6 +46,35 @@ spec:
         - name: "{{ .Release.Name }}-web"
           image: {{ template "codimd.web.image" . }}
           env:
+          {{- if or (eq (.Values.global.postgres.secret.autoCreate | toString) "kustomize") (eq (.Values.global.postgres.secret.autoCreate | toString) "true") }}
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-postgres
+                  key: {{ .Values.global.postgres.secret.usernameKey | quote }}
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-postgres
+                  key: {{ .Values.global.postgres.secret.passwordKey | quote }}
+            - name: DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-postgres
+                  key: {{ .Values.global.postgres.secret.databaseKey | quote }}
+            - name: DB_HOST
+              {{- if eq .Values.global.postgres.internal.enabled true }}
+              value: {{ .Release.Name }}-postgres
+              {{- else }}
+              value: {{ .Values.global.postgres.external.host }}
+              {{- end }}
+            - name: DB_PORT
+              {{- if eq .Values.global.postgres.internal.enabled true }}
+              value: "5432"
+              {{- else }}
+              value: {{ .Values.global.postgres.external.port | quote }}
+              {{- end }}
+          {{- end }}
             - name: CMD_DB_URL
               value: {{ template "postgres.credentials" . }}
             - name: CMD_USECDN

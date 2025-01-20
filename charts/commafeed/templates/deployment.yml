@@ -47,8 +47,25 @@ spec:
         - name: "{{ .Release.Name }}-web"
           image: {{ template "commafeed.web.image" . }}
           env:
-            - name: QUARKUS_DATASOURCE_JDBC_URL
-              value:  {{ template "postgres.credentials" . }}
+            - name: DB_HOST
+              {{- if eq .Values.global.postgres.internal.enabled true }}
+              value: {{ .Release.Name }}-postgres
+              {{- else }}
+              value: {{ .Values.global.postgres.external.host }}
+              {{- end }}
+            - name: DB_PORT
+              {{- if eq .Values.global.postgres.internal.enabled true }}
+              value: "5432"
+              {{- else }}
+              value: {{ .Values.global.postgres.external.port | quote }}
+              {{- end }}
+            {{- if or (eq (.Values.global.postgres.secret.autoCreate | toString) "kustomize") (eq (.Values.global.postgres.secret.autoCreate | toString) "true") }}
+            - name: DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-postgres
+                  key: {{ .Values.global.postgres.secret.databaseKey | quote }}
+            {{- end }}
             - name: QUARKUS_DATASOURCE_USERNAME
             {{- if .Values.global.postgres.secret.enabled }}
               valueFrom:
@@ -67,6 +84,8 @@ spec:
             {{- else }}
               value: {{ .Values.global.postgres.options.password | quote }}
             {{- end }}
+            - name: QUARKUS_DATASOURCE_JDBC_URL
+              value: {{ template "postgres.credentials" . }}
             - name: CF_APP_PUBLICURL
               value: {{ .Values.global.web.options.publicUrl | quote }}
           {{- range .Values.global.web.environments }}

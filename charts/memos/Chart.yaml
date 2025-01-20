@@ -2,7 +2,7 @@ apiVersion: v2
 name: memos
 description: A self hosted note taking app
 type: application
-version: 2.1.1
+version: 2.2.1
 appVersion: 0.23.0
 projectUrl: https://github.com/usememos/memos
 maintainers:

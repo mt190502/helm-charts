@@ -23,40 +23,13 @@
 {{- $raw := (default false .raw) -}}
 {{- if and (not $secret) .Values.global.postgres.secret.enabled (eq (.Values.global.postgres.secret.autoCreate | toString) "false") }}
 {{- fail (printf "secret not found in '%s' namespace and autoCreate secret is '%v'" .Release.Namespace .Values.global.postgres.secret.autoCreate) }}
-{{- else if and $namespace $secret }}
-  {{- $data := $secret.data -}}
-  {{- $username := (get $data .Values.global.postgres.secret.usernameKey | b64dec) -}}
-  {{- $password := (get $data .Values.global.postgres.secret.passwordKey | b64dec) -}}
-  {{- $database := (get $data .Values.global.postgres.secret.databaseKey | b64dec) -}}
+{{- else if and (not .Values.global.postgres.secret.enabled) (eq (.Values.global.postgres.secret.autoCreate | toString) "false") }}
   {{- if .Values.global.postgres.external.enabled -}}
-    {{- if $raw -}}
-      {{- printf "%s %s %s %s %.0f" $username $password $database .Values.global.postgres.external.host .Values.global.postgres.external.port -}}
-    {{- else -}}
-      {{- printf "jdbc:postgresql://%s:%s/%s" .Values.global.postgres.external.host .Values.global.postgres.external.port $database -}}
-    {{- end -}}
+    {{- printf "jdbc:postgresql://%s:%s/%s" .Values.global.postgres.external.host .Values.global.postgres.external.port .Values.global.postgres.options.database -}}
   {{- else -}}
-    {{- if $raw -}}
-      {{- printf "%s %s %s %s %d" $username $password $database (printf "%s-postgres" .Release.Name) 5432 -}}
-    {{- else -}}
-      {{- printf "jdbc:postgresql://%s:%d/%s" (printf "%s-postgres" .Release.Name) 5432 $database -}}
-    {{- end -}}
+    {{- printf "jdbc:postgresql://%s-postgres:%d/%s" .Release.Name 5432 .Values.global.postgres.options.database -}}
   {{- end -}}
 {{- else -}}
-  {{- $username := .Values.global.postgres.options.username -}}
-  {{- $password := .Values.global.postgres.options.password -}}
-  {{- $database := .Values.global.postgres.options.database -}}
-  {{- if .Values.global.postgres.external.enabled -}}
-    {{- if $raw -}}
-      {{- printf "%s %s %s %s %.0f" $username $password $database .Values.global.postgres.external.host .Values.global.postgres.external.port -}}
-    {{- else -}}
-      {{- printf "jdbc:postgresql://%s:%s/%s" .Values.global.postgres.external.host .Values.global.postgres.external.port $database -}}
-    {{- end -}}
-  {{- else -}}
-    {{- if $raw -}}
-      {{- printf "%s %s %s %s %d" $username $password $database (printf "%s-postgres" .Release.Name) 5432 -}}
-    {{- else -}}
-      {{- printf "jdbc:postgresql://%s:%d/%s" (printf "%s-postgres" .Release.Name) 5432 $database -}}
-    {{- end -}}
-  {{- end -}}
+{{- printf "jdbc:postgresql://$(DB_HOST):$(DB_PORT)/$(DB_DATABASE)" -}}
 {{- end -}}
 {{- end -}}

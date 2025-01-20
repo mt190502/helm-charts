@@ -50,14 +50,75 @@ spec:
         - name: "{{ .Release.Name }}-web"
           image: {{ template "umami.web.image" . }}
           env:
+          {{- if eq .Values.global.postgres.selected true }}
+            {{- if or (eq (.Values.global.postgres.secret.autoCreate | toString) "kustomize") (eq (.Values.global.postgres.secret.autoCreate | toString) "true") }}
+            - name: POSTGRES_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-postgres
+                  key: {{ .Values.global.postgres.secret.usernameKey | quote }}
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-postgres
+                  key: {{ .Values.global.postgres.secret.passwordKey | quote }}
+            - name: POSTGRES_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-postgres
+                  key: {{ .Values.global.postgres.secret.databaseKey | quote }}
+            - name: POSTGRES_HOST
+              {{- if eq .Values.global.postgres.internal.enabled true }}
+              value: {{ .Release.Name }}-postgres
+              {{- else }}
+              value: {{ .Values.global.postgres.external.host }}
+              {{- end }}
+            - name: POSTGRES_PORT
+              {{- if eq .Values.global.postgres.internal.enabled true }}
+              value: "5432"
+              {{- else }}
+              value: {{ .Values.global.postgres.external.port | quote }}
+              {{- end }}
+            {{- end }}
+          {{- else }}
+            {{- if or (eq (.Values.global.mysql.secret.autoCreate | toString) "kustomize") (eq (.Values.global.mysql.secret.autoCreate | toString) "true") }}
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-mysql
+                  key: {{ .Values.global.mysql.secret.databaseKey | quote }}
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-mysql
+                  key: {{ .Values.global.mysql.secret.usernameKey | quote }}
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-mysql
+                  key: {{ .Values.global.mysql.secret.passwordKey | quote }}
+            - name: MYSQL_HOST
+              {{- if eq .Values.global.mysql.internal.enabled true }}
+              value: {{ .Release.Name }}-mysql
+              {{- else }}
+              value: {{ .Values.global.mysql.external.host }}
+              {{- end }}
+            - name: MYSQL_PORT
+              {{- if eq .Values.global.mysql.internal.enabled true }}
+              value: "3306"
+              {{- else }}
+              value: {{ .Values.global.mysql.external.port | quote }}
+              {{- end }}
+              {{- end }}
+            {{- end }}
+            - name: DATABASE_TYPE
+              value: {{ if eq .Values.global.mysql.selected true }}mysql{{ else }}postgresql{{ end }}
             - name: DATABASE_URL
             {{- if eq .Values.global.postgres.selected true }}
               value: {{ template "postgres.credentials" . }}
             {{- else }}
               value: {{ template "mysql.credentials" . }}
             {{- end }}
-            - name: DATABASE_TYPE
-              value: {{ if eq .Values.global.mysql.selected true }}mysql{{ else }}postgresql{{ end }}
             - name: APP_SECRET
               value: {{ .Values.global.web.options.app_secret | quote }}
           {{- range .Values.global.web.environments }}

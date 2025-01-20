@@ -51,10 +51,10 @@ spec:
             - name: PAPERLESS_DBENGINE
               value: "postgresql"
             - name: PAPERLESS_DBHOST
-            {{- if .Values.global.postgres.external.enabled }}
-              value: {{ printf "%s:%d" .Values.global.postgres.external.host .Values.global.postgres.external.port | quote }}
-            {{- else }}
+            {{- if .Values.global.postgres.internal.enabled }}
               value: "{{ .Release.Name }}-postgres"
+            {{- else }}
+              value: {{ printf "%s:%.0f" .Values.global.postgres.external.host .Values.global.postgres.external.port | quote }}
             {{- end }}
             - name: PAPERLESS_DBNAME
             {{- if .Values.global.postgres.secret.enabled }}
