@@ -450,6 +450,20 @@ entries:
   paperless-ngx:
   - apiVersion: v2
     appVersion: 2.14.4
+    created: "2025-01-21T08:20:17.051558174Z"
+    description: A community-supported supercharged version of paperless; scan, index
+      and archive all your physical documents
+    digest: 8cfdf4f7151ea5f655f71fee179ec686371a578891780ba15428ece54148d35e
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: paperless-ngx
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/paperless-ngx-3.2.7/paperless-ngx-3.2.7.tgz
+    version: 3.2.7
+  - apiVersion: v2
+    appVersion: 2.14.4
     created: "2025-01-20T12:05:09.373487466Z"
     description: A community-supported supercharged version of paperless; scan, index
       and archive all your physical documents
@@ -715,6 +729,19 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/paperless-ngx-1.0.0/paperless-ngx-1.0.0.tgz
     version: 1.0.0
   umami:
+  - apiVersion: v2
+    appVersion: 2.15.1
+    created: "2025-01-21T08:20:17.147588633Z"
+    description: A self hosted web analytics platform
+    digest: f97e94ec03085a57321798d5cb081dbec40ffc33b28feaa304ef605528f27f29
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: umami
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/umami-2.2.3/umami-2.2.3.tgz
+    version: 2.2.3
   - apiVersion: v2
     appVersion: 2.15.1
     created: "2025-01-20T12:05:09.485423465Z"
@@ -1015,4 +1042,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vaultwarden-1.0.0/vaultwarden-1.0.0.tgz
     version: 1.0.0
-generated: "2025-01-20T12:05:09.630553809Z"
+generated: "2025-01-21T08:20:17.147885164Z"
