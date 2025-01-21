@@ -16,9 +16,15 @@ global:
   web:
     ports:
       - containerPort: 8000
+    appSecret:
+      enabled: true
+      autoCreate: true
+      name: paperless-ngx-secret
+      key: app_secret
     options:
       paperless_port: 8000
       paperless_url: https://localhost
+      paperless_app_secret: my_strong_secret
       usermap_uid: 1000
       usermap_gid: 1000
     environments: {}

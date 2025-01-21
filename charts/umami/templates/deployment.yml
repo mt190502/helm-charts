@@ -120,7 +120,14 @@ spec:
               value: {{ template "mysql.credentials" . }}
             {{- end }}
             - name: APP_SECRET
-              value: {{ .Values.global.web.options.app_secret | quote }}
+            {{- if .Values.global.web.appSecret.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ if .Values.global.web.appSecret.name }}{{ .Values.global.web.appSecret.name }}{{ else }}{{ .Release.Name }}-web{{ end }}
+                  key: {{ .Values.global.web.appSecret.key | quote }}
+            {{- else }}
+              value: {{ .Values.global.web.options.umami_app_secret | quote }}
+            {{- end }}
           {{- range .Values.global.web.environments }}
             - name: {{ .name }}
               value: {{ .value | quote }}

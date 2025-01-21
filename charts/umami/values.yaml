@@ -16,8 +16,13 @@ global:
   web:
     ports:
       - containerPort: 3000
+    appSecret:
+      enabled: true
+      autoCreate: true
+      name: umami-secret
+      key: app_secret
     options:
-      app_secret: 'replace-me-with-a-random-string'
+      umami_app_secret: my_strong_secret
     environments: {}
       # - name: key
       #  value: value

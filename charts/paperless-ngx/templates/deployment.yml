@@ -87,6 +87,15 @@ spec:
               value: {{ .Values.global.web.options.paperless_port | quote }}
             - name: PAPERLESS_URL
               value: {{ .Values.global.web.options.paperless_url | quote }}
+            - name: PAPERLESS_SECRET_KEY
+            {{- if .Values.global.web.appSecret.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ if .Values.global.web.appSecret.name }}{{ .Values.global.web.appSecret.name }}{{ else }}{{ .Release.Name }}-web{{ end }}
+                  key: {{ .Values.global.web.appSecret.key | quote }}
+            {{- else }}
+              value: {{ .Values.global.web.options.paperless_app_secret | quote }}
+            {{- end }}
             - name: USERMAP_UID
               value: {{ .Values.global.web.options.usermap_uid | quote }}
             - name: USERMAP_GID
