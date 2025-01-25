@@ -26,6 +26,18 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      initContainers:
+        - name: "{{ .Release.Name }}-web-init"
+          image: {{ template "filestash.image" . }}
+          command:
+            - /bin/sh
+            - -c
+            - |
+              mkdir -p /app/data/state
+              chown -R 1000:1000 /app/data
+          volumeMounts:
+            - name: "{{ .Release.Name }}-data"
+              mountPath: /app/data
       containers:
         - name: "{{ .Release.Name }}-web"
           image: {{ template "filestash.image" . }}
@@ -49,7 +61,7 @@ spec:
           {{- end }}
           volumeMounts:
             - name: "{{ .Release.Name }}-data"
-              mountPath: /app/data/state
+              mountPath: /app/data
       volumes:
         - name: "{{ .Release.Name }}-data"
           persistentVolumeClaim:
