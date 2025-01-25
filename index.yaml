@@ -305,6 +305,19 @@ entries:
   filestash:
   - apiVersion: v2
     appVersion: latest
+    created: "2025-01-25T18:35:32.05697993Z"
+    description: A Dropbox-like file manager that let you manage your data anywhere
+    digest: e7fcaf3953940d90e752cb288527fc8761f9d48a53c32c2bdd388237283a89ec
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: filestash
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/filestash-2.2.0/filestash-2.2.0.tgz
+    version: 2.2.0
+  - apiVersion: v2
+    appVersion: latest
     created: "2025-01-17T16:33:25.478669233Z"
     description: A Dropbox-like file manager that let you manage your data anywhere
     digest: 041a250123b9faa38ea02525517f57f468a017e084dee33e242c14cfc316e84f
@@ -1136,4 +1149,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vaultwarden-1.0.0/vaultwarden-1.0.0.tgz
     version: 1.0.0
-generated: "2025-01-25T12:24:28.01423974Z"
+generated: "2025-01-25T18:35:32.057112456Z"
