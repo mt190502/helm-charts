@@ -57,10 +57,10 @@ data:
     hosts = 0.0.0.0:5232{{- if .Values.global.main.options.server.hosts }}, {{ join ", " .Values.global.main.options.server.hosts }}{{- end }}
     max_connections = {{ .Values.global.main.options.server.maxConnections | default 8 }}
     max_content_length = {{ .Values.global.main.options.server.maxContentLength | default "100000000" | int }}
-    ssl = {{ .Values.global.main.options.server.ssl | default false }}
-    {{- if eq .Values.global.main.options.server.ssl true }}
-    certificate = /etc/ssl/tls.crt
-    key = /etc/ssl/tls.key
+    ssl = {{ .Values.global.main.tls.enabled | default false }}
+    {{- if eq .Values.global.main.tls.enabled true }}
+    certificate = /app/ssl/tls.crt
+    key = /app/ssl/tls.key
     {{- end }}
     timeout = {{ .Values.global.main.options.server.timeout | default 30 }}
 

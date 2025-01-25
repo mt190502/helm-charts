@@ -81,6 +81,8 @@ spec:
               mountPath: /app/data
             - name: "{{ .Release.Name }}-config"
               mountPath: /app/config
+            - name: "{{ .Release.Name }}-ssl"
+              mountPath: /app/ssl
             {{- if .Values.secret.settings.enabled }}
             - name: {{ if .Values.secret.settings.name }}{{ .Values.secret.settings.name }}{{ else }}{{ .Release.Name }}-main{{ end }}
               mountPath: /app/secret
@@ -97,3 +99,6 @@ spec:
           secret:
             secretName: {{ if .Values.secret.settings.name }}{{ .Values.secret.settings.name }}{{ else }}{{ .Release.Name }}-main{{ end }}
         {{- end }}
+        - name: "{{ .Release.Name }}-ssl"
+          secret:
+            secretName: "{{ .Values.global.main.tls.secretName }}"
