@@ -5,11 +5,80 @@ image:
 
 global:
   main:
+    tls:
+      enabled: false
+      serverName: dav.example.com
+      secretName: wildcard-example.com-tls
+    options:
+      auth:
+        type: "htpasswd"
+        cacheFailedLoginsExpiry: 90
+        cacheLogins: false
+        cacheSuccessfulLoginsExpiry: 15
+        delay: 1
+        htpasswdCache: false
+        htpasswdEncryption: "autodetect"
+        realm: "Radicale - Password Required"
+        stripDomain: false
+      encoding:
+        request: "utf-8"
+        stock: "utf-8"
+      headers:
+        Access-Control-Allow-Origin: "*"
+      hook:
+        type: "none"
+        rabbitmqEndpoint: ""
+        rabbitmqQueueType: "classic"
+        rabbitmqTopic: ""
+      logging:
+        backtraceOnDebug: false
+        badPutRequestContent: false
+        level: "info"
+        maskPasswords: false
+        requestContentOnDebug: false
+        requestHeaderOnDebug: false
+        responseContentOnDebug: false
+        rightsRuleDoesntMatchOnDebug: false
+        storageCacheActionsOnDebug: false
+      reporting:
+        maxFreebusyOccurrence: "10000"
+      server:
+        maxConnections: 8
+        maxContentLength: "100000000"
+        ssl: false
+        timeout: 30
+      storage:
+        type: "multifilesystem"
+        hook: ""
+        maxSyncTokenAge: "2592000"
+        predefinedCollections: ""
+        skipBrokenItem: true
+        useCacheSubfolderForHistory: false
+        useCacheSubfolderForItem: false
+        useCacheSubfolderForSynctoken: false
+        useMtimeAndSizeForItemCache: false
+      web:
+        type: "internal"
+      extraConfig: {}
+        #file.conf: |
+        #  [custom]
+        #  key = value
     ports:
       - containerPort: 5232
     environments: {}
       # - name: key
       #  value: value
+
+secret:
+  settings:
+    enabled: false
+    autoCreate: true
+    name: radicale-secret
+    usernameKey: username
+    passwordKey: password
+  options:
+    username: user
+    password: pass  
 
 service:
   type: ClusterIP

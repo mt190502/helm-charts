@@ -26,9 +26,40 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      initContainers:
+        - name: "{{ .Release.Name }}-init"
+          image: {{ template "radicale.image" . }}
+          command:
+            - /bin/sh
+            - -c
+            - |
+              if [ -f /app/data/users ]; then
+                echo "User file already exists, skipping user initialization"
+                exit 0
+              fi
+              apk add apache2-utils
+              {{- if .Values.secret.settings.enabled }}
+              htpasswd -b -c /app/data/users $(cat /app/secret/{{ .Values.secret.settings.usernameKey }}) $(cat /app/secret/{{ .Values.secret.settings.passwordKey }})
+              {{- else }}
+              htpasswd -b -c /app/data/users {{ .Values.secret.options.username }} {{ .Values.secret.options.password }}
+              {{- end }}
+          volumeMounts:
+            - name: "{{ .Release.Name }}-data"
+              mountPath: /app/data
+            - name: "{{ .Release.Name }}-config"
+              mountPath: /app/config
+            {{- if .Values.secret.settings.enabled }}
+            - name: {{ if .Values.secret.settings.name }}{{ .Values.secret.settings.name }}{{ else }}{{ .Release.Name }}-main{{ end }}
+              mountPath: /app/secret
+            {{- end }}
       containers:
         - name: "{{ .Release.Name }}-main"
           image: {{ template "radicale.image" . }}
+          command:
+            - /bin/sh
+            - -c
+            - |
+              /venv/bin/radicale --config $(ls /app/config | sed 's|^|/app/config/|' | paste -sd ":" -)
           {{- if .Values.global.main.environments }}
           env:
           {{- range .Values.global.main.environments }}
@@ -47,8 +78,22 @@ spec:
           {{- end }}
           volumeMounts:
             - name: "{{ .Release.Name }}-data"
-              mountPath: /data
+              mountPath: /app/data
+            - name: "{{ .Release.Name }}-config"
+              mountPath: /app/config
+            {{- if .Values.secret.settings.enabled }}
+            - name: {{ if .Values.secret.settings.name }}{{ .Values.secret.settings.name }}{{ else }}{{ .Release.Name }}-main{{ end }}
+              mountPath: /app/secret
+            {{- end }}
       volumes:
         - name: "{{ .Release.Name }}-data"
           persistentVolumeClaim:
             claimName: "{{ .Release.Name }}-data-pvc"
+        - name: "{{ .Release.Name }}-config"
+          configMap:
+            name: "{{ .Release.Name }}-config"
+        {{- if .Values.secret.settings.enabled }}
+        - name: {{ if .Values.secret.settings.name }}{{ .Values.secret.settings.name }}{{ else }}{{ .Release.Name }}-main{{ end }}
+          secret:
+            secretName: {{ if .Values.secret.settings.name }}{{ .Values.secret.settings.name }}{{ else }}{{ .Release.Name }}-main{{ end }}
+        {{- end }}
