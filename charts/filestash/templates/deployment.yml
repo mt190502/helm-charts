@@ -38,6 +38,9 @@ spec:
           volumeMounts:
             - name: "{{ .Release.Name }}-data"
               mountPath: /app/data
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsUser: 0
       containers:
         - name: "{{ .Release.Name }}-web"
           image: {{ template "filestash.image" . }}
