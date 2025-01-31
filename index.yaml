@@ -501,6 +501,20 @@ entries:
     version: 1.0.0
   paperless-ngx:
   - apiVersion: v2
+    appVersion: 2.14.7
+    created: "2025-01-31T18:18:53.276079154Z"
+    description: A community-supported supercharged version of paperless; scan, index
+      and archive all your physical documents
+    digest: db97fe6f74d11d1f28c61e6e704d50771007b271292a0afac057cb072a5df338
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: paperless-ngx
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/paperless-ngx-3.2.11/paperless-ngx-3.2.11.tgz
+    version: 3.2.11
+  - apiVersion: v2
     appVersion: 2.14.6
     created: "2025-01-28T01:05:38.85619398Z"
     description: A community-supported supercharged version of paperless; scan, index
@@ -823,6 +837,19 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/paperless-ngx-1.0.0/paperless-ngx-1.0.0.tgz
     version: 1.0.0
   radicale:
+  - apiVersion: v2
+    appVersion: 3.4.1.0
+    created: "2025-01-31T18:18:53.388099132Z"
+    description: A simple CalDAV (calendar) and CardDAV (contact) server
+    digest: 687ff841a43bfa099366a4615419f160e726041e7d60a95ad228617d5ca8b9aa
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: radicale
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/radicale-2.2.1/radicale-2.2.1.tgz
+    version: 2.2.1
   - apiVersion: v2
     appVersion: 3.4.0.0
     created: "2025-01-25T11:37:38.958951734Z"
@@ -1189,4 +1216,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vaultwarden-1.0.0/vaultwarden-1.0.0.tgz
     version: 1.0.0
-generated: "2025-01-29T18:19:21.667463694Z"
+generated: "2025-01-31T18:18:53.388523691Z"
