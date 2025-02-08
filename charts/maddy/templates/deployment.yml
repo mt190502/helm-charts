@@ -1,0 +1,78 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-main"
+  namespace: "{{ if eq .Release.Namespace "default" }}maddy-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
+spec:
+  replicas: {{ .Values.replicaCount | default (printf "%d" 1) }}
+  selector:
+    matchLabels:
+      app: "{{ .Release.Name }}-main"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Release.Name }}-main"
+    spec:
+      nodeSelector:
+        kubernetes.io/arch: amd64
+      {{- with .Values.nodeSelector }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{-  with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: "{{ .Release.Name }}-main"
+          image: {{ template "maddy.image" . }}
+          command:
+            - sh
+            - -c
+            - |
+              maddy --config $MADDY_CONFIG
+          env:
+            - name: MADDY_CONFIG
+              value: /app/config/maddy.conf
+            - name: MADDY_HOSTNAME
+              value: {{ .Values.global.main.options.hostname | quote }}
+            - name: MADDY_DOMAIN
+              value: {{ .Values.global.main.options.domain | quote }}
+          {{- range .Values.global.main.environments }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+          {{- end }}
+          {{- with .Values.global.main.ports }}
+          ports:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.resources.limits.main }}
+          resources:
+            limits:
+              {{- toYaml . | nindent 14 }}
+          {{- end }}
+          volumeMounts:
+            - name: "{{ .Release.Name }}-data"
+              mountPath: /data
+            - name: "{{ .Release.Name }}-config"
+              mountPath: /app/config
+            {{- if .Values.global.main.tls.enabled }}
+            - name: "{{ .Release.Name }}-ssl"
+              mountPath: /app/tls
+            {{- end }}
+      volumes:
+        - name: "{{ .Release.Name }}-data"
+          persistentVolumeClaim:
+            claimName: "{{ .Release.Name }}-data-pvc"
+        - name: "{{ .Release.Name }}-config"
+          configMap:
+            name: "{{ .Release.Name }}-config"
+        {{- if .Values.global.main.tls.enabled }}
+        - name: "{{ .Release.Name }}-ssl"
+          secret:
+            secretName: "{{ .Values.global.main.tls.secretName }}"
+        {{- end }}

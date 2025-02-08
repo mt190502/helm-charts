@@ -1,0 +1,78 @@
+image:
+  repository: foxcpp/maddy
+  pullPolicy: IfNotPresent
+  # tag: 0.8.1
+
+global:
+  main:
+    tls:
+      enabled: false
+      serverName: mail.example.com
+      secretName: wildcard-example.com-tls
+    options:
+      domain: example.com
+      hostname: mail.example.com
+      aliases: |
+        info@example.com: root@example.com
+      extraConfig: {}
+        # filename: |
+        #   content
+    ports:
+      - containerPort: 25
+        hostPort: 25
+        protocol: TCP
+      - containerPort: 143
+        hostPort: 143
+        protocol: TCP
+      - containerPort: 465
+        hostPort: 465
+        protocol: TCP
+      - containerPort: 587
+        hostPort: 587
+        protocol: TCP
+      - containerPort: 993
+        hostPort: 993
+        protocol: TCP
+    environments: {}
+      # - name: key
+      #  value: value
+
+service:
+  type: ClusterIP
+  ports:
+    - name: smtp
+      protocol: TCP
+      port: 25
+      targetPort: 25
+    - name: imap
+      protocol: TCP
+      port: 143
+      targetPort: 143
+    - name: smtps
+      protocol: TCP
+      port: 465
+      targetPort: 465
+    - name: submission
+      protocol: TCP
+      port: 587
+      targetPort: 587
+    - name: imaps
+      protocol: TCP
+      port: 993
+      targetPort: 993
+
+resources:
+  limits:
+    main:
+      memory: 1Gi
+  requests:
+    main:
+      storage: 1Gi
+
+replicaCount: 1
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
