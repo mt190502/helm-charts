@@ -1,0 +1,199 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-web"
+  namespace: "{{ if eq .Release.Namespace "default" }}ghost-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
+spec:
+  replicas: {{ .Values.replicaCount | default (printf "%d" 1) }}
+  selector:
+    matchLabels:
+      app: "{{ .Release.Name }}-web"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Release.Name }}-web"
+    spec:
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{-  with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      initContainers:
+        - name: "{{ .Release.Name }}-web-init"
+          image: busybox
+          command:
+            - sh
+            - -c
+            - |
+            {{- if eq .Values.global.mysql.internal.enabled true }}
+              until nc -z -v -w30 {{ .Release.Name }}-mysql 3306
+            {{- else }}
+              until nc -z -v -w30 {{ .Values.global.mysql.external.host }} {{ .Values.global.mysql.external.port }}
+            {{- end }}
+              do
+                echo "Waiting for the database to be ready..."
+                sleep 5
+              done
+      containers:
+        - name: "{{ .Release.Name }}-web"
+          image: {{ template "ghost.web.image" . }}
+          env:
+          {{- if or (eq (.Values.global.mysql.secret.autoCreate | toString) "kustomize") (eq (.Values.global.mysql.secret.autoCreate | toString) "true") }}
+            - name: database__connection__user
+              valueFrom:
+                secretKeyRef:
+                  name: {{ if .Values.global.mysql.secret.name }}{{ .Values.global.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
+                  key: {{ .Values.global.mysql.secret.usernameKey | quote }}
+            - name: database__connection__password
+              valueFrom:
+                secretKeyRef:
+                  name: {{ if .Values.global.mysql.secret.name }}{{ .Values.global.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
+                  key: {{ .Values.global.mysql.secret.passwordKey | quote }}
+            - name: database__connection__database
+              valueFrom:
+                secretKeyRef:
+                  name: {{ if .Values.global.mysql.secret.name }}{{ .Values.global.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
+                  key: {{ .Values.global.mysql.secret.databaseKey | quote }}
+            - name: database__connection__host
+              {{- if eq .Values.global.mysql.internal.enabled true }}
+              value: {{ .Release.Name }}-mysql
+              {{- else }}
+              value: {{ .Values.global.mysql.external.host }}
+              {{- end }}
+            - name: database__connection__port
+              {{- if eq .Values.global.mysql.internal.enabled true }}
+              value: "3306"
+              {{- else }}
+              value: {{ .Values.global.mysql.external.port | quote }}
+              {{- end }}
+          {{- end }}
+            - name: database__client
+              value: mysql
+            - name: url
+              value: {{ .Values.global.web.options.ghost_url | quote }}
+            - name: admin_url
+              value: {{ .Values.global.web.options.ghost_admin_url | quote }}
+          {{- range .Values.global.web.environments }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+          {{- end }}
+          {{- with .Values.global.web.ports }}
+          ports:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.resources.limits.web }}
+          resources:
+            limits:
+              {{- toYaml . | nindent 14 }}
+          {{- end }}
+          volumeMounts:
+            - name: "{{ .Release.Name }}-data"
+              mountPath: /var/lib/ghost/content
+      volumes:
+        - name: "{{ .Release.Name }}-data"
+          persistentVolumeClaim:
+            claimName: "{{ .Release.Name }}-data-pvc"
+
+{{ if eq .Values.global.mysql.internal.enabled true }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-mysql"
+  namespace: "{{ if eq .Release.Namespace "default" }}ghost-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
+spec:
+  replicas: {{ .Values.replicaCount | default (printf "%d" 1) }}
+  selector:
+    matchLabels:
+      app: "{{ .Release.Name }}-mysql"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Release.Name }}-mysql"
+    spec:
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{-  with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      initContainers:
+        - name: "{{ .Release.Name }}-mysql-init"
+          image: busybox
+          command:
+            - sh
+            - -c
+            - |
+              [ -d "/mnt/lost+found" ] && rm -rf /mnt/lost+found
+              exit 0
+          volumeMounts:
+            - name: "{{ .Release.Name }}-mysql-data"
+              mountPath: /mnt
+      containers:
+        - name: "{{ .Release.Name }}-mysql"
+          image: {{ template "ghost.mysql.image" . }}
+          env:
+            - name: {{ if eq .Values.image.mysql.repository "mariadb"}}MARIADB{{ else }}MYSQL{{ end }}_DATABASE
+            {{- if .Values.global.mysql.secret.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ if .Values.global.mysql.secret.name }}{{ .Values.global.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
+                  key: {{ .Values.global.mysql.secret.databaseKey | quote }}
+            {{- else }}
+              value: {{ .Values.global.mysql.options.database | quote }}
+            {{- end }}
+            - name: {{ if eq .Values.image.mysql.repository "mariadb"}}MARIADB{{ else }}MYSQL{{ end }}_USER
+            {{- if .Values.global.mysql.secret.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ if .Values.global.mysql.secret.name }}{{ .Values.global.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
+                  key: {{ .Values.global.mysql.secret.usernameKey | quote }}
+            {{- else }}
+              value: {{ .Values.global.mysql.options.username | quote }}
+            {{- end }}
+            - name: {{ if eq .Values.image.mysql.repository "mariadb"}}MARIADB{{ else }}MYSQL{{ end }}_PASSWORD
+            {{- if .Values.global.mysql.secret.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ if .Values.global.mysql.secret.name }}{{ .Values.global.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
+                  key: {{ .Values.global.mysql.secret.passwordKey | quote }}
+            {{- else }}
+              value: {{ .Values.global.mysql.options.password | quote }}
+            {{- end }}
+            - name: {{ if eq .Values.image.mysql.repository "mariadb"}}MARIADB{{ else }}MYSQL{{ end }}_ROOT_PASSWORD
+            {{- if .Values.global.mysql.secret.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ if .Values.global.mysql.secret.name }}{{ .Values.global.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
+                  key: {{ .Values.global.mysql.secret.rootPasswordKey | quote }}
+            {{- else }}
+              value: {{ .Values.global.mysql.options.rootPasswordKey | quote }}
+            {{- end }}
+            {{- range .Values.global.mysql.environments }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+            {{- end }}
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: "{{ .Release.Name }}-mysql-data"
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: "{{ .Release.Name }}-mysql-data"
+          persistentVolumeClaim:
+            claimName: "{{ .Release.Name }}-mysql-pvc"
+{{- end }}

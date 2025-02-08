@@ -1,0 +1,27 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: "{{ .Release.Name }}-data-pvc"
+  namespace: "{{ if eq .Release.Namespace "default" }}ghost-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: "{{ .Values.resources.requests.web.storage }}"
+
+{{ if and .Values.global.mysql.internal.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: "{{ .Release.Name }}-mysql-pvc"
+  namespace: "{{ if eq .Release.Namespace "default" }}ghost-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: "{{ .Values.resources.requests.mysql.storage }}"
+{{- end }}
