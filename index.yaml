@@ -163,7 +163,7 @@ entries:
     appVersion: 5.5.0
     created: "2025-02-09T18:17:21.404061295Z"
     description: A RSS Aggregator
-    digest: c2480d31321bdd057318ddf87072d7a1b6d6a216b85f4327d4620fa03c3cef60
+    digest: e1958f533fccff2367fbc1d219e5f2fc4a9a237ece6b01fda7e97a5aae998c04
     maintainers:
     - email: mt190502@mtaha.dev
       name: Taha
@@ -949,7 +949,7 @@ entries:
     appVersion: 2.15.1
     created: "2025-01-21T08:20:17.147588633Z"
     description: A self hosted web analytics platform
-    digest: f97e94ec03085a57321798d5cb081dbec40ffc33b28feaa304ef605528f27f29
+    digest: 0e4be60273fc68be86ee3a30aea01ffd2135a9d8315fc4e00a7e8ef1e6215f0e
     maintainers:
     - email: mt190502@mtaha.dev
       name: Taha
@@ -1093,7 +1093,7 @@ entries:
     appVersion: 1.33.2
     created: "2025-02-09T18:17:21.575137933Z"
     description: A self hosted password manager
-    digest: 7934e629ef1918efeee24d45cf35c4d4902ddafb3ec8b89fccec5b8f5bc1f35b
+    digest: 3e027e155c98b252c57cdc9899afaf42a0443fbb43c7efd6d84115b31b79544d
     maintainers:
     - email: mt190502@mtaha.dev
       name: Taha
@@ -1297,4 +1297,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vaultwarden-1.0.0/vaultwarden-1.0.0.tgz
     version: 1.0.0
-generated: "2025-02-09T18:55:19.863280586Z"
+generated: "2025-02-09T22:48:17.375982623+03:00"
