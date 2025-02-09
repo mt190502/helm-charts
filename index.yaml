@@ -394,6 +394,35 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/filestash-1.0.0/filestash-1.0.0.tgz
     version: 1.0.0
+  ghost:
+  - apiVersion: v2
+    appVersion: 5.109.3
+    created: "2025-02-09T18:55:19.533496888Z"
+    description: A simple, powerful publishing platform that allows you to share your
+      stories with the world.
+    digest: 6d9dab8ec5257aa6cb822e3b2464a63fc9a6dabffd1a080b7ae9f45beb3b876e
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: ghost
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/ghost-2.0.1/ghost-2.0.1.tgz
+    version: 2.0.1
+  maddy:
+  - apiVersion: v2
+    appVersion: 0.8.1
+    created: "2025-02-09T18:55:19.660928124Z"
+    description: A self hosted minimal mail server
+    digest: e881a8e1940e2376f4fc3888541f570d0a703ee99906cf234de0a1565c2e712d
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: maddy
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/maddy-2.0.0/maddy-2.0.0.tgz
+    version: 2.0.0
   memos:
   - apiVersion: v2
     appVersion: 0.24.0
@@ -1268,4 +1297,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vaultwarden-1.0.0/vaultwarden-1.0.0.tgz
     version: 1.0.0
-generated: "2025-02-09T18:17:21.575486756Z"
+generated: "2025-02-09T18:55:19.863280586Z"
