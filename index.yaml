@@ -396,6 +396,20 @@ entries:
     version: 1.0.0
   ghost:
   - apiVersion: v2
+    appVersion: 5.109.4
+    created: "2025-02-11T06:20:08.994790913Z"
+    description: A simple, powerful publishing platform that allows you to share your
+      stories with the world.
+    digest: 5d463343cb1c3ba850931e81d597edf9cbf7eec3ef8cedfd69d217fe0c5bbb29
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: ghost
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/ghost-2.0.2/ghost-2.0.2.tgz
+    version: 2.0.2
+  - apiVersion: v2
     appVersion: 5.109.3
     created: "2025-02-09T18:55:19.533496888Z"
     description: A simple, powerful publishing platform that allows you to share your
@@ -1297,4 +1311,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vaultwarden-1.0.0/vaultwarden-1.0.0.tgz
     version: 1.0.0
-generated: "2025-02-09T22:48:17.375982623+03:00"
+generated: "2025-02-11T06:20:08.994997467Z"
