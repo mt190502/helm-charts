@@ -160,6 +160,19 @@ entries:
     version: 1.0.0
   commafeed:
   - apiVersion: v2
+    appVersion: 5.6.0
+    created: "2025-02-16T18:17:47.433004353Z"
+    description: A RSS Aggregator
+    digest: 6a82717373b5f0589bc92a600dd8a546f1c2342a2e0256f5905c6c37247b223e
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: commafeed
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/commafeed-2.5.0/commafeed-2.5.0.tgz
+    version: 2.5.0
+  - apiVersion: v2
     appVersion: 5.5.0
     created: "2025-02-09T18:17:21.404061295Z"
     description: A RSS Aggregator
@@ -1339,4 +1352,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vaultwarden-1.0.0/vaultwarden-1.0.0.tgz
     version: 1.0.0
-generated: "2025-02-14T18:19:17.336537167Z"
+generated: "2025-02-16T18:17:47.433257454Z"
