@@ -42,7 +42,7 @@ def parse_version(version):
     return {
         'maj': int(parts[0]),
         'min': int(parts[1]),
-        'pat': parts[2] if len(parts) > 2 else 0,
+        'pat': parts[2] if len(parts) > 2 else '0',
         'ver': version,
         'nodot': version.replace('.', '')
     }
@@ -85,7 +85,11 @@ def update_version():
             versions = filter_valid_versions([re.sub(r'[a-zA-Z]', '', response.json()['tag_name'])])
             versions.sort(key=Version, reverse=True)
         latest_version = parse_version(versions[0])
-        version_status = compare_versions(chart_app_version, latest_version)
+        try:
+            version_status = compare_versions(chart_app_version, latest_version)
+        except:
+            print(f"Compare versions failed for '{chart_app_name}' ['{chart_app_version['ver']}' <-> '{latest_version['ver']}']")
+            continue
 
         match (version_status):
             case 'upgrade-major':
