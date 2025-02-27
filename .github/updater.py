@@ -76,14 +76,19 @@ def update_version():
         image = chart_data.get('projectUrl').split("github.com/")[1]
         chart_app_version = parse_version(str(chart_data.get('appVersion')))
         chart_version = parse_version(str(chart_data.get('version')))
-  
-        response = requests.get(f'https://api.github.com/repos/{image}/tags')
-        versions = filter_valid_versions([re.sub(r'[a-zA-Z]', '', tag['name']) for tag in response.json()])
-        versions.sort(key=Version, reverse=True)
-        if not versions:
-            response = requests.get(f'https://api.github.com/repos/{image}/releases/latest')
-            versions = filter_valid_versions([re.sub(r'[a-zA-Z]', '', response.json()['tag_name'])])
+
+        try:
+            response = requests.get(f'https://api.github.com/repos/{image}/tags')
+            versions = filter_valid_versions([re.sub(r'[a-zA-Z]', '', tag['name']) for tag in response.json()])
             versions.sort(key=Version, reverse=True)
+            if not versions:
+                response = requests.get(f'https://api.github.com/repos/{image}/releases/latest')
+                versions = filter_valid_versions([re.sub(r'[a-zA-Z]', '', response.json()['tag_name'])])
+                versions.sort(key=Version, reverse=True)
+        except Exception as e:
+            print(f"Failed to get versions for '{chart_app_name}' from '{image}'")
+            print('=======================\nError:', e)
+            continue
         latest_version = parse_version(versions[0])
         try:
             version_status = compare_versions(chart_app_version, latest_version)
