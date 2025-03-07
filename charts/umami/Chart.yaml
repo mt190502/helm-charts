@@ -2,7 +2,7 @@ apiVersion: v2
 name: umami
 description: A self hosted web analytics platform
 type: application
-version: 2.3.1
+version: 4.0.0
 appVersion: 2.16.1
 projectUrl: https://github.com/umami-software/umami
 maintainers:

@@ -105,12 +105,18 @@ spec:
 {{ if eq .Values.global.mysql.internal.enabled true }}
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: "{{ .Release.Name }}-mysql"
   namespace: "{{ if eq .Release.Namespace "default" }}ghost-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
 spec:
   replicas: {{ .Values.replicaCount | default (printf "%d" 1) }}
+  podManagementPolicy: {{ .Values.global.mysql.settings.podManagementPolicy | default "Parallel" | quote }}
+  serviceName: "{{ .Release.Name }}-mysql"
+  {{- if .Values.global.mysql.settings.updateStrategy }}
+  updateStrategy:
+    type: {{ .Values.global.mysql.settings.updateStrategy.type | default "RollingUpdate" | quote }}
+  {{- end }}
   selector:
     matchLabels:
       app: "{{ .Release.Name }}-mysql"
@@ -123,7 +129,7 @@ spec:
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{-  with .Values.affinity }}
+      {{- with .Values.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -141,7 +147,7 @@ spec:
               [ -d "/mnt/lost+found" ] && rm -rf /mnt/lost+found
               exit 0
           volumeMounts:
-            - name: "{{ .Release.Name }}-mysql-data"
+            - name: "database"
               mountPath: /mnt
       containers:
         - name: "{{ .Release.Name }}-mysql"
@@ -190,10 +196,29 @@ spec:
           ports:
             - containerPort: 3306
           volumeMounts:
-            - name: "{{ .Release.Name }}-mysql-data"
+            - name: "database"
               mountPath: /var/lib/mysql
       volumes:
-        - name: "{{ .Release.Name }}-mysql-data"
-          persistentVolumeClaim:
-            claimName: "{{ .Release.Name }}-mysql-pvc"
+        - name: "database"
+  {{- if .Values.global.mysql.settings.persistence.claimRetentionPolicy }}
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: {{ .Values.global.mysql.settings.persistence.claimRetentionPolicy.whenDeleted | default "Retain" | quote }}
+    whenScaled: {{ .Values.global.mysql.settings.persistence.claimRetentionPolicy.whenScaled | default "Retain" | quote }}
+  {{- end }}
+  volumeClaimTemplates:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: "database"
+        namespace: "{{ if eq .Release.Namespace "default" }}ghost-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
+      spec:
+        accessModes:
+        {{- if .Values.global.mysql.settings.persistence.accessModes }}
+        {{- toYaml .Values.global.mysql.settings.persistence.accessModes | nindent 8 }} 
+        {{- else }}
+          - ReadWriteOnce
+        {{- end }}
+        resources:
+          requests:
+            storage: "{{ .Values.resources.requests.mysql.storage }}"
 {{- end }}

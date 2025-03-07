@@ -37,6 +37,16 @@ global:
       username: memos
       password: memos
       sslmode: disable
+    settings:
+      podManagementPolicy: Parallel
+      updateStrategy:
+        type: RollingUpdate
+      persistence:
+        accessModes:
+          - ReadWriteOnce
+        claimRetentionPolicy: 
+          whenDeleted: Retain
+          whenScaled: Retain
     environments: {}
       # - name: key
       #   value: value

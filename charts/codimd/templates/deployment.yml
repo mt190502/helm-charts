@@ -153,7 +153,7 @@ spec:
               [ -d "/mnt/lost+found" ] && rm -rf /mnt/lost+found
               exit 0
           volumeMounts:
-            - name: "data"
+            - name: "database"
               mountPath: /mnt
       containers:
         - name: "{{ .Release.Name }}-postgres"
@@ -193,11 +193,11 @@ spec:
           ports:
             - containerPort: 5432
           volumeMounts:
-            - name: "data"
+            - name: "database"
               mountPath: /var/lib/postgresql/data
       volumes:
-        - name: data
-  {{- if .Values.global.postgres.settings.persistence.claimRetentionPolicy.enabled }}
+        - name: "database"
+  {{- if .Values.global.postgres.settings.persistence.claimRetentionPolicy }}
   persistentVolumeClaimRetentionPolicy:
     whenDeleted: {{ .Values.global.postgres.settings.persistence.claimRetentionPolicy.whenDeleted | default "Retain" | quote }}
     whenScaled: {{ .Values.global.postgres.settings.persistence.claimRetentionPolicy.whenScaled | default "Retain" | quote }}
@@ -206,7 +206,7 @@ spec:
     - apiVersion: v1
       kind: PersistentVolumeClaim
       metadata:
-        name: "data"
+        name: "database"
         namespace: "{{ if eq .Release.Namespace "default" }}codimd-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
       spec:
         accessModes:

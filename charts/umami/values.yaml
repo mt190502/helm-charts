@@ -46,6 +46,16 @@ global:
       database: umami
       username: umami
       password: umami
+    settings:
+      podManagementPolicy: Parallel
+      updateStrategy:
+        type: RollingUpdate
+      persistence:
+        accessModes:
+          - ReadWriteOnce
+        claimRetentionPolicy: 
+          whenDeleted: Retain
+          whenScaled: Retain
     environments:
       {}
       # - name: key
@@ -72,6 +82,16 @@ global:
       username: umami
       password: umami
       rootPassword: my_secret_root_password
+    settings:
+      podManagementPolicy: Parallel
+      updateStrategy:
+        type: RollingUpdate
+      persistence:
+        accessModes:
+          - ReadWriteOnce
+        claimRetentionPolicy: 
+          whenDeleted: Retain
+          whenScaled: Retain
     environments: {}
       # - name: key
       #   value: value

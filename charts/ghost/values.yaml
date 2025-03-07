@@ -39,6 +39,16 @@ global:
       username: ghost
       password: ghost
       rootPassword: my_secret_root_password
+    settings:
+      podManagementPolicy: Parallel
+      updateStrategy:
+        type: RollingUpdate
+      persistence:
+        accessModes:
+          - ReadWriteOnce
+        claimRetentionPolicy: 
+          whenDeleted: Retain
+          whenScaled: Retain
     environments: {}
       # - name: key
       #   value: value

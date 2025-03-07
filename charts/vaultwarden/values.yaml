@@ -40,6 +40,16 @@ global:
       database: vaultwarden
       username: vaultwarden
       password: vaultwarden
+    settings:
+      podManagementPolicy: Parallel
+      updateStrategy:
+        type: RollingUpdate
+      persistence:
+        accessModes:
+          - ReadWriteOnce
+        claimRetentionPolicy: 
+          whenDeleted: Retain
+          whenScaled: Retain
     environments: {}
       # - name: key
       #   value: value

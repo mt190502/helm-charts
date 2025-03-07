@@ -49,7 +49,6 @@ global:
         accessModes:
           - ReadWriteOnce
         claimRetentionPolicy: 
-          enabled: true
           whenDeleted: Retain
           whenScaled: Retain
     environments: {}
