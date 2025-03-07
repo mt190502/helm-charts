@@ -2,8 +2,8 @@ apiVersion: v2
 name: ghost
 description: A simple, powerful publishing platform that allows you to share your stories with the world.
 type: application
-version: 4.0.0
-appVersion: 5.110.4
+version: 4.1.0
+appVersion: 5.111.0
 projectUrl: https://github.com/TryGhost/Ghost
 maintainers:
 - name: Taha
