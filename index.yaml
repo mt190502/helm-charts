@@ -82,32 +82,6 @@ entries:
   codimd:
   - apiVersion: v2
     appVersion: 2.5.4
-    created: "2025-03-07T09:10:50.347715108Z"
-    description: A self hosted markdown compatible note taking app
-    digest: 98ccd8035f1cbc2429f39a7de4f4053eacf28a3ffa95dbbdcbf1fdd3838cdef1
-    maintainers:
-    - email: mt190502@mtaha.dev
-      name: Taha
-    name: codimd
-    type: application
-    urls:
-    - https://github.com/mt190502/helm-charts/releases/download/codimd-3.3.0/codimd-3.3.0.tgz
-    version: 3.3.0
-  - apiVersion: v2
-    appVersion: 2.5.4
-    created: "2025-03-06T19:07:19.796654264Z"
-    description: A self hosted markdown compatible note taking app
-    digest: 78c79fd7c298095d7d6ab4b3d170c7430584f44abfce3c35949cc92cb7729666
-    maintainers:
-    - email: mt190502@mtaha.dev
-      name: Taha
-    name: codimd
-    type: application
-    urls:
-    - https://github.com/mt190502/helm-charts/releases/download/codimd-3.2.2/codimd-3.2.2.tgz
-    version: 3.2.2
-  - apiVersion: v2
-    appVersion: 2.5.4
     created: "2025-01-20T12:05:09.051743455Z"
     description: A self hosted markdown compatible note taking app
     digest: bc9d698cc4e23aaafa77d715b06f970dba304afd23c2503a84b495d2cbe69900
