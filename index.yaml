@@ -1178,6 +1178,19 @@ entries:
     version: 2.0.0
   umami:
   - apiVersion: v2
+    appVersion: 2.17.0
+    created: "2025-03-08T06:16:33.109407604Z"
+    description: A self hosted web analytics platform
+    digest: 83a03c7991393f1340c183f5f2250cbad2dbe0259add8d2359bf2b3ad6c85b6a
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: umami
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/umami-4.1.0/umami-4.1.0.tgz
+    version: 4.1.0
+  - apiVersion: v2
     appVersion: 2.16.1
     created: "2025-03-07T11:59:49.919879815Z"
     description: A self hosted web analytics platform
@@ -1581,4 +1594,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vaultwarden-1.0.0/vaultwarden-1.0.0.tgz
     version: 1.0.0
-generated: "2025-03-07T18:20:06.995400266Z"
+generated: "2025-03-08T06:16:33.109961565Z"
