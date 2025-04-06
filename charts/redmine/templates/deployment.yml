@@ -110,6 +110,9 @@ spec:
             - name: "{{ .Release.Name }}-data"
               mountPath: /usr/src/redmine/themes
               subPath: themes
+            - name: "{{ .Release.Name }}-data"
+              mountPath: /usr/src/redmine/files
+              subPath: files
       volumes:
         - name: "{{ .Release.Name }}-data"
           persistentVolumeClaim:
