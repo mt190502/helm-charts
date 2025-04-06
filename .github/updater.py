@@ -73,20 +73,39 @@ def update_version():
             print(f"App '{chart_app_name}' has not valid version, skipping...")
             continue
 
-        image = chart_data.get('projectUrl').split("github.com/")[1]
+        project_url = chart_data.get('projectUrl')
         chart_app_version = parse_version(str(chart_data.get('appVersion')))
         chart_version = parse_version(str(chart_data.get('version')))
-
+        
+        versions = []
         try:
-            response = requests.get(f'https://api.github.com/repos/{image}/tags')
-            versions = filter_valid_versions([re.sub(r'[a-zA-Z]', '', tag['name']) for tag in response.json()])
-            versions.sort(key=Version, reverse=True)
-            if not versions:
-                response = requests.get(f'https://api.github.com/repos/{image}/releases/latest')
-                versions = filter_valid_versions([re.sub(r'[a-zA-Z]', '', response.json()['tag_name'])])
+            if 'github.com' in project_url:
+                image = project_url.split("github.com/")[1]
+                response = requests.get(f'https://api.github.com/repos/{image}/tags')
+                versions.extend(filter_valid_versions([re.sub(r'[a-zA-Z]', '', tag['name']) for tag in response.json()]))
                 versions.sort(key=Version, reverse=True)
+                if not versions:
+                    response = requests.get(f'https://api.github.com/repos/{image}/releases/latest')
+                    versions.extend(filter_valid_versions([re.sub(r'[a-zA-Z]', '', response.json()['tag_name'])]))
+                    versions.sort(key=Version, reverse=True)
+            else:
+                path_parts = project_url.strip('/').split('/')[-2:]
+                if path_parts[0] == '_':
+                    org_repo = 'library/' + path_parts[1]
+                else:
+                    org_repo = '/'.join(path_parts[:2])
+                
+                response = requests.get(f'https://hub.docker.com/v2/repositories/{org_repo}/tags?page_size=100')
+                if response.status_code == 200:
+                    versions.extend(filter_valid_versions([tag['name'] for tag in response.json()['results']]))
+                    versions.sort(key=Version, reverse=True)
+                
+            if not versions:
+                print(f"No valid versions found for '{chart_app_name}' from '{project_url}'")
+                continue
+                
         except Exception as e:
-            print(f"Failed to get versions for '{chart_app_name}' from '{image}'")
+            print(f"Failed to get versions for '{chart_app_name}' from '{project_url}'")
             print('=======================\nError:', e)
             continue
         latest_version = parse_version(versions[0])
