@@ -1366,6 +1366,20 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/radicale-2.0.0/radicale-2.0.0.tgz
     version: 2.0.0
+  redmine:
+  - apiVersion: v2
+    appVersion: 6.0.4
+    created: "2025-04-06T15:24:39.560205117Z"
+    description: A project management web application
+    digest: bdbb83e151b55a1d92ec00007fb5f0eea889ae7be44f5ad801129bfa9ff6cfe6
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: redmine
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/redmine-4.0.1/redmine-4.0.1.tgz
+    version: 4.0.1
   umami:
   - apiVersion: v2
     appVersion: 2.17.0
@@ -1784,4 +1798,18 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vaultwarden-1.0.0/vaultwarden-1.0.0.tgz
     version: 1.0.0
-generated: "2025-04-05T01:11:38.467452697Z"
+  vikunja:
+  - apiVersion: v2
+    appVersion: 0.24.6
+    created: "2025-04-06T15:24:39.653083964Z"
+    description: A self hosted task management application
+    digest: 059666c1b31d82db4c7a0ddf957f9a0eda64c7b1481593d4a09559313a6cedac
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: vikunja
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
+    version: 4.0.0
+generated: "2025-04-06T15:24:39.653387151Z"
