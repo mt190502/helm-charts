@@ -1,0 +1,10 @@
+apiVersion: v2
+name: vikunja
+description: A self hosted task management application
+type: application
+version: 4.0.0
+appVersion: 0.24.6
+projectUrl: https://github.com/go-vikunja/vikunja
+maintainers:
+- name: Taha
+  email: mt190502@mtaha.dev

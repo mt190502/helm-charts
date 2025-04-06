@@ -1,0 +1,130 @@
+image:
+  web:
+    repository: vikunja/vikunja
+    pullPolicy: IfNotPresent
+    #tag: 0.24.6
+  postgres:
+    repository: postgres
+    pullPolicy: IfNotPresent
+    tag: 17
+  mysql:
+    repository: mariadb
+    pullPolicy: IfNotPresent
+    tag: 11.6
+
+global:
+  web:
+    ports:
+      - containerPort: 3456
+    appSecret:
+      enabled: true
+      autoCreate: true
+      name: vikunja-secret
+      key: app_secret
+    options:
+      jwtsecret: my_strong_secret_key
+      publicurl: https://vikunja.example.com
+    environments: {}
+      # - name: key
+      #  value: value
+
+  postgres:
+    selected: true
+    external:
+      enabled: false
+      host: 127.0.0.1
+      port: 5432
+    internal:
+      enabled: true
+    secret:
+      enabled: true
+      autoCreate: true
+      name: vikunja-postgres
+      usernameKey: postgres_username
+      passwordKey: postgres_password
+      databaseKey: postgres_database
+    options:
+      database: vikunja
+      username: vikunja
+      password: vikunja
+    settings:
+      podManagementPolicy: Parallel
+      updateStrategy:
+        type: RollingUpdate
+      persistence:
+        accessModes:
+          - ReadWriteOnce
+        claimRetentionPolicy: 
+          whenDeleted: Retain
+          whenScaled: Retain
+    environments:
+      {}
+      # - name: key
+      #   value: value
+
+  mysql:
+    selected: false
+    external:
+      enabled: false
+      host: 127.0.0.1
+      port: 3306
+    internal:
+      enabled: true
+    secret:
+      enabled: true
+      autoCreate: true
+      name: vikunja-mysql
+      usernameKey: mysql_username
+      passwordKey: mysql_password
+      rootPasswordKey: mysql_root_password
+      databaseKey: mysql_database
+    options:
+      database: vikunja
+      username: vikunja
+      password: vikunja
+      rootPassword: my_secret_root_password
+    settings:
+      podManagementPolicy: Parallel
+      updateStrategy:
+        type: RollingUpdate
+      persistence:
+        accessModes:
+          - ReadWriteOnce
+        claimRetentionPolicy: 
+          whenDeleted: Retain
+          whenScaled: Retain
+    environments: {}
+      # - name: key
+      #   value: value
+
+service:
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 3456
+      targetPort: 3456
+
+resources:
+  limits:
+    web:
+      memory: 512Mi
+    postgres:
+      memory: 512Mi
+    mysql:
+      memory: 512Mi
+  requests:
+    web:
+      storage: 1Gi
+    postgres:
+      storage: 1Gi
+    mysql:
+      storage: 1Gi
+
+replicaCount: 1
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
