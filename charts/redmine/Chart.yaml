@@ -1,0 +1,10 @@
+apiVersion: v2
+name: redmine
+description: A project management web application
+type: application
+version: 4.0.0
+appVersion: 6.0.4
+projectUrl: https://hub.docker.com/_/redmine
+maintainers:
+- name: Taha
+  email: mt190502@mtaha.dev
