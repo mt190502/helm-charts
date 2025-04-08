@@ -2,8 +2,8 @@ apiVersion: v2
 name: paperless-ngx
 description: A community-supported supercharged version of paperless; scan, index and archive all your physical documents
 type: application
-version: 4.0.0
-appVersion: 2.14.7
+version: 4.1.0
+appVersion: 2.15.0
 projectUrl: https://github.com/paperless-ngx/paperless-ngx
 maintainers:
 - name: Taha
