@@ -108,6 +108,19 @@ entries:
   codimd:
   - apiVersion: v2
     appVersion: 2.5.4
+    created: "2025-04-10T19:00:36.058536756Z"
+    description: A self hosted markdown compatible note taking app
+    digest: 2abe66b09b6eed16a6b9aa7dceeb40fe32fafa9ba729a89e692c29e713fc05f0
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: codimd
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/codimd-5.0.1/codimd-5.0.1.tgz
+    version: 5.0.1
+  - apiVersion: v2
+    appVersion: 2.5.4
     created: "2025-04-10T18:42:40.756000419Z"
     description: A self hosted markdown compatible note taking app
     digest: 57a10d6b27c6227875e47c89b53303295bd9d9bc52346f1587522bae4557af4b
@@ -224,6 +237,19 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/codimd-1.0.0/codimd-1.0.0.tgz
     version: 1.0.0
   commafeed:
+  - apiVersion: v2
+    appVersion: 5.7.0
+    created: "2025-04-10T19:00:36.182104347Z"
+    description: A RSS Aggregator
+    digest: e668a4d875f9f420880aa4b8fae0e13d38c58205fd74dc7cbcabe6547b29390d
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: commafeed
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/commafeed-5.0.1/commafeed-5.0.1.tgz
+    version: 5.0.1
   - apiVersion: v2
     appVersion: 5.7.0
     created: "2025-04-10T18:42:40.882704923Z"
@@ -822,6 +848,19 @@ entries:
   memos:
   - apiVersion: v2
     appVersion: 0.24.2
+    created: "2025-04-10T19:00:36.312361549Z"
+    description: A self hosted note taking app
+    digest: 64c0fc2ba2b6d8828929e445ced76a222ea86c00a2c0b4cff98e1ff872ef0d18
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: memos
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/memos-5.0.1/memos-5.0.1.tgz
+    version: 5.0.1
+  - apiVersion: v2
+    appVersion: 0.24.2
     created: "2025-04-10T18:42:41.005611Z"
     description: A self hosted note taking app
     digest: ae918fbf9b7b00d312627de10cd060f729f32ce74a2fca58f26c476c1f11104b
@@ -1003,6 +1042,20 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/memos-1.0.0/memos-1.0.0.tgz
     version: 1.0.0
   paperless-ngx:
+  - apiVersion: v2
+    appVersion: 2.15.1
+    created: "2025-04-10T19:00:36.446941104Z"
+    description: A community-supported supercharged version of paperless; scan, index
+      and archive all your physical documents
+    digest: ef197d9ede4ad1d2f8bede41b7038a8ff465a5533f2fd0d6f96bbf48106cc0f8
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: paperless-ngx
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/paperless-ngx-5.0.1/paperless-ngx-5.0.1.tgz
+    version: 5.0.1
   - apiVersion: v2
     appVersion: 2.15.1
     created: "2025-04-10T18:42:41.116437305Z"
@@ -1985,4 +2038,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-04-10T18:42:41.546975004Z"
+generated: "2025-04-10T19:00:36.447702763Z"
