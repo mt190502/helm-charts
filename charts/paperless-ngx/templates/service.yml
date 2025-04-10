@@ -27,7 +27,7 @@ spec:
     app: "{{ .Release.Name }}-broker"
 {{- end }}
 
-{{ if and .Values.global.postgres.internal.enabled .Values.global.postgres.selected (eq .Values.global.postgres.cnpg.enabled false) }}
+{{ if and .Values.global.postgres.internal.enabled (eq .Values.global.postgres.cnpg.enabled false) }}
 ---
 apiVersion: v1
 kind: Service
