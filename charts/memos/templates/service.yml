@@ -12,8 +12,8 @@ spec:
   ports:
     {{- toYaml . | nindent 4 }}
   {{- end }}
-    
-{{ if eq .Values.global.postgres.internal.enabled true }}
+
+{{ if and .Values.global.postgres.internal.enabled .Values.global.postgres.selected (eq .Values.global.postgres.cnpg.enabled false) }}
 ---
 apiVersion: v1
 kind: Service

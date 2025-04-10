@@ -33,7 +33,9 @@ spec:
             - sh
             - -c
             - |
-            {{- if and (eq .Values.global.postgres.internal.enabled true) (eq .Values.global.postgres.selected true) }}
+            {{- if and (eq .Values.global.postgres.cnpg.enabled true) (eq .Values.global.postgres.selected true) }}
+              until nc -z -v -w30 {{ .Release.Name }}-postgres-rw 5432
+            {{- else if and (eq .Values.global.postgres.internal.enabled true) (eq .Values.global.postgres.selected true) }}
               until nc -z -v -w30 {{ .Release.Name }}-postgres 5432
             {{- else if and (eq .Values.global.postgres.external.enabled true) (eq .Values.global.postgres.selected true) }}
               until nc -z -v -w30 {{ .Values.global.postgres.external.host }} {{ .Values.global.postgres.external.port }}
@@ -82,7 +84,7 @@ spec:
                   {{- end }}
             - name: VIKUNJA_DATABASE_HOST
               {{- if and (eq .Values.global.postgres.internal.enabled true) (eq .Values.global.postgres.selected true) }}
-              value: {{ .Release.Name }}-postgres
+              value: {{ .Release.Name }}-postgres{{- if .Values.global.postgres.cnpg.enabled }}-rw{{- end }}
               {{- else if and (eq .Values.global.postgres.external.enabled true) (eq .Values.global.postgres.selected true) }}
               value: {{ .Values.global.postgres.external.host }}:{{ .Values.global.postgres.external.port }}
               {{- else if and (eq .Values.global.mysql.internal.enabled true) (eq .Values.global.mysql.selected true) }}
@@ -128,7 +130,7 @@ spec:
           persistentVolumeClaim:
             claimName: "{{ .Release.Name }}-data-pvc"
 
-{{ if and .Values.global.postgres.internal.enabled .Values.global.postgres.selected }}
+{{ if and .Values.global.postgres.internal.enabled .Values.global.postgres.selected (eq .Values.global.postgres.cnpg.enabled false) }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -240,7 +242,7 @@ spec:
             storage: "{{ .Values.resources.requests.postgres.storage }}"
 {{- end }}
 
-{{ if and .Values.global.mysql.internal.enabled .Values.global.mysql.selected}}
+{{ if and .Values.global.mysql.internal.enabled .Values.global.mysql.selected }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet

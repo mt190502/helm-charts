@@ -33,7 +33,9 @@ spec:
             - sh
             - -c
             - |
-            {{- if eq .Values.global.postgres.internal.enabled true }}
+            {{- if and .Values.global.postgres.cnpg.enabled }}
+              until nc -z -v -w30 {{ .Release.Name }}-postgres-rw 5432
+            {{- else if and .Values.global.postgres.internal.enabled }}
               until nc -z -v -w30 {{ .Release.Name }}-postgres 5432
             {{- else }}
               until nc -z -v -w30 {{ .Values.global.postgres.external.host }} {{ .Values.global.postgres.external.port }}
@@ -52,7 +54,7 @@ spec:
               value: "postgresql"
             - name: PAPERLESS_DBHOST
             {{- if .Values.global.postgres.internal.enabled }}
-              value: "{{ .Release.Name }}-postgres"
+              value: {{ .Release.Name }}-postgres{{ if and .Values.global.postgres.cnpg.enabled }}-rw{{ end }}
             {{- else }}
               value: {{ printf "%s:%.0f" .Values.global.postgres.external.host .Values.global.postgres.external.port | quote }}
             {{- end }}
@@ -178,7 +180,7 @@ spec:
             claimName: "{{ .Release.Name }}-broker-pvc"
 {{- end }}
 
-{{ if eq .Values.global.postgres.internal.enabled true }}
+{{ if and .Values.global.postgres.internal.enabled (eq .Values.global.postgres.cnpg.enabled false) }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet

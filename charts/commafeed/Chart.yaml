@@ -2,7 +2,7 @@ apiVersion: v2
 name: commafeed
 description: A RSS Aggregator
 type: application
-version: 4.1.0
+version: 5.0.0
 appVersion: 5.7.0
 projectUrl: https://github.com/athou/commafeed
 maintainers:

@@ -33,7 +33,9 @@ spec:
             - sh
             - -c
             - |
-            {{- if and (eq .Values.global.postgres.internal.enabled true) (eq .Values.global.postgres.selected true) }}
+            {{- if and (eq .Values.global.postgres.cnpg.enabled true) (eq .Values.global.postgres.selected true) }}
+              until nc -z -v -w30 {{ .Release.Name }}-postgres-rw 5432
+            {{- else if and (eq .Values.global.postgres.internal.enabled true) (eq .Values.global.postgres.selected true) }}
               until nc -z -v -w30 {{ .Release.Name }}-postgres 5432
             {{- else if and (eq .Values.global.postgres.external.enabled true) (eq .Values.global.postgres.selected true) }}
               until nc -z -v -w30 {{ .Values.global.postgres.external.host }} {{ .Values.global.postgres.external.port }}
@@ -69,7 +71,7 @@ spec:
                   key: {{ .Values.global.postgres.secret.databaseKey | quote }}
             - name: POSTGRES_HOST
               {{- if eq .Values.global.postgres.internal.enabled true }}
-              value: {{ .Release.Name }}-postgres
+              value: {{ .Release.Name }}-postgres{{ if eq .Values.global.postgres.cnpg.enabled true }}-rw{{ end }}
               {{- else }}
               value: {{ .Values.global.postgres.external.host }}
               {{- end }}
@@ -142,7 +144,7 @@ spec:
               {{- toYaml . | nindent 14 }}
           {{- end }}
 
-{{ if and .Values.global.postgres.internal.enabled .Values.global.postgres.selected }}
+{{ if and .Values.global.postgres.internal.enabled .Values.global.postgres.selected (eq .Values.global.postgres.cnpg.enabled false) }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -254,7 +256,7 @@ spec:
             storage: "{{ .Values.resources.requests.postgres.storage }}"
 {{- end }}
 
-{{ if and .Values.global.mysql.internal.enabled .Values.global.mysql.selected}}
+{{ if and .Values.global.mysql.internal.enabled .Values.global.mysql.selected }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet

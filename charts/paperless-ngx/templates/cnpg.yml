@@ -1,0 +1,19 @@
+{{ if eq .Values.global.postgres.cnpg.enabled true }}
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: "{{ .Release.Name }}-postgres"
+  namespace: "{{ if eq .Release.Namespace "default" }}paperless-ngx-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
+spec:
+  instances: {{ .Values.global.postgres.cnpg.replicas }}
+  primaryUpdateStrategy: {{ .Values.global.postgres.cnpg.primaryUpdateStrategy }}
+  bootstrap:
+    initdb:
+      database: {{ .Values.global.postgres.options.database }}
+      owner: {{ .Values.global.postgres.options.username }}
+      secret:
+        name: {{ if .Values.global.postgres.secret.enabled }}{{ .Values.global.postgres.secret.name }}{{ else }}{{ fail "Secret is required for CNPG" }}{{ end }}
+  storage:
+    size: {{ .Values.resources.requests.postgres.storage }}
+{{ end }}

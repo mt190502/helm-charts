@@ -33,7 +33,9 @@ spec:
             - sh
             - -c
             - |
-            {{- if eq .Values.global.postgres.internal.enabled true }}
+            {{- if and .Values.global.postgres.cnpg.enabled }}
+              until nc -z -v -w30 {{ .Release.Name }}-postgres-rw 5432
+            {{- else if and .Values.global.postgres.internal.enabled }}
               until nc -z -v -w30 {{ .Release.Name }}-postgres 5432
             {{- else }}
               until nc -z -v -w30 {{ .Values.global.postgres.external.host }} {{ .Values.global.postgres.external.port }}
@@ -64,7 +66,7 @@ spec:
                   key: {{ .Values.global.postgres.secret.databaseKey | quote }}
             - name: DB_HOST
               {{- if eq .Values.global.postgres.internal.enabled true }}
-              value: {{ .Release.Name }}-postgres
+              value: {{ .Release.Name }}-postgres{{ if eq .Values.global.postgres.cnpg.enabled true }}-rw{{ end }}
               {{- else }}
               value: {{ .Values.global.postgres.external.host }}
               {{- end }}
@@ -102,7 +104,7 @@ spec:
           persistentVolumeClaim:
             claimName: "{{ .Release.Name }}-data-pvc"
 
-{{ if eq .Values.global.postgres.internal.enabled true }}
+{{ if and .Values.global.postgres.internal.enabled (eq .Values.global.postgres.cnpg.enabled false) }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet

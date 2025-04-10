@@ -47,18 +47,22 @@ global:
       port: 5432
     internal:
       enabled: true
+    cnpg:
+      enabled: false
+      replicas: 3
+      primaryUpdateStrategy: unsupervised
     secret:
       enabled: true
       autoCreate: true
       name: paperless-ngx-postgres
-      usernameKey: postgres_username
-      passwordKey: postgres_password
-      databaseKey: postgres_database
+      usernameKey: username
+      passwordKey: password
+      databaseKey: database
     options:
       database: paperless-ngx
       username: paperless-ngx
       password: paperless-ngx
-    settings:
+    settings: #~ ignored if cnpg.enabled
       podManagementPolicy: Parallel
       updateStrategy:
         type: RollingUpdate

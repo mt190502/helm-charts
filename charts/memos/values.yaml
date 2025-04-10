@@ -25,19 +25,23 @@ global:
       port: 5432
     internal:
       enabled: true
+    cnpg:
+      enabled: true
+      replicas: 3
+      primaryUpdateStrategy: unsupervised
     secret:
       enabled: true
       autoCreate: true
       name: memos-postgres
-      usernameKey: postgres_username
-      passwordKey: postgres_password
-      databaseKey: postgres_database
+      usernameKey: username
+      passwordKey: password
+      databaseKey: database
     options:
       database: memos
       username: memos
       password: memos
       sslmode: disable
-    settings:
+    settings: #~ ignored if cnpg.enabled
       podManagementPolicy: Parallel
       updateStrategy:
         type: RollingUpdate
