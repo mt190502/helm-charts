@@ -69,7 +69,7 @@ spec:
       containers:
         - name: "{{ .Release.Name }}-web"
           image: {{ template "adguard-home.web.image" . }}
-          {{- if .Values.global.web.enviroments }}
+          {{- if .Values.global.web.environments }}
           env:
           {{- range .Values.global.web.environments }}
             - name: {{ .name }}
