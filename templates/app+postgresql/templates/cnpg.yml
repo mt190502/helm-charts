@@ -1,0 +1,19 @@
+{{ if and (eq .Values.global.postgresql.external.enabled false) .Values.global.postgresql.cnpg.enabled }}
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: "{{ .Release.Name }}-postgresql"
+  namespace: "{{ if eq .Release.Namespace "default" }}<<<APPNAME>>>-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
+spec:
+  instances: {{ .Values.global.postgresql.cnpg.replicas }}
+  primaryUpdateStrategy: {{ .Values.global.postgresql.cnpg.primaryUpdateStrategy }}
+  bootstrap:
+    initdb:
+      database: {{ .Values.global.postgresql.options.database }}
+      owner: {{ .Values.global.postgresql.options.username }}
+      secret:
+        name: {{ if .Values.global.postgresql.secret.enabled }}{{ .Values.global.postgresql.secret.name }}{{ else }}{{ fail "Secret is required for CNPG" }}{{ end }}
+  storage:
+    size: {{ .Values.resources.requests.postgresql.storage }}
+{{ end }}
