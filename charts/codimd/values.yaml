@@ -1,15 +1,15 @@
 image:
-  web:
+  main:
     repository: nabo.codimd.dev/hackmdio/hackmd
     pullPolicy: IfNotPresent
-    #tag: 1.32.0
-  postgres:
+    # tag: 2.5.4
+  postgresql:
     repository: postgres
     pullPolicy: IfNotPresent
     tag: 17
 
 global:
-  web:
+  main:
     ports:
       - containerPort: 3000
     options:
@@ -22,7 +22,7 @@ global:
       # - name: key
       #  value: value
 
-  postgres:
+  postgresql:
     external:
       enabled: false
       host: 127.0.0.1
@@ -36,7 +36,7 @@ global:
     secret:
       enabled: true
       autoCreate: true
-      name: codimd-postgres
+      name: codimd-postgresql
       usernameKey: username
       passwordKey: password
       databaseKey: database
@@ -68,14 +68,14 @@ service:
 
 resources:
   limits:
-    web:
+    main:
       memory: 512Mi
-    postgres:
+    postgresql:
       memory: 512Mi
   requests:
-    web:
+    main:
       storage: 256Mi
-    postgres:
+    postgresql:
       storage: 1Gi
 
 replicaCount: 1
