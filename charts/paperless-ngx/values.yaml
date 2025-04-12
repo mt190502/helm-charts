@@ -1,19 +1,19 @@
 image:
-  web:
+  main:
     repository: ghcr.io/paperless-ngx/paperless-ngx
     pullPolicy: IfNotPresent
-    #tag: 2.12.1
-  postgres:
+    # tag: 2.15.1
+  postgresql:
     repository: postgres
     pullPolicy: IfNotPresent
     tag: 17
-  broker:
+  redis:
     repository: redis
     pullPolicy: IfNotPresent
     tag: 7
 
 global:
-  web:
+  main:
     ports:
       - containerPort: 8000
     appSecret:
@@ -22,25 +22,36 @@ global:
       name: paperless-ngx-secret
       key: app_secret
     options:
+      app_secret: my_strong_secret
       paperless_port: 8000
-      paperless_url: https://localhost
-      paperless_app_secret: my_strong_secret
+      paperless_url: https://paperless.example.com
       usermap_uid: 1000
       usermap_gid: 1000
     environments: {}
       # - name: key
-      #   value: value
+      #  value: value
 
   redis:
+    enabled: true
     external:
       enabled: false
       host: 127.0.0.1
       port: 6379
     internal:
       enabled: true
+    settings:
+      podManagementPolicy: Parallel
+      updateStrategy:
+        type: RollingUpdate
+      persistence:
+        accessModes:
+          - ReadWriteOnce
+        claimRetentionPolicy: 
+          whenDeleted: Retain
+          whenScaled: Retain
     environments: {}
 
-  postgres:
+  postgresql:
     external:
       enabled: false
       host: 127.0.0.1
@@ -54,7 +65,7 @@ global:
     secret:
       enabled: true
       autoCreate: true
-      name: paperless-ngx-postgres
+      name: paperless-ngx-postgresql
       usernameKey: username
       passwordKey: password
       databaseKey: database
@@ -86,23 +97,18 @@ service:
 
 resources:
   limits:
-    web:
-      cpu: 1
-      memory: 2048Mi
+    main:
+      memory: 2Gi
     redis:
       memory: 512Mi
-    postgres:
+    postgresql:
       memory: 512Mi
   requests:
-    web:
+    main:
       storage: 1Gi
-    media:
-      storage: 2Gi
-    export:
-      storage: 512Mi
-    broker:
+    redis:
       storage: 1Gi
-    postgres:
+    postgresql:
       storage: 1Gi
 
 replicaCount: 1

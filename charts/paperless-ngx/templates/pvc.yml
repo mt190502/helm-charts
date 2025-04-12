@@ -9,19 +9,4 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: "{{ .Values.resources.requests.web.storage }}"
-
-{{ if eq .Values.global.redis.internal.enabled true }}
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: "{{ .Release.Name }}-broker-pvc"
-  namespace: "{{ if eq .Release.Namespace "default" }}paperless-ngx-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: "{{ .Values.resources.requests.broker.storage }}"
-{{- end }}
+      storage: "{{ .Values.resources.requests.main.storage }}"
