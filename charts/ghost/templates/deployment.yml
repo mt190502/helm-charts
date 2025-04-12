@@ -2,94 +2,104 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{{ .Release.Name }}-web"
+  name: "{{ .Release.Name }}-main"
   namespace: "{{ if eq .Release.Namespace "default" }}ghost-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
 spec:
   replicas: {{ .Values.replicaCount | default (printf "%d" 1) }}
   selector:
     matchLabels:
-      app: "{{ .Release.Name }}-web"
+      app: "{{ .Release.Name }}-main"
   template:
     metadata:
       labels:
-        app: "{{ .Release.Name }}-web"
+        app: "{{ .Release.Name }}-main"
     spec:
-      {{- with .Values.nodeSelector }}
+    {{- with .Values.nodeSelector }}
       nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{-  with .Values.affinity }}
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
       affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
       tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
       initContainers:
-        - name: "{{ .Release.Name }}-web-init"
+        - name: "{{ .Release.Name }}-main-init"
           image: busybox
           command:
             - sh
             - -c
             - |
-            {{- if eq .Values.global.mysql.internal.enabled true }}
+              {{- if .Values.global.mysql.internal.enabled }}
               until nc -z -v -w30 {{ .Release.Name }}-mysql 3306
-            {{- else }}
+              {{- else }}
               until nc -z -v -w30 {{ .Values.global.mysql.external.host }} {{ .Values.global.mysql.external.port }}
-            {{- end }}
+              {{- end }}
               do
                 echo "Waiting for the database to be ready..."
                 sleep 5
               done
       containers:
-        - name: "{{ .Release.Name }}-web"
-          image: {{ template "ghost.web.image" . }}
+        - name: "{{ .Release.Name }}-main"
+          image: {{ template "ghost.main.image" . }}
           env:
-          {{- if or (eq (.Values.global.mysql.secret.autoCreate | toString) "kustomize") (eq (.Values.global.mysql.secret.autoCreate | toString) "true") }}
             - name: database__connection__user
+              {{- if .Values.global.mysql.secret.enabled }}
               valueFrom:
                 secretKeyRef:
                   name: {{ if .Values.global.mysql.secret.name }}{{ .Values.global.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
                   key: {{ .Values.global.mysql.secret.usernameKey | quote }}
+              {{- else }}
+              value: {{ .Values.global.mysql.options.username | quote }}
+              {{- end }}
             - name: database__connection__password
+              {{- if .Values.global.mysql.secret.enabled }}
               valueFrom:
                 secretKeyRef:
                   name: {{ if .Values.global.mysql.secret.name }}{{ .Values.global.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
                   key: {{ .Values.global.mysql.secret.passwordKey | quote }}
+              {{- else }}
+              value: {{ .Values.global.mysql.options.password | quote }}
+              {{- end }}
             - name: database__connection__database
+              {{- if and .Values.global.mysql.secret.enabled }}
               valueFrom:
                 secretKeyRef:
                   name: {{ if .Values.global.mysql.secret.name }}{{ .Values.global.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
                   key: {{ .Values.global.mysql.secret.databaseKey | quote }}
+              {{- else }}
+              value: {{ .Values.global.mysql.options.database | quote }}
+              {{- end }}
             - name: database__connection__host
-              {{- if eq .Values.global.mysql.internal.enabled true }}
+              {{- if .Values.global.mysql.internal.enabled }}
               value: {{ .Release.Name }}-mysql
               {{- else }}
               value: {{ .Values.global.mysql.external.host }}
               {{- end }}
             - name: database__connection__port
-              {{- if eq .Values.global.mysql.internal.enabled true }}
+              {{- if .Values.global.mysql.internal.enabled }}
               value: "3306"
               {{- else }}
               value: {{ .Values.global.mysql.external.port | quote }}
               {{- end }}
-          {{- end }}
             - name: database__client
               value: mysql
             - name: url
-              value: {{ .Values.global.web.options.ghost_url | quote }}
+              value: {{ .Values.global.main.options.ghost_url | quote }}
             - name: admin_url
-              value: {{ .Values.global.web.options.ghost_admin_url | quote }}
-          {{- range .Values.global.web.environments }}
+              value: {{ .Values.global.main.options.ghost_admin_url | quote }}
+          {{- range .Values.global.main.environments }}
             - name: {{ .name }}
               value: {{ .value | quote }}
           {{- end }}
-          {{- with .Values.global.web.ports }}
+          {{- with .Values.global.main.ports }}
           ports:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.resources.limits.web }}
+          {{- with .Values.resources.limits.main }}
           resources:
             limits:
               {{- toYaml . | nindent 14 }}
@@ -102,7 +112,7 @@ spec:
           persistentVolumeClaim:
             claimName: "{{ .Release.Name }}-data-pvc"
 
-{{ if eq .Values.global.mysql.internal.enabled true }}
+{{ if .Values.global.mysql.internal.enabled }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -125,18 +135,18 @@ spec:
       labels:
         app: "{{ .Release.Name }}-mysql"
     spec:
-      {{- with .Values.nodeSelector }}
+    {{- with .Values.nodeSelector }}
       nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
       affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
       tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
       initContainers:
         - name: "{{ .Release.Name }}-mysql-init"
           image: busybox
@@ -154,45 +164,45 @@ spec:
           image: {{ template "ghost.mysql.image" . }}
           env:
             - name: {{ if eq .Values.image.mysql.repository "mariadb"}}MARIADB{{ else }}MYSQL{{ end }}_DATABASE
-            {{- if .Values.global.mysql.secret.enabled }}
+              {{- if .Values.global.mysql.secret.enabled }}
               valueFrom:
                 secretKeyRef:
                   name: {{ if .Values.global.mysql.secret.name }}{{ .Values.global.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
                   key: {{ .Values.global.mysql.secret.databaseKey | quote }}
-            {{- else }}
+              {{- else }}
               value: {{ .Values.global.mysql.options.database | quote }}
-            {{- end }}
+              {{- end }}
             - name: {{ if eq .Values.image.mysql.repository "mariadb"}}MARIADB{{ else }}MYSQL{{ end }}_USER
-            {{- if .Values.global.mysql.secret.enabled }}
+              {{- if .Values.global.mysql.secret.enabled }}
               valueFrom:
                 secretKeyRef:
                   name: {{ if .Values.global.mysql.secret.name }}{{ .Values.global.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
                   key: {{ .Values.global.mysql.secret.usernameKey | quote }}
-            {{- else }}
+              {{- else }}
               value: {{ .Values.global.mysql.options.username | quote }}
-            {{- end }}
+              {{- end }}
             - name: {{ if eq .Values.image.mysql.repository "mariadb"}}MARIADB{{ else }}MYSQL{{ end }}_PASSWORD
-            {{- if .Values.global.mysql.secret.enabled }}
+              {{- if .Values.global.mysql.secret.enabled }}
               valueFrom:
                 secretKeyRef:
                   name: {{ if .Values.global.mysql.secret.name }}{{ .Values.global.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
                   key: {{ .Values.global.mysql.secret.passwordKey | quote }}
-            {{- else }}
+              {{- else }}
               value: {{ .Values.global.mysql.options.password | quote }}
-            {{- end }}
+              {{- end }}
             - name: {{ if eq .Values.image.mysql.repository "mariadb"}}MARIADB{{ else }}MYSQL{{ end }}_ROOT_PASSWORD
-            {{- if .Values.global.mysql.secret.enabled }}
+              {{- if .Values.global.mysql.secret.enabled }}
               valueFrom:
                 secretKeyRef:
                   name: {{ if .Values.global.mysql.secret.name }}{{ .Values.global.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
                   key: {{ .Values.global.mysql.secret.rootPasswordKey | quote }}
-            {{- else }}
+              {{- else }}
               value: {{ .Values.global.mysql.options.rootPasswordKey | quote }}
-            {{- end }}
-            {{- range .Values.global.mysql.environments }}
+              {{- end }}
+          {{- range .Values.global.mysql.environments }}
             - name: {{ .name }}
               value: {{ .value | quote }}
-            {{- end }}
+          {{- end }}
           ports:
             - containerPort: 3306
           volumeMounts:
@@ -214,7 +224,7 @@ spec:
       spec:
         accessModes:
         {{- if .Values.global.mysql.settings.persistence.accessModes }}
-        {{- toYaml .Values.global.mysql.settings.persistence.accessModes | nindent 8 }} 
+          {{- toYaml .Values.global.mysql.settings.persistence.accessModes | nindent 8 }} 
         {{- else }}
           - ReadWriteOnce
         {{- end }}
@@ -222,3 +232,4 @@ spec:
           requests:
             storage: "{{ .Values.resources.requests.mysql.storage }}"
 {{- end }}
+

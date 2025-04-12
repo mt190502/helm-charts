@@ -1,15 +1,15 @@
 image:
-  web:
+  main:
     repository: ghost
     pullPolicy: IfNotPresent
-    #tag: 5.109.2
+    # tag: 5.116.2
   mysql:
     repository: mysql
     pullPolicy: IfNotPresent
     tag: 8
 
 global:
-  web:
+  main:
     ports:
       - containerPort: 2368
     options:
@@ -30,10 +30,10 @@ global:
       enabled: true
       autoCreate: true
       name: ghost-mysql
-      usernameKey: mysql_username
-      passwordKey: mysql_password
-      rootPasswordKey: mysql_root_password
-      databaseKey: mysql_database
+      usernameKey: username
+      passwordKey: password
+      rootPasswordKey: root_password
+      databaseKey: database
     options:
       database: ghost
       username: ghost
@@ -63,12 +63,12 @@ service:
 
 resources:
   limits:
-    web:
+    main:
       memory: 512Mi
     mysql:
       memory: 512Mi
   requests:
-    web:
+    main:
       storage: 1Gi
     mysql:
       storage: 1Gi
