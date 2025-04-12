@@ -1,15 +1,15 @@
 image:
-  repository: machines/filestash
-  pullPolicy: IfNotPresent
-  # tag: latest
+  main:
+    repository: machines/filestash
+    pullPolicy: IfNotPresent
+    # tag: latest
 
 global:
-  web:
+  main:
     ports:
       - containerPort: 8334
     options:
-      application_url: http://localhost
-      onlyoffice_url: http://onlyoffice
+      application_url: https://files.example.com
     environments: {}
       # - name: key
       #  value: value
@@ -24,10 +24,10 @@ service:
 
 resources:
   limits:
-    web:
+    main:
       memory: 512Mi
   requests:
-    web:
+    main:
       storage: 256Mi
 
 replicaCount: 1

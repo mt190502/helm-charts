@@ -2,33 +2,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{{ .Release.Name }}-web"
+  name: "{{ .Release.Name }}-main"
   namespace: "{{ if eq .Release.Namespace "default" }}filestash-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
 spec:
   replicas: {{ .Values.replicaCount | default (printf "%d" 1) }}
   selector:
     matchLabels:
-      app: "{{ .Release.Name }}-web"
+      app: "{{ .Release.Name }}-main"
   template:
     metadata:
       labels:
-        app: "{{ .Release.Name }}-web"
+        app: "{{ .Release.Name }}-main"
     spec:
-      {{- with .Values.nodeSelector }}
+    {{- with .Values.nodeSelector }}
       nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{-  with .Values.affinity }}
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
       affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
       tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
       initContainers:
-        - name: "{{ .Release.Name }}-web-init"
-          image: {{ template "filestash.image" . }}
+        - name: "{{ .Release.Name }}-main-init"
+          image: {{ template "filestash.main.image" . }}
           command:
             - /bin/sh
             - -c
@@ -42,22 +42,20 @@ spec:
             allowPrivilegeEscalation: false
             runAsUser: 0
       containers:
-        - name: "{{ .Release.Name }}-web"
-          image: {{ template "filestash.image" . }}
+        - name: "{{ .Release.Name }}-main"
+          image: {{ template "filestash.main.image" . }}
           env:
             - name: APPLICATION_URL
-              value: {{ .Values.global.web.options.application_url | quote }}
-            - name: ONLYOFFICE_URL
-              value: {{ .Values.global.web.options.onlyoffice_url | quote }}
-          {{- range .Values.global.web.environments }}
+              value: {{ .Values.global.main.options.application_url | quote }}
+          {{- range .Values.global.main.environments }}
             - name: {{ .name }}
               value: {{ .value | quote }}
           {{- end }}
-          {{- with .Values.global.web.ports }}
+          {{- with .Values.global.main.ports }}
           ports:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.resources.limits.web }}
+          {{- with .Values.resources.limits.main }}
           resources:
             limits:
               {{- toYaml . | nindent 14 }}
