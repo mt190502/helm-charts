@@ -1,0 +1,64 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-main"
+  namespace: "{{ if eq .Release.Namespace "default" }}<<<APPNAME>>>-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
+spec:
+  replicas: {{ .Values.replicaCount | default (printf "%d" 1) }}
+  selector:
+    matchLabels:
+      app: "{{ .Release.Name }}-main"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Release.Name }}-main"
+    spec:
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+      containers:
+        - name: "{{ .Release.Name }}-main"
+          image: {{ template "<<<APPNAME>>>.main.image" . }}
+          env:
+          {{- if .Values.global.main.appSecret.enabled }}
+            - name: APP_SECRET
+              {{- if or (eq (.Values.global.main.appSecret.autoCreate | toString) "true") (eq (.Values.global.main.appSecret.autoCreate | toString) "kustomize") }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ if .Values.global.main.appSecret.name }}{{ .Values.global.main.appSecret.name }}{{ else }}{{ .Release.Name }}-main{{ end }}
+                  key: {{ .Values.global.main.appSecret.key }}
+              {{- else }}
+              value: {{ .Values.global.main.options.app_secret | quote }}
+              {{- end }}
+          {{- end }}
+          {{- range .Values.global.main.environments }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+          {{- end }}
+          {{- with .Values.global.main.ports }}
+          ports:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.resources.limits.main }}
+          resources:
+            limits:
+              {{- toYaml . | nindent 14 }}
+          {{- end }}
+          volumeMounts:
+            - name: "{{ .Release.Name }}-data"
+              mountPath: /opt/<<<APPNAME>>>/
+              subPath: subpath
+      volumes:
+        - name: "{{ .Release.Name }}-data"
+          persistentVolumeClaim:
+            claimName: "{{ .Release.Name }}-data-pvc"

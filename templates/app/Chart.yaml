@@ -1,0 +1,10 @@
+apiVersion: v2
+name: appname
+description: app description
+type: application
+version: 1.0.0
+appVersion: 1.0.0
+projectUrl: https://github.com/username/repo
+maintainers:
+- name: Taha
+  email: mt190502@mtaha.dev
