@@ -1,11 +1,11 @@
 image:
-  web:
+  main:
     repository: adguard/adguardhome
     pullPolicy: IfNotPresent
-    #tag: 0.107.55
+    # tag: 0.107.55
 
 global:
-  web:
+  main:
     podCIDR: 172.16.0.0/16
     tls:
       ########################
@@ -49,8 +49,7 @@ global:
         protocol: TCP
       - containerPort: 5443
         protocol: UDP
-    environments:
-      {}
+    environments: {}
       # - name: key
       #  value: value
 
@@ -100,10 +99,10 @@ service:
 
 resources:
   limits:
-    web:
+    main:
       memory: 512Mi
   requests:
-    web:
+    main:
       storage: 2Gi
 
 replicaCount: 1

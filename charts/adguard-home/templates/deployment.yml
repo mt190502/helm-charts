@@ -2,32 +2,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{{ .Release.Name }}-web"
+  name: "{{ .Release.Name }}-main"
   namespace: "{{ if eq .Release.Namespace "default" }}adguard-home-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
 spec:
   replicas: {{ .Values.replicaCount | default (printf "%d" 1) }}
   selector:
     matchLabels:
-      app: "{{ .Release.Name }}-web"
+      app: "{{ .Release.Name }}-main"
   template:
     metadata:
       labels:
-        app: "{{ .Release.Name }}-web"
+        app: "{{ .Release.Name }}-main"
     spec:
-      {{- with .Values.nodeSelector }}
+    {{- with .Values.nodeSelector }}
       nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{-  with .Values.affinity }}
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
       affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
       tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
       initContainers:
-        - name: "{{ .Release.Name }}-web-tls-loader"
+        - name: "{{ .Release.Name }}-main-tls-loader"
           image: mikefarah/yq:latest
           securityContext:
             runAsUser: 0
@@ -45,18 +45,18 @@ spec:
               yq eval  '.tls.private_key_path = "/opt/adguardhome/tls/tls.key" | 
                         .tls.certificate_path = "/opt/adguardhome/tls/tls.crt" |
                         .tls.enabled = true |
-                        .tls.server_name = "{{ .Values.global.web.tls.serverName }}" |
+                        .tls.server_name = "{{ .Values.global.main.tls.serverName }}" |
                         .tls.force_https = true' /opt/adguardhome/conf/AdGuardHome.yaml > /tmp/AdGuardHome.yaml.new \
                         && mv /tmp/AdGuardHome.yaml.new /opt/adguardhome/conf/AdGuardHome.yaml
-              if [ "$(yq eval '.dns.trusted_proxies' /opt/adguardhome/conf/AdGuardHome.yaml | grep -q "{{ .Values.global.web.podCIDR }}"; echo $?)" -eq 0 ]; then
-                echo "Trusted proxies already contains: {{ .Values.global.web.podCIDR }}, skipping"
+              if [ "$(yq eval '.dns.trusted_proxies' /opt/adguardhome/conf/AdGuardHome.yaml | grep -q "{{ .Values.global.main.podCIDR }}"; echo $?)" -eq 0 ]; then
+                echo "Trusted proxies already contains: {{ .Values.global.main.podCIDR }}, skipping"
                 exit 0
               fi
-              yq eval '.dns.trusted_proxies += ["{{ .Values.global.web.podCIDR }}"]' /opt/adguardhome/conf/AdGuardHome.yaml > /tmp/AdGuardHome.yaml.new \
+              yq eval '.dns.trusted_proxies += ["{{ .Values.global.main.podCIDR }}"]' /opt/adguardhome/conf/AdGuardHome.yaml > /tmp/AdGuardHome.yaml.new \
                         && mv /tmp/AdGuardHome.yaml.new /opt/adguardhome/conf/AdGuardHome.yaml
           env:
             - name: TLS_IS_ENABLED
-              value: {{ .Values.global.web.tls.enabled | quote }} 
+              value: {{ .Values.global.main.tls.enabled | quote }} 
           volumeMounts:
             - name: "{{ .Release.Name }}-data"
               mountPath: /opt/adguardhome/work
@@ -65,22 +65,22 @@ spec:
               mountPath: /opt/adguardhome/conf
               subPath: conf
             - name: "{{ .Release.Name }}-tls"
-              mountPath: /opt/adguardhome/tls      
+              mountPath: /opt/adguardhome/tls
       containers:
-        - name: "{{ .Release.Name }}-web"
-          image: {{ template "adguard-home.web.image" . }}
-          {{- if .Values.global.web.environments }}
+        - name: "{{ .Release.Name }}-main"
+          image: {{ template "adguard-home.main.image" . }}
+          {{- if .Values.global.main.environments }}
           env:
-          {{- range .Values.global.web.environments }}
+          {{- range .Values.global.main.environments }}
             - name: {{ .name }}
               value: {{ .value | quote }}
           {{- end }}
           {{- end }}
-          {{- with .Values.global.web.ports }}
+          {{- with .Values.global.main.ports }}
           ports:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.resources.limits.web }}
+          {{- with .Values.resources.limits.main }}
           resources:
             limits:
               {{- toYaml . | nindent 14 }}
@@ -100,4 +100,4 @@ spec:
             claimName: "{{ .Release.Name }}-data-pvc"
         - name: "{{ .Release.Name }}-tls"
           secret:
-            secretName: "{{ .Values.global.web.tls.secretName }}"
+            secretName: "{{ .Values.global.main.tls.secretName }}"
