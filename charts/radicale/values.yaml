@@ -1,7 +1,8 @@
 image:
-  repository: tomsquest/docker-radicale
-  pullPolicy: IfNotPresent
-  # tag: 3.4.0.0
+  main:
+    repository: tomsquest/docker-radicale
+    pullPolicy: IfNotPresent
+    # tag: 3.5.1.0
 
 global:
   main:

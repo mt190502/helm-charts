@@ -55,36 +55,36 @@ spec:
             - name: REDMINE_DB_USERNAME
               valueFrom:
                 secretKeyRef:
-                  {{- if eq .Values.global.postgres.selected true }}
+                  {{- if .Values.global.postgres.selected }}
                   name: {{ if .Values.global.postgres.secret.name }}{{ .Values.global.postgres.secret.name }}{{ else }}{{ .Release.Name }}-postgres{{ end }}
                   key: {{ .Values.global.postgres.secret.usernameKey | quote }}
-                  {{- else if eq .Values.global.mysql.selected true }}
+                  {{- else if .Values.global.mysql.selected }}
                   name: {{ if .Values.global.mysql.secret.name }}{{ .Values.global.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
                   key: {{ .Values.global.mysql.secret.usernameKey | quote }}
                   {{- end }}
             - name: REDMINE_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  {{- if eq .Values.global.postgres.selected true }}
+                  {{- if .Values.global.postgres.selected }}
                   name: {{ if .Values.global.postgres.secret.name }}{{ .Values.global.postgres.secret.name }}{{ else }}{{ .Release.Name }}-postgres{{ end }}
                   key: {{ .Values.global.postgres.secret.passwordKey | quote }}
-                  {{- else if eq .Values.global.mysql.selected true }}
+                  {{- else if .Values.global.mysql.selected }}
                   name: {{ if .Values.global.mysql.secret.name }}{{ .Values.global.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
                   key: {{ .Values.global.mysql.secret.passwordKey | quote }}
                   {{- end }}
             - name: REDMINE_DB_DATABASE
               valueFrom:
                 secretKeyRef:
-                  {{- if eq .Values.global.postgres.selected true }}
+                  {{- if .Values.global.postgres.selected }}
                   name: {{ if .Values.global.postgres.secret.name }}{{ .Values.global.postgres.secret.name }}{{ else }}{{ .Release.Name }}-postgres{{ end }}
                   key: {{ .Values.global.postgres.secret.databaseKey | quote }}
-                  {{- else if eq .Values.global.mysql.selected true }}
+                  {{- else if .Values.global.mysql.selected }}
                   name: {{ if .Values.global.mysql.secret.name }}{{ .Values.global.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
                   key: {{ .Values.global.mysql.secret.databaseKey | quote }}
                   {{- end }}
               {{- if and (eq .Values.global.postgres.internal.enabled true) (eq .Values.global.postgres.selected true) }}
             - name: REDMINE_DB_POSTGRES
-              value: {{ .Release.Name }}-postgres{{ if eq .Values.global.postgres.cnpg.enabled true }}-rw{{ end }}
+              value: {{ .Release.Name }}-postgres{{ if .Values.global.postgres.cnpg.enabled }}-rw{{ end }}
               {{- else if and (eq .Values.global.postgres.external.enabled true) (eq .Values.global.postgres.selected true) }}
             - name: REDMINE_DB_POSTGRES
               value: {{ .Values.global.postgres.external.host }}:{{ .Values.global.postgres.external.port }}
