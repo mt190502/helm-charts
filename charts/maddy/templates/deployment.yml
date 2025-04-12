@@ -14,22 +14,22 @@ spec:
       labels:
         app: "{{ .Release.Name }}-main"
     spec:
+    {{- with .Values.nodeSelector }}
       nodeSelector:
-        kubernetes.io/arch: amd64
-      {{- with .Values.nodeSelector }}
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{-  with .Values.affinity }}
+      kubernetes.io/arch: amd64
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
       affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
       tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
       containers:
         - name: "{{ .Release.Name }}-main"
-          image: {{ template "maddy.image" . }}
+          image: {{ template "maddy.main.image" . }}
           command:
             - sh
             - -c
@@ -60,10 +60,10 @@ spec:
               mountPath: /data
             - name: "{{ .Release.Name }}-config"
               mountPath: /app/config
-            {{- if .Values.global.main.tls.enabled }}
+              {{- if .Values.global.main.tls.enabled }}
             - name: "{{ .Release.Name }}-ssl"
               mountPath: /app/tls
-            {{- end }}
+              {{- end }}
       volumes:
         - name: "{{ .Release.Name }}-data"
           persistentVolumeClaim:
@@ -71,8 +71,8 @@ spec:
         - name: "{{ .Release.Name }}-config"
           configMap:
             name: "{{ .Release.Name }}-config"
-        {{- if .Values.global.main.tls.enabled }}
+          {{- if .Values.global.main.tls.enabled }}
         - name: "{{ .Release.Name }}-ssl"
           secret:
             secretName: "{{ .Values.global.main.tls.secretName }}"
-        {{- end }}
+          {{- end }}

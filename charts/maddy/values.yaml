@@ -1,12 +1,13 @@
 image:
-  repository: foxcpp/maddy
-  pullPolicy: IfNotPresent
-  # tag: 0.8.1
+  main:
+    repository: foxcpp/maddy
+    pullPolicy: IfNotPresent
+    # tag: 0.8.1
 
 global:
   main:
     tls:
-      enabled: false
+      enabled: true
       serverName: mail.example.com
       secretName: wildcard-example.com-tls
     options:
