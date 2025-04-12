@@ -68,7 +68,7 @@
   {{- if .Values.global.mysql.external.enabled -}}
     {{- printf "mysql://%s:%s@%s:%d/%s" .Values.global.mysql.options.username .Values.global.mysql.options.password .Values.global.mysql.external.host .Values.global.mysql.external.port .Values.global.mysql.options.database -}}
   {{- else -}}
-    {{- printf "mysql://%s:%s@%s-postgres:%d/%s" .Values.global.mysql.options.username .Values.global.mysql.options.password .Release.Name 3306 .Values.global.mysql.options.database -}}
+    {{- printf "mysql://%s:%s@%s-mysql:%d/%s" .Values.global.mysql.options.username .Values.global.mysql.options.password .Release.Name 3306 .Values.global.mysql.options.database -}}
   {{- end -}}
 {{- else -}}
 {{- printf "mysql://$(MYSQL_USERNAME):$(MYSQL_PASSWORD)@$(MYSQL_HOST):$(MYSQL_PORT)/$(MYSQL_DATABASE)" -}}
