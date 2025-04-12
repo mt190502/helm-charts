@@ -1,7 +1,7 @@
-{{- define "filestash.image" -}}
-{{- if .Values.image.tag -}}
-{{- printf "%s:%s" .Values.image.repository .Values.image.tag -}}
+{{- define "filestash.main.image" -}}
+{{- if .Values.image.main.tag -}}
+{{- printf "%s:%s" .Values.image.main.repository (.Values.image.main.tag | toString) -}}
 {{- else -}}
-{{- printf "%s:%s" .Values.image.repository .Chart.AppVersion -}}
+{{- printf "%s:%s" .Values.image.main.repository .Chart.AppVersion -}}
 {{- end -}}
 {{- end -}}
