@@ -58,7 +58,7 @@ data:
     max_connections = {{ .Values.global.main.options.server.maxConnections | default 8 }}
     max_content_length = {{ .Values.global.main.options.server.maxContentLength | default "100000000" | int }}
     ssl = {{ .Values.global.main.tls.enabled | default false }}
-    {{- if eq .Values.global.main.tls.enabled true }}
+    {{- if .Values.global.main.tls.enabled }}
     certificate = /app/ssl/tls.crt
     key = /app/ssl/tls.key
     {{- end }}
