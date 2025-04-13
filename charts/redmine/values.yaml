@@ -1,9 +1,9 @@
 image:
-  web:
+  main:
     repository: redmine
     pullPolicy: IfNotPresent
-    #tag: 6.0.4
-  postgres:
+    # tag: 6.0.4
+  postgresql:
     repository: postgres
     pullPolicy: IfNotPresent
     tag: 17
@@ -13,14 +13,14 @@ image:
     tag: 11.6
 
 global:
-  web:
+  main:
     ports:
       - containerPort: 3000
     environments: {}
       # - name: key
       #  value: value
 
-  postgres:
+  postgresql:
     selected: true
     external:
       enabled: false
@@ -35,7 +35,7 @@ global:
     secret:
       enabled: true
       autoCreate: true
-      name: redmine-postgres
+      name: redmine-postgresql
       usernameKey: username
       passwordKey: password
       databaseKey: database
@@ -53,8 +53,7 @@ global:
         claimRetentionPolicy: 
           whenDeleted: Retain
           whenScaled: Retain
-    environments:
-      {}
+    environments: {}
       # - name: key
       #   value: value
 
@@ -70,10 +69,10 @@ global:
       enabled: true
       autoCreate: true
       name: redmine-mysql
-      usernameKey: mysql_username
-      passwordKey: mysql_password
-      rootPasswordKey: mysql_root_password
-      databaseKey: mysql_database
+      usernameKey: username
+      passwordKey: password
+      rootPasswordKey: root_password
+      databaseKey: database
     options:
       database: redmine
       username: redmine
@@ -103,16 +102,16 @@ service:
 
 resources:
   limits:
-    web:
+    main:
       memory: 512Mi
-    postgres:
+    postgresql:
       memory: 512Mi
     mysql:
       memory: 512Mi
   requests:
-    web:
+    main:
       storage: 1Gi
-    postgres:
+    postgresql:
       storage: 1Gi
     mysql:
       storage: 1Gi
