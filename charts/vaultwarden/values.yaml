@@ -1,15 +1,15 @@
 image:
-  web:
+  main:
     repository: vaultwarden/server
     pullPolicy: IfNotPresent
-    #tag: 1.32.0
-  postgres:
+    # tag: 1.33.2
+  postgresql:
     repository: postgres
     pullPolicy: IfNotPresent
     tag: 17
 
 global:
-  web:
+  main:
     ports:
       - containerPort: 8080
     options:
@@ -22,7 +22,7 @@ global:
       # - name: key
       #  value: value
 
-  postgres:
+  postgresql:
     external:
       enabled: false
       host: 127.0.0.1
@@ -36,7 +36,7 @@ global:
     secret:
       enabled: true
       autoCreate: true
-      name: vaultwarden-postgres
+      name: vaultwarden-postgresql
       usernameKey: username
       passwordKey: password
       databaseKey: database
@@ -68,14 +68,14 @@ service:
 
 resources:
   limits:
-    web:
+    main:
       memory: 512Mi
-    postgres:
+    postgresql:
       memory: 512Mi
   requests:
-    web:
+    main:
       storage: 256Mi
-    postgres:
+    postgresql:
       storage: 1Gi
 
 replicaCount: 1
