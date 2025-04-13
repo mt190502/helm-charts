@@ -1,9 +1,9 @@
 image:
-  web:
+  main:
     repository: vikunja/vikunja
     pullPolicy: IfNotPresent
-    #tag: 0.24.6
-  postgres:
+    # tag: 0.24.6
+  postgresql:
     repository: postgres
     pullPolicy: IfNotPresent
     tag: 17
@@ -13,7 +13,7 @@ image:
     tag: 11.6
 
 global:
-  web:
+  main:
     ports:
       - containerPort: 3456
     appSecret:
@@ -22,13 +22,13 @@ global:
       name: vikunja-secret
       key: app_secret
     options:
-      jwtsecret: my_strong_secret_key
+      app_secret: my_strong_secret
       publicurl: https://vikunja.example.com
     environments: {}
       # - name: key
       #  value: value
 
-  postgres:
+  postgresql:
     selected: true
     external:
       enabled: false
@@ -43,7 +43,7 @@ global:
     secret:
       enabled: true
       autoCreate: true
-      name: vikunja-postgres
+      name: vikunja-postgresql
       usernameKey: username
       passwordKey: password
       databaseKey: database
@@ -61,8 +61,7 @@ global:
         claimRetentionPolicy: 
           whenDeleted: Retain
           whenScaled: Retain
-    environments:
-      {}
+    environments: {}
       # - name: key
       #   value: value
 
@@ -78,10 +77,10 @@ global:
       enabled: true
       autoCreate: true
       name: vikunja-mysql
-      usernameKey: mysql_username
-      passwordKey: mysql_password
-      rootPasswordKey: mysql_root_password
-      databaseKey: mysql_database
+      usernameKey: username
+      passwordKey: password
+      rootPasswordKey: root_password
+      databaseKey: database
     options:
       database: vikunja
       username: vikunja
@@ -111,16 +110,16 @@ service:
 
 resources:
   limits:
-    web:
+    main:
       memory: 512Mi
-    postgres:
+    postgresql:
       memory: 512Mi
     mysql:
       memory: 512Mi
   requests:
-    web:
+    main:
       storage: 1Gi
-    postgres:
+    postgresql:
       storage: 1Gi
     mysql:
       storage: 1Gi
