@@ -2,7 +2,7 @@ apiVersion: v2
 name: radicale
 description: A simple CalDAV (calendar) and CardDAV (contact) server
 type: application
-version: 3.0.0
+version: 3.0.1
 appVersion: 3.5.1.0
 projectUrl: https://github.com/tomsquest/docker-radicale
 maintainers:
