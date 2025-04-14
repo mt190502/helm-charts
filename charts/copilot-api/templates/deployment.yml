@@ -1,0 +1,57 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-main"
+  namespace: "{{ if eq .Release.Namespace "default" }}copilot-api-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
+spec:
+  replicas: {{ .Values.replicaCount | default (printf "%d" 1) }}
+  selector:
+    matchLabels:
+      app: "{{ .Release.Name }}-main"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Release.Name }}-main"
+    spec:
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+      containers:
+        - name: "{{ .Release.Name }}-main"
+          image: {{ template "copilot-api.main.image" . }}
+          command: 
+            - bun
+            - run
+            - dist/main.js
+            - start
+          env:
+          {{- range .Values.global.main.environments }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+          {{- end }}
+          {{- with .Values.global.main.ports }}
+          ports:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.resources.limits.main }}
+          resources:
+            limits:
+              {{- toYaml . | nindent 14 }}
+          {{- end }}
+          volumeMounts:
+            - name: "{{ .Release.Name }}-data"
+              mountPath: /root/.local/share/copilot-api
+      volumes:
+        - name: "{{ .Release.Name }}-data"
+          persistentVolumeClaim:
+            claimName: "{{ .Release.Name }}-data-pvc"
