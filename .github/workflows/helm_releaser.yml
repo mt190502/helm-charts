@@ -19,14 +19,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Check for Changes
         id: check_changes
         run: |
-          last_update_commit=$(git log --oneline | head -n 1 | awk '{print $1}')
+          last_update_commit=$(git log --oneline | grep -E 'fix|added new chart|updated helm charts' | head -n 1 | awk '{print $1}')
           last_update_commit_date=$(git show -s --format=%ct $last_update_commit)
           current_date_timestamp=$(date +%s)
 
@@ -50,8 +50,9 @@ jobs:
 
       - name: Run chart-releaser
         if: env.changes == 'true'
-        uses: helm/chart-releaser-action@v1.6.0
+        uses: helm/chart-releaser-action@v1.7.0
         with:
           charts_dir: 'charts'
         env:
           CR_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          CR_SKIP_EXISTING: 'true'
