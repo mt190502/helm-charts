@@ -1,113 +1,113 @@
 name: Update Helm Chart Version
 
 on:
-    workflow_dispatch:
-    schedule:
-        - cron: '0 */6 * * *'
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */6 * * *'
 
 jobs:
-    update-version:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v3
-              with:
-                  fetch-depth: 0
+  update-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-            - name: Set up Python
-              uses: actions/setup-python@v3
-              with:
-                  python-version: '3.x'
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
 
-            - name: Install dependencies
-              run: |
-                  pip install pyyaml requests packaging
+      - name: Install dependencies
+        run: |
+          pip install pyyaml requests packaging
 
-            - name: Run chart updater
-              run: |
-                  python3 $PWD/.github/updater.py
+      - name: Run chart updater
+        run: |
+          python3 $PWD/.github/updater.py
 
-            - name: Check for minor and patch changes
-              id: check_minor_patch_changes
-              run: |
-                  major_changed_files=()
-                  minor_or_patch_changed_files=()
+      - name: Check for minor and patch changes
+        id: check_minor_patch_changes
+        run: |
+          major_changed_files=()
+          minor_or_patch_changed_files=()
 
-                  helm_chart_paths=($(find $PWD -type f -iname "*chart.yaml"))
+          helm_chart_paths=($(find $PWD -type f -iname "*chart.yaml"))
 
-                  for chart_path in "${helm_chart_paths[@]}"; do
-                    if grep -qE 'majorUpgrade: true|majorDowngrade: true' "$chart_path"; then
-                      major_changed_files+=("$chart_path")
-                    else
-                      git diff --exit-code "$chart_path" || minor_or_patch_changed_files+=("$chart_path")
-                    fi
-                  done
+          for chart_path in "${helm_chart_paths[@]}"; do
+            if grep -qE 'majorUpgrade: true|majorDowngrade: true' "$chart_path"; then
+              major_changed_files+=("$chart_path")
+            else
+              git diff --exit-code "$chart_path" || minor_or_patch_changed_files+=("$chart_path")
+            fi
+          done
 
-                  if [ ${#minor_or_patch_changed_files[@]} -gt 0 ]; then
-                    echo "minor_or_patch_changed_files=${minor_or_patch_changed_files[*]}" >> $GITHUB_ENV
-                  fi
+          if [ ${#minor_or_patch_changed_files[@]} -gt 0 ]; then
+            echo "minor_or_patch_changed_files=${minor_or_patch_changed_files[*]}" >> $GITHUB_ENV
+          fi
 
-                  if [ ${#major_changed_files[@]} -gt 0 ]; then
-                    echo "major_changed_files=${major_changed_files[*]}" >> $GITHUB_ENV
-                  fi
+          if [ ${#major_changed_files[@]} -gt 0 ]; then
+            echo "major_changed_files=${major_changed_files[*]}" >> $GITHUB_ENV
+          fi
 
-            - name: Commit minor and patch changes
-              if: env.minor_or_patch_changed_files
-              run: |
-                  git config --global user.name 'github-actions[bot]'
-                  git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+      - name: Commit minor and patch changes
+        if: env.minor_or_patch_changed_files
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
-                  if [ -n "${{ env.minor_or_patch_changed_files }}" ]; then
-                    echo "Committing minor or patch changes"
-                    git add ${{ env.minor_or_patch_changed_files }}
-                    git commit -m "update: updated helm charts (minor or patch level)"
-                  fi
-                  git push
+          if [ -n "${{ env.minor_or_patch_changed_files }}" ]; then
+            echo "Committing minor or patch changes"
+            git add ${{ env.minor_or_patch_changed_files }}
+            git commit -m "update: updated helm charts (minor or patch level)"
+          fi
+          git push
 
-            - name: Check for major changes and create Pull Request
-              if: env.major_changed_files
-              id: check_major_changes
-              run: |
-                  major_changes=()
+      - name: Check for major changes and create Pull Request
+        if: env.major_changed_files
+        id: check_major_changes
+        run: |
+          major_changes=()
 
-                  for chart_path in ${{ env.major_changed_files }}; do
-                    echo "Checking $chart_path for major updates..."
-                    major_upgrade=$(grep 'majorUpgrade: true' "$chart_path" || true)
-                    major_downgrade=$(grep 'majorDowngrade: true' "$chart_path" || true)
+          for chart_path in ${{ env.major_changed_files }}; do
+            echo "Checking $chart_path for major updates..."
+            major_upgrade=$(grep 'majorUpgrade: true' "$chart_path" || true)
+            major_downgrade=$(grep 'majorDowngrade: true' "$chart_path" || true)
 
-                    app_name=$(grep '^name:' "$chart_path" | awk '{print $2}')
-                    app_version_old=$(git diff $chart_path | grep '^-appVersion:' | awk '{print $2}')
-                    app_version_new=$(grep '^appVersion:' "$chart_path" | awk '{print $2}')
+            app_name=$(grep '^name:' "$chart_path" | awk '{print $2}')
+            app_version_old=$(git diff $chart_path | grep '^-appVersion:' | awk '{print $2}')
+            app_version_new=$(grep '^appVersion:' "$chart_path" | awk '{print $2}')
 
-                    if [[ ! -z "$major_upgrade" || ! -z "$major_downgrade" ]]; then
-                      major_changes+=("$app_name: $app_version_old -> $app_version_new")
-                      sed -i '/majorUpgrade: true/d' "$chart_path"
-                      sed -i '/majorDowngrade: true/d' "$chart_path"
-                    fi
-                  done
+            if [[ ! -z "$major_upgrade" || ! -z "$major_downgrade" ]]; then
+              major_changes+=("$app_name: $app_version_old -> $app_version_new")
+              sed -i '/majorUpgrade: true/d' "$chart_path"
+              sed -i '/majorDowngrade: true/d' "$chart_path"
+            fi
+          done
 
-                  major_changes_output=$(printf "%s\n" "${major_changes[@]}")
+          major_changes_output=$(printf "%s\n" "${major_changes[@]}")
 
-                  if [ ${#major_changes[@]} -gt 0 ]; then
-                    echo "major_changes<<EOF" >> $GITHUB_ENV
-                    echo "$major_changes_output" >> $GITHUB_ENV
-                    echo "EOF" >> $GITHUB_ENV
-                    echo "needs_pr=true" >> $GITHUB_ENV
-                  else
-                    echo "No major changes detected"
-                    echo "needs_pr=false" >> $GITHUB_ENV
-                  fi
+          if [ ${#major_changes[@]} -gt 0 ]; then
+            echo "major_changes<<EOF" >> $GITHUB_ENV
+            echo "$major_changes_output" >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
+            echo "needs_pr=true" >> $GITHUB_ENV
+          else
+            echo "No major changes detected"
+            echo "needs_pr=false" >> $GITHUB_ENV
+          fi
 
-            - name: Create Pull Request for Major Changes
-              if: env.needs_pr == 'true'
-              uses: peter-evans/create-pull-request@v7
-              with:
-                  title: 'Automated PR: Major Changes Detected in Helm Charts'
-                  commit-message: 'update: updated helm charts (major level)'
-                  base: main
-                  branch: automated/major-changes
-                  body: |
-                      Major changes have been detected in the following Helm charts:
-                      ${{ env.major_changes }}
+      - name: Create Pull Request for Major Changes
+        if: env.needs_pr == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          title: 'Automated PR: Major Changes Detected in Helm Charts'
+          commit-message: 'update: updated helm charts (major level)'
+          base: main
+          branch: automated/major-changes
+          body: |
+            Major changes have been detected in the following Helm charts:
+            ${{ env.major_changes }}
 
-                      Please review the changes and merge if appropriate.
+            Please review the changes and merge if appropriate.
