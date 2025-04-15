@@ -31,8 +31,10 @@ global:
         protocol: UDP
       - containerPort: 853
         protocol: UDP
+        hostPort: 853
       - containerPort: 853
         protocol: TCP
+        hostPort: 853
       - containerPort: 8853
         protocol: UDP
       #########################
