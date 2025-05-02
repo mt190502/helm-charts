@@ -25,6 +25,7 @@ def compare_versions(current, latest):
 
 def filter_valid_versions(version_list):
     valid_versions = []
+    version_list = [re.sub(r'^v', '', version) for version in version_list]
 
     for version in version_list:
         try:
@@ -82,7 +83,7 @@ def update_version():
             if 'github.com' in project_url:
                 image = project_url.split("github.com/")[1]
                 response = requests.get(f'https://api.github.com/repos/{image}/tags')
-                versions.extend(filter_valid_versions([re.sub(r'[a-zA-Z]', '', tag['name']) for tag in response.json()]))
+                versions.extend(filter_valid_versions([tag['name'] for tag in response.json() if re.match(r'^v?\d{,3}\.\d{,3}\.\d{,3}$', tag['name'])]))
                 versions.sort(key=Version, reverse=True)
                 if not versions:
                     response = requests.get(f'https://api.github.com/repos/{image}/releases/latest')
