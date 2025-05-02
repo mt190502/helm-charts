@@ -157,6 +157,20 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/adguard-home-2.0.0/adguard-home-2.0.0.tgz
     version: 2.0.0
+  anki-server:
+  - apiVersion: v2
+    appVersion: 25.02.4
+    created: "2025-05-02T19:28:42.023298596Z"
+    description: A self hosted sync server for Anki
+    digest: 8dac9f170741da0bf7c104e517b195fd14db500ef45b9db3f98ad23e3bcd9c8e
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: anki-server
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/anki-server-1.0.0/anki-server-1.0.0.tgz
+    version: 1.0.0
   codimd:
   - apiVersion: v2
     appVersion: 2.5.4
@@ -2545,4 +2559,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-05-02T17:34:18.519873545Z"
+generated: "2025-05-02T19:28:42.140254891Z"
