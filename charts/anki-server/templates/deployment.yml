@@ -30,15 +30,15 @@ spec:
         - name: "{{ .Release.Name }}-main"
           image: {{ template "anki-server.main.image" . }}
           env:
-          {{- if .Values.global.main.appSecret.enabled }}
-            - name: SYNC_USER1
-              {{- if or (eq (.Values.global.main.appSecret.autoCreate | toString) "true") (eq (.Values.global.main.appSecret.autoCreate | toString) "kustomize") }}
+          {{- range .Values.global.main.accounts }}
+            - name: {{ .key | quote }}
+              {{- if .secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ if .Values.global.main.appSecret.name }}{{ .Values.global.main.appSecret.name }}{{ else }}{{ .Release.Name }}-main{{ end }}
-                  key: {{ .Values.global.main.appSecret.key }}
+                  name: {{ .secret.name | quote }}
+                  key: {{ .secret.key | quote }}
               {{- else }}
-              value: {{ .Values.global.main.options.admin_user_secret | quote }}
+              value: "{{ .name }}:{{ .password }}"
               {{- end }}
           {{- end }}
           {{- range .Values.global.main.environments }}
