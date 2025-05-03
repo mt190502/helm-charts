@@ -1,11 +1,11 @@
 name: Release Charts
 
 on:
-  # push:
-  #   branches:
-  #     - main
-  #   paths:
-  #     - 'charts/**'
+  push:
+    paths:
+      - 'charts/**'
+#   branches:
+#     - main
   workflow_run:
     workflows: ['Update Helm Chart Version']
     types:
@@ -26,7 +26,7 @@ jobs:
       - name: Check for Changes
         id: check_changes
         run: |
-          last_update_commit=$(git log --oneline | grep -E 'fix|added new chart|updated helm charts' | head -n 1 | awk '{print $1}')
+          last_update_commit=$(git log --oneline | grep -E 'feat|fix|added new chart|updated helm charts' | head -n 1 | awk '{print $1}')
           last_update_commit_date=$(git show -s --format=%ct $last_update_commit)
           current_date_timestamp=$(date +%s)
 
