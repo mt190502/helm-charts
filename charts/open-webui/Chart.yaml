@@ -1,0 +1,10 @@
+apiVersion: v2
+name: open-webui
+description: A User-Friendly Web Interface for Chat Interactions 👋
+type: application
+version: 1.0.0
+appVersion: 0.6.7
+projectUrl: https://github.com/open-webui/open-webui
+maintainers:
+- name: Taha
+  email: mt190502@mtaha.dev
