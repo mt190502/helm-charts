@@ -2094,6 +2094,19 @@ entries:
     version: 4.0.1
   umami:
   - apiVersion: v2
+    appVersion: 2.18.0
+    created: "2025-05-08T12:32:26.367128147Z"
+    description: A self hosted web analytics platform
+    digest: 3b5b34a5d63de544fa04e01a4d08eb453986e0e64528434908d87243dba51093
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: umami
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/umami-6.1.0/umami-6.1.0.tgz
+    version: 6.1.0
+  - apiVersion: v2
     appVersion: 2.17.0
     created: "2025-04-14T15:59:37.001694721Z"
     description: A self hosted web analytics platform
@@ -2641,4 +2654,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-05-08T11:04:20.491629985Z"
+generated: "2025-05-08T12:32:26.367531642Z"
