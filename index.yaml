@@ -1418,6 +1418,20 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/memos-1.0.0/memos-1.0.0.tgz
     version: 1.0.0
+  open-webui:
+  - apiVersion: v2
+    appVersion: 0.6.7
+    created: "2025-05-08T11:04:20.491281574Z"
+    description: "A User-Friendly Web Interface for Chat Interactions \U0001F44B"
+    digest: 96923da0d94ec057fd876c5319fe6cf0541c8fb5076be28a8b4fecff7f27220c
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: open-webui
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/open-webui-1.0.0/open-webui-1.0.0.tgz
+    version: 1.0.0
   paperless-ngx:
   - apiVersion: v2
     appVersion: 2.15.3
@@ -2627,4 +2641,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-05-07T01:16:56.775414565Z"
+generated: "2025-05-08T11:04:20.491629985Z"
