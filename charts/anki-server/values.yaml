@@ -14,7 +14,7 @@ global:
         password: password # (optional if using appSecret with kustomize option)
         secret: 
           enabled: true
-          autoCreate: kustomize
+          autoCreate: true
           name: username1-secret
           key: cred
       # - key: SYNC_USER2
