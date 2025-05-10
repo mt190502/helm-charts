@@ -8,56 +8,55 @@ image:
     pullPolicy: IfNotPresent
     tag: 17
 
-global:
-  main:
-    ports:
-      - containerPort: 1234
-    appSecret:
-      enabled: true
-      autoCreate: true
-      name: <<<APPNAME>>>-secret
-      key: app_secret
-    options:
-      app_secret: my_strong_secret
-    environments: {}
-      # - name: key
-      #  value: value
+main:
+  ports:
+    - containerPort: 1234
+  appSecret:
+    enabled: true
+    autoCreate: true
+    name: <<<APPNAME>>>-secret
+    key: app_secret
+  options:
+    app_secret: my_strong_secret
+  environments: {}
+    # - name: key
+    #  value: value
 
-  postgresql:
-    external:
-      enabled: false
-      host: 127.0.0.1
-      port: 5432
-    internal:
-      enabled: true
-    cnpg:
-      enabled: false
-      replicas: 3
-      primaryUpdateStrategy: unsupervised
-    secret:
-      enabled: true
-      autoCreate: true
-      name: <<<APPNAME>>>-postgresql
-      usernameKey: username
-      passwordKey: password
-      databaseKey: database
-    options:
-      database: <<<APPNAME>>>
-      username: <<<APPNAME>>>
-      password: <<<APPNAME>>>
-    settings: #~ ignored if cnpg.enabled
-      podManagementPolicy: Parallel
-      updateStrategy:
-        type: RollingUpdate
-      persistence:
-        accessModes:
-          - ReadWriteOnce
-        claimRetentionPolicy: 
-          whenDeleted: Retain
-          whenScaled: Retain
-    environments: {}
-      # - name: key
-      #   value: value
+postgresql:
+  external:
+    enabled: false
+    host: 127.0.0.1
+    port: 5432
+  internal:
+    enabled: true
+  cnpg:
+    enabled: false
+    replicas: 3
+    primaryUpdateStrategy: unsupervised
+  secret:
+    enabled: true
+    autoCreate: true
+    name: <<<APPNAME>>>-postgresql
+    usernameKey: username
+    passwordKey: password
+    databaseKey: database
+  options:
+    database: <<<APPNAME>>>
+    username: <<<APPNAME>>>
+    password: <<<APPNAME>>>
+  settings: #~ ignored if cnpg.enabled
+    podManagementPolicy: Parallel
+    updateStrategy:
+      type: RollingUpdate
+    persistence:
+      accessModes:
+        - ReadWriteOnce
+      claimRetentionPolicy: 
+        whenDeleted: Retain
+        whenScaled: Retain
+  environments: {}
+    # - name: key
+    #   value: value
 
 service:
   type: ClusterIP

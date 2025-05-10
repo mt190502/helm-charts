@@ -33,12 +33,12 @@ spec:
             - sh
             - -c
             - |
-              {{- if and .Values.global.postgresql.cnpg.enabled }}
+              {{- if and .Values.postgresql.cnpg.enabled }}
               until nc -z -v -w30 {{ .Release.Name }}-postgresql-rw 5432
-              {{- else if and .Values.global.postgresql.internal.enabled }}
+              {{- else if and .Values.postgresql.internal.enabled }}
               until nc -z -v -w30 {{ .Release.Name }}-postgresql 5432
               {{- else }}
-              until nc -z -v -w30 {{ .Values.global.postgresql.external.host }} {{ .Values.global.postgresql.external.port }}
+              until nc -z -v -w30 {{ .Values.postgresql.external.host }} {{ .Values.postgresql.external.port }}
               {{- end }}
               do
                 echo "Waiting for the database to be ready..."
@@ -49,62 +49,62 @@ spec:
           image: {{ template "<<<APPNAME>>>.main.image" . }}
           env:
             - name: DB_USERNAME
-              {{- if .Values.global.postgresql.secret.enabled }}
+              {{- if .Values.postgresql.secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ if .Values.global.postgresql.secret.name }}{{ .Values.global.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
-                  key: {{ .Values.global.postgresql.secret.usernameKey | quote }}
+                  name: {{ if .Values.postgresql.secret.name }}{{ .Values.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
+                  key: {{ .Values.postgresql.secret.usernameKey | quote }}
               {{- else }}
-              value: {{ .Values.global.postgresql.options.username | quote }}
+              value: {{ .Values.postgresql.options.username | quote }}
               {{- end }}
             - name: DB_PASSWORD
-              {{- if .Values.global.postgresql.secret.enabled }}
+              {{- if .Values.postgresql.secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ if .Values.global.postgresql.secret.name }}{{ .Values.global.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
-                  key: {{ .Values.global.postgresql.secret.passwordKey | quote }}
+                  name: {{ if .Values.postgresql.secret.name }}{{ .Values.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
+                  key: {{ .Values.postgresql.secret.passwordKey | quote }}
               {{- else }}
-              value: {{ .Values.global.postgresql.options.password | quote }}
+              value: {{ .Values.postgresql.options.password | quote }}
               {{- end }}
             - name: DB_DATABASE
-              {{- if and .Values.global.postgresql.secret.enabled }}
+              {{- if and .Values.postgresql.secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ if .Values.global.postgresql.secret.name }}{{ .Values.global.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
-                  key: {{ .Values.global.postgresql.secret.databaseKey | quote }}
+                  name: {{ if .Values.postgresql.secret.name }}{{ .Values.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
+                  key: {{ .Values.postgresql.secret.databaseKey | quote }}
               {{- else }}
-              value: {{ .Values.global.postgresql.options.database | quote }}
+              value: {{ .Values.postgresql.options.database | quote }}
               {{- end }}
             - name: DB_HOST
-              {{- if .Values.global.postgresql.internal.enabled }}
-              value: {{ .Release.Name }}-postgresql{{ if .Values.global.postgresql.cnpg.enabled }}-rw{{ end }}
+              {{- if .Values.postgresql.internal.enabled }}
+              value: {{ .Release.Name }}-postgresql{{ if .Values.postgresql.cnpg.enabled }}-rw{{ end }}
               {{- else }}
-              value: {{ .Values.global.postgresql.external.host }}
+              value: {{ .Values.postgresql.external.host }}
               {{- end }}
             - name: DB_PORT
-              {{- if .Values.global.postgresql.internal.enabled }}
+              {{- if .Values.postgresql.internal.enabled }}
               value: "5432"
               {{- else }}
-              value: {{ .Values.global.postgresql.external.port | quote }}
+              value: {{ .Values.postgresql.external.port | quote }}
               {{- end }}
             - name: DB_CONNECTION_STRING
               value: {{ template "postgresql.credentials" . }}
-          {{- if .Values.global.main.appSecret.enabled }}
+          {{- if .Values.main.appSecret.enabled }}
             - name: APP_SECRET
-              {{- if or (eq (.Values.global.main.appSecret.autoCreate | toString) "true") (eq (.Values.global.main.appSecret.autoCreate | toString) "kustomize") }}
+              {{- if or (eq (.Values.main.appSecret.autoCreate | toString) "true") (eq (.Values.main.appSecret.autoCreate | toString) "kustomize") }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.global.main.appSecret.name }}
-                  key: {{ .Values.global.main.appSecret.key | quote }}
+                  name: {{ .Values.main.appSecret.name }}
+                  key: {{ .Values.main.appSecret.key | quote }}
               {{- else }}
-              value: {{ .Values.global.main.options.app_secret | quote }}
+              value: {{ .Values.main.options.app_secret | quote }}
               {{- end }}
           {{- end }}
-          {{- range .Values.global.main.environments }}
+          {{- range .Values.main.environments }}
             - name: {{ .name }}
               value: {{ .value | quote }}
           {{- end }}
-          {{- with .Values.global.main.ports }}
+          {{- with .Values.main.ports }}
           ports:
             {{- toYaml . | nindent 12 }}
           {{- end }}
@@ -122,7 +122,7 @@ spec:
           persistentVolumeClaim:
             claimName: "{{ .Release.Name }}-data-pvc"
 
-{{ if and .Values.global.postgresql.internal.enabled (eq .Values.global.postgresql.cnpg.enabled false) }}
+{{ if and .Values.postgresql.internal.enabled (eq .Values.postgresql.cnpg.enabled false) }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -131,11 +131,11 @@ metadata:
   namespace: "{{ if eq .Release.Namespace "default" }}<<<APPNAME>>>-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
 spec:
   replicas: {{ .Values.replicaCount | default (printf "%d" 1) }}
-  podManagementPolicy: {{ .Values.global.postgresql.settings.podManagementPolicy | default "Parallel" | quote }}
+  podManagementPolicy: {{ .Values.postgresql.settings.podManagementPolicy | default "Parallel" | quote }}
   serviceName: "{{ .Release.Name }}-postgresql"
-  {{- if .Values.global.postgresql.settings.updateStrategy }}
+  {{- if .Values.postgresql.settings.updateStrategy }}
   updateStrategy:
-    type: {{ .Values.global.postgresql.settings.updateStrategy.type | default "RollingUpdate" | quote }}
+    type: {{ .Values.postgresql.settings.updateStrategy.type | default "RollingUpdate" | quote }}
   {{- end }}
   selector:
     matchLabels:
@@ -174,33 +174,33 @@ spec:
           image: {{ template "<<<APPNAME>>>.postgresql.image" . }}
           env:
             - name: POSTGRES_DB
-              {{- if .Values.global.postgresql.secret.enabled }}
+              {{- if .Values.postgresql.secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ if .Values.global.postgresql.secret.name }}{{ .Values.global.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
-                  key: {{ .Values.global.postgresql.secret.databaseKey | quote }}
+                  name: {{ if .Values.postgresql.secret.name }}{{ .Values.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
+                  key: {{ .Values.postgresql.secret.databaseKey | quote }}
               {{- else }}
-              value: {{ .Values.global.postgresql.options.database | quote }}
+              value: {{ .Values.postgresql.options.database | quote }}
               {{- end }}
             - name: POSTGRES_USER
-              {{- if .Values.global.postgresql.secret.enabled }}
+              {{- if .Values.postgresql.secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ if .Values.global.postgresql.secret.name }}{{ .Values.global.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
-                  key: {{ .Values.global.postgresql.secret.usernameKey | quote }}
+                  name: {{ if .Values.postgresql.secret.name }}{{ .Values.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
+                  key: {{ .Values.postgresql.secret.usernameKey | quote }}
               {{- else }}
-              value: {{ .Values.global.postgresql.options.username | quote }}
+              value: {{ .Values.postgresql.options.username | quote }}
               {{- end }}
             - name: POSTGRES_PASSWORD
-              {{- if .Values.global.postgresql.secret.enabled }}
+              {{- if .Values.postgresql.secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ if .Values.global.postgresql.secret.name }}{{ .Values.global.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
-                  key: {{ .Values.global.postgresql.secret.passwordKey | quote }}
+                  name: {{ if .Values.postgresql.secret.name }}{{ .Values.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
+                  key: {{ .Values.postgresql.secret.passwordKey | quote }}
               {{- else }}
-              value: {{ .Values.global.postgresql.options.password | quote }}
+              value: {{ .Values.postgresql.options.password | quote }}
               {{- end }}
-          {{- range .Values.global.postgresql.environments }}
+          {{- range .Values.postgresql.environments }}
             - name: {{ .name }}
               value: {{ .value | quote }}
           {{- end }}
@@ -211,10 +211,10 @@ spec:
               mountPath: /var/lib/postgresql/data
       volumes:
         - name: "database"
-  {{- if .Values.global.postgresql.settings.persistence.claimRetentionPolicy }}
+  {{- if .Values.postgresql.settings.persistence.claimRetentionPolicy }}
   persistentVolumeClaimRetentionPolicy:
-    whenDeleted: {{ .Values.global.postgresql.settings.persistence.claimRetentionPolicy.whenDeleted | default "Retain" | quote }}
-    whenScaled: {{ .Values.global.postgresql.settings.persistence.claimRetentionPolicy.whenScaled | default "Retain" | quote }}
+    whenDeleted: {{ .Values.postgresql.settings.persistence.claimRetentionPolicy.whenDeleted | default "Retain" | quote }}
+    whenScaled: {{ .Values.postgresql.settings.persistence.claimRetentionPolicy.whenScaled | default "Retain" | quote }}
   {{- end }}
   volumeClaimTemplates:
     - apiVersion: v1
@@ -224,8 +224,8 @@ spec:
         namespace: "{{ if eq .Release.Namespace "default" }}<<<APPNAME>>>-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
       spec:
         accessModes:
-        {{- if .Values.global.postgresql.settings.persistence.accessModes }}
-          {{- toYaml .Values.global.postgresql.settings.persistence.accessModes | nindent 8 }} 
+        {{- if .Values.postgresql.settings.persistence.accessModes }}
+          {{- toYaml .Values.postgresql.settings.persistence.accessModes | nindent 8 }} 
         {{- else }}
           - ReadWriteOnce
         {{- end }}

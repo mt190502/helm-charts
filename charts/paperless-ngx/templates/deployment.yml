@@ -33,22 +33,22 @@ spec:
             - sh
             - -c
             - |
-              {{- if and .Values.global.postgresql.cnpg.enabled }}
+              {{- if and .Values.postgresql.cnpg.enabled }}
               until nc -z -v -w30 {{ .Release.Name }}-postgresql-rw 5432
-              {{- else if and .Values.global.postgresql.internal.enabled }}
+              {{- else if and .Values.postgresql.internal.enabled }}
               until nc -z -v -w30 {{ .Release.Name }}-postgresql 5432
-              {{- else if .Values.global.postgresql.external.enabled }}
-              until nc -z -v -w30 {{ .Values.global.postgresql.external.host }} {{ .Values.global.postgresql.external.port }}
+              {{- else if .Values.postgresql.external.enabled }}
+              until nc -z -v -w30 {{ .Values.postgresql.external.host }} {{ .Values.postgresql.external.port }}
               {{- end }}
               do
                 echo "Waiting for the postgresql to be ready..."
                 sleep 5
               done
-              {{- if and .Values.global.redis.enabled }}
-                {{- if .Values.global.redis.internal.enabled }}
+              {{- if and .Values.redis.enabled }}
+                {{- if .Values.redis.internal.enabled }}
               until nc -z -v -w30 {{ .Release.Name }}-redis 6379
-                {{- else if and .Values.global.redis.external.enabled }}
-              until nc -z -v -w30 {{ .Values.global.redis.external.host }} {{ .Values.global.redis.external.port }}
+                {{- else if and .Values.redis.external.enabled }}
+              until nc -z -v -w30 {{ .Values.redis.external.host }} {{ .Values.redis.external.port }}
                 {{- end }}
               do
                 echo "Waiting for the redis to be ready..."
@@ -64,60 +64,60 @@ spec:
             - name: PAPERLESS_DBENGINE
               value: "postgresql"
             - name: PAPERLESS_DBHOST
-              {{- if .Values.global.postgresql.internal.enabled }}
-              value: {{ .Release.Name }}-postgresql{{ if and .Values.global.postgresql.cnpg.enabled }}-rw{{ end }}
+              {{- if .Values.postgresql.internal.enabled }}
+              value: {{ .Release.Name }}-postgresql{{ if and .Values.postgresql.cnpg.enabled }}-rw{{ end }}
               {{- else }}
-              value: {{ printf "%s:%.0f" .Values.global.postgresql.external.host .Values.global.postgresql.external.port | quote }}
+              value: {{ printf "%s:%.0f" .Values.postgresql.external.host .Values.postgresql.external.port | quote }}
               {{- end }}
             - name: PAPERLESS_DBUSER
-              {{- if .Values.global.postgresql.secret.enabled }}
+              {{- if .Values.postgresql.secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ if .Values.global.postgresql.secret.name }}{{ .Values.global.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
-                  key: {{ .Values.global.postgresql.secret.usernameKey | quote }}
+                  name: {{ if .Values.postgresql.secret.name }}{{ .Values.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
+                  key: {{ .Values.postgresql.secret.usernameKey | quote }}
               {{- else }}
-              value: {{ .Values.global.postgresql.options.username | quote }}
+              value: {{ .Values.postgresql.options.username | quote }}
               {{- end }}
             - name: PAPERLESS_DBPASS
-              {{- if .Values.global.postgresql.secret.enabled }}
+              {{- if .Values.postgresql.secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ if .Values.global.postgresql.secret.name }}{{ .Values.global.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
-                  key: {{ .Values.global.postgresql.secret.passwordKey | quote }}
+                  name: {{ if .Values.postgresql.secret.name }}{{ .Values.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
+                  key: {{ .Values.postgresql.secret.passwordKey | quote }}
               {{- else }}
-              value: {{ .Values.global.postgresql.options.password | quote }}
+              value: {{ .Values.postgresql.options.password | quote }}
               {{- end }}
             - name: PAPERLESS_DBNAME
-              {{- if and .Values.global.postgresql.secret.enabled }}
+              {{- if and .Values.postgresql.secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ if .Values.global.postgresql.secret.name }}{{ .Values.global.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
-                  key: {{ .Values.global.postgresql.secret.databaseKey | quote }}
+                  name: {{ if .Values.postgresql.secret.name }}{{ .Values.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
+                  key: {{ .Values.postgresql.secret.databaseKey | quote }}
               {{- else }}
-              value: {{ .Values.global.postgresql.options.database | quote }}
+              value: {{ .Values.postgresql.options.database | quote }}
               {{- end }}
             - name: PAPERLESS_PORT
-              value: {{ .Values.global.main.options.paperless_port | quote }}
+              value: {{ .Values.main.options.paperless_port | quote }}
             - name: PAPERLESS_URL
-              value: {{ .Values.global.main.options.paperless_url | quote }}
+              value: {{ .Values.main.options.paperless_url | quote }}
             - name: PAPERLESS_SECRET_KEY
-             {{- if .Values.global.main.appSecret.enabled }}
+             {{- if .Values.main.appSecret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ if .Values.global.main.appSecret.name }}{{ .Values.global.main.appSecret.name }}{{ else }}{{ .Release.Name }}-main{{ end }}
-                  key: {{ .Values.global.main.appSecret.key | quote }}
+                  name: {{ if .Values.main.appSecret.name }}{{ .Values.main.appSecret.name }}{{ else }}{{ .Release.Name }}-main{{ end }}
+                  key: {{ .Values.main.appSecret.key | quote }}
              {{- else }}
-              value: {{ .Values.global.main.options.paperless_app_secret | quote }}
+              value: {{ .Values.main.options.paperless_app_secret | quote }}
              {{- end }}
             - name: USERMAP_UID
-              value: {{ .Values.global.main.options.usermap_uid | quote }}
+              value: {{ .Values.main.options.usermap_uid | quote }}
             - name: USERMAP_GID
-              value: {{ .Values.global.main.options.usermap_gid | quote }}
-          {{- range .Values.global.main.environments }}
+              value: {{ .Values.main.options.usermap_gid | quote }}
+          {{- range .Values.main.environments }}
             - name: {{ .name }}
               value: {{ .value | quote }}
           {{- end }}
-          {{- with .Values.global.main.ports }}
+          {{- with .Values.main.ports }}
           ports:
             {{- toYaml . | nindent 12 }}
           {{- end }}
@@ -141,7 +141,7 @@ spec:
           persistentVolumeClaim:
             claimName: "{{ .Release.Name }}-data-pvc"
 
-{{ if and .Values.global.redis.internal.enabled .Values.global.redis.enabled }}
+{{ if and .Values.redis.internal.enabled .Values.redis.enabled }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -150,11 +150,11 @@ metadata:
   namespace: "{{ if eq .Release.Namespace "default" }}paperless-ngx-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
 spec:
   replicas: {{ .Values.replicaCount | default (printf "%d" 1) }}
-  podManagementPolicy: {{ .Values.global.redis.settings.podManagementPolicy | default "Parallel" | quote }}
+  podManagementPolicy: {{ .Values.redis.settings.podManagementPolicy | default "Parallel" | quote }}
   serviceName: "{{ .Release.Name }}-redis"
-  {{- if .Values.global.redis.settings.updateStrategy }}
+  {{- if .Values.redis.settings.updateStrategy }}
   updateStrategy:
-    type: {{ .Values.global.redis.settings.updateStrategy.type | default "RollingUpdate" | quote }}
+    type: {{ .Values.redis.settings.updateStrategy.type | default "RollingUpdate" | quote }}
   {{- end }}
   selector:
     matchLabels:
@@ -193,9 +193,9 @@ spec:
           image: {{ template "paperless-ngx.redis.image" . }}
           ports:
             - containerPort: 6379
-          {{- if .Values.global.redis.environments }}
+          {{- if .Values.redis.environments }}
           env:
-          {{- range .Values.global.redis.environments }}
+          {{- range .Values.redis.environments }}
             - name: {{ .name }}
               value: {{ .value | quote }}
           {{- end }}
@@ -207,10 +207,10 @@ spec:
         - name: "redis"
           persistentVolumeClaim:
             claimName: "redis"
-  {{- if .Values.global.redis.settings.persistence.claimRetentionPolicy }}
+  {{- if .Values.redis.settings.persistence.claimRetentionPolicy }}
   persistentVolumeClaimRetentionPolicy:
-    whenDeleted: {{ .Values.global.redis.settings.persistence.claimRetentionPolicy.whenDeleted | default "Retain" | quote }}
-    whenScaled: {{ .Values.global.redis.settings.persistence.claimRetentionPolicy.whenScaled | default "Retain" | quote }}
+    whenDeleted: {{ .Values.redis.settings.persistence.claimRetentionPolicy.whenDeleted | default "Retain" | quote }}
+    whenScaled: {{ .Values.redis.settings.persistence.claimRetentionPolicy.whenScaled | default "Retain" | quote }}
   {{- end }}
   volumeClaimTemplates:
     - apiVersion: v1
@@ -220,8 +220,8 @@ spec:
         namespace: "{{ if eq .Release.Namespace "default" }}paperless-ngx-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
       spec:
         accessModes:
-        {{- if .Values.global.redis.settings.persistence.accessModes }}
-          {{- toYaml .Values.global.redis.settings.persistence.accessModes | nindent 8 }} 
+        {{- if .Values.redis.settings.persistence.accessModes }}
+          {{- toYaml .Values.redis.settings.persistence.accessModes | nindent 8 }} 
         {{- else }}
           - ReadWriteOnce
         {{- end }}
@@ -230,7 +230,7 @@ spec:
             storage: "{{ .Values.resources.requests.redis.storage }}"
 {{- end }}
 
-{{ if and .Values.global.postgresql.internal.enabled (eq .Values.global.postgresql.cnpg.enabled false) }}
+{{ if and .Values.postgresql.internal.enabled (eq .Values.postgresql.cnpg.enabled false) }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -239,11 +239,11 @@ metadata:
   namespace: "{{ if eq .Release.Namespace "default" }}paperless-ngx-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
 spec:
   replicas: {{ .Values.replicaCount | default (printf "%d" 1) }}
-  podManagementPolicy: {{ .Values.global.postgresql.settings.podManagementPolicy | default "Parallel" | quote }}
+  podManagementPolicy: {{ .Values.postgresql.settings.podManagementPolicy | default "Parallel" | quote }}
   serviceName: "{{ .Release.Name }}-postgresql"
-  {{- if .Values.global.postgresql.settings.updateStrategy }}
+  {{- if .Values.postgresql.settings.updateStrategy }}
   updateStrategy:
-    type: {{ .Values.global.postgresql.settings.updateStrategy.type | default "RollingUpdate" | quote }}
+    type: {{ .Values.postgresql.settings.updateStrategy.type | default "RollingUpdate" | quote }}
   {{- end }}
   selector:
     matchLabels:
@@ -282,33 +282,33 @@ spec:
           image: {{ template "paperless-ngx.postgresql.image" . }}
           env:
             - name: POSTGRES_DB
-              {{- if .Values.global.postgresql.secret.enabled }}
+              {{- if .Values.postgresql.secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ if .Values.global.postgresql.secret.name }}{{ .Values.global.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
-                  key: {{ .Values.global.postgresql.secret.databaseKey | quote }}
+                  name: {{ if .Values.postgresql.secret.name }}{{ .Values.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
+                  key: {{ .Values.postgresql.secret.databaseKey | quote }}
               {{- else }}
-              value: {{ .Values.global.postgresql.options.database | quote }}
+              value: {{ .Values.postgresql.options.database | quote }}
               {{- end }}
             - name: POSTGRES_USER
-              {{- if .Values.global.postgresql.secret.enabled }}
+              {{- if .Values.postgresql.secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ if .Values.global.postgresql.secret.name }}{{ .Values.global.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
-                  key: {{ .Values.global.postgresql.secret.usernameKey | quote }}
+                  name: {{ if .Values.postgresql.secret.name }}{{ .Values.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
+                  key: {{ .Values.postgresql.secret.usernameKey | quote }}
               {{- else }}
-              value: {{ .Values.global.postgresql.options.username | quote }}
+              value: {{ .Values.postgresql.options.username | quote }}
               {{- end }}
             - name: POSTGRES_PASSWORD
-              {{- if .Values.global.postgresql.secret.enabled }}
+              {{- if .Values.postgresql.secret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ if .Values.global.postgresql.secret.name }}{{ .Values.global.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
-                  key: {{ .Values.global.postgresql.secret.passwordKey | quote }}
+                  name: {{ if .Values.postgresql.secret.name }}{{ .Values.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
+                  key: {{ .Values.postgresql.secret.passwordKey | quote }}
               {{- else }}
-              value: {{ .Values.global.postgresql.options.password | quote }}
+              value: {{ .Values.postgresql.options.password | quote }}
               {{- end }}
-          {{- range .Values.global.postgresql.environments }}
+          {{- range .Values.postgresql.environments }}
             - name: {{ .name }}
               value: {{ .value | quote }}
           {{- end }}
@@ -319,10 +319,10 @@ spec:
               mountPath: /var/lib/postgresql/data
       volumes:
         - name: "database"
-  {{- if .Values.global.postgresql.settings.persistence.claimRetentionPolicy }}
+  {{- if .Values.postgresql.settings.persistence.claimRetentionPolicy }}
   persistentVolumeClaimRetentionPolicy:
-    whenDeleted: {{ .Values.global.postgresql.settings.persistence.claimRetentionPolicy.whenDeleted | default "Retain" | quote }}
-    whenScaled: {{ .Values.global.postgresql.settings.persistence.claimRetentionPolicy.whenScaled | default "Retain" | quote }}
+    whenDeleted: {{ .Values.postgresql.settings.persistence.claimRetentionPolicy.whenDeleted | default "Retain" | quote }}
+    whenScaled: {{ .Values.postgresql.settings.persistence.claimRetentionPolicy.whenScaled | default "Retain" | quote }}
   {{- end }}
   volumeClaimTemplates:
     - apiVersion: v1
@@ -332,8 +332,8 @@ spec:
         namespace: "{{ if eq .Release.Namespace "default" }}paperless-ngx-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
       spec:
         accessModes:
-        {{- if .Values.global.postgresql.settings.persistence.accessModes }}
-          {{- toYaml .Values.global.postgresql.settings.persistence.accessModes | nindent 8 }} 
+        {{- if .Values.postgresql.settings.persistence.accessModes }}
+          {{- toYaml .Values.postgresql.settings.persistence.accessModes | nindent 8 }} 
         {{- else }}
           - ReadWriteOnce
         {{- end }}

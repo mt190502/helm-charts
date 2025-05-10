@@ -60,14 +60,14 @@ spec:
             - -c
             - |
               /venv/bin/radicale --config $(ls /app/config | sed 's|^|/app/config/|' | paste -sd ":" -)
-          {{- if .Values.global.main.environments }}
+          {{- if .Values.main.environments }}
           env:
-          {{- range .Values.global.main.environments }}
+          {{- range .Values.main.environments }}
             - name: {{ .name }}
               value: {{ .value | quote }}
           {{- end }}
           {{- end }}
-          {{- with .Values.global.main.ports }}
+          {{- with .Values.main.ports }}
           ports:
             {{- toYaml . | nindent 12 }}
           {{- end }}
@@ -101,4 +101,4 @@ spec:
           {{- end }}
         - name: "{{ .Release.Name }}-ssl"
           secret:
-            secretName: "{{ .Values.global.main.tls.secretName }}"
+            secretName: "{{ .Values.main.tls.secretName }}"

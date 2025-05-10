@@ -12,92 +12,91 @@ image:
     pullPolicy: IfNotPresent
     tag: 11.6
 
-global:
-  main:
-    ports:
-      - containerPort: 3000
-    appSecret:
-      enabled: true
-      autoCreate: true
-      name: umami-secret
-      key: app_secret
-    options:
-      app_secret: my_strong_secret
-    environments: {}
-      # - name: key
-      #  value: value
+main:
+  ports:
+    - containerPort: 3000
+  appSecret:
+    enabled: true
+    autoCreate: true
+    name: umami-secret
+    key: app_secret
+  options:
+    app_secret: my_strong_secret
+  environments: {}
+    # - name: key
+    #  value: value
 
-  postgresql:
-    selected: true
-    external:
-      enabled: false
-      host: 127.0.0.1
-      port: 5432
-    internal:
-      enabled: true
-    cnpg:
-      enabled: false
-      replicas: 3
-      primaryUpdateStrategy: unsupervised
-    secret:
-      enabled: true
-      autoCreate: true
-      name: umami-postgresql
-      usernameKey: username
-      passwordKey: password
-      databaseKey: database
-    options:
-      database: umami
-      username: umami
-      password: umami
-    settings: #~ ignored if cnpg.enabled
-      podManagementPolicy: Parallel
-      updateStrategy:
-        type: RollingUpdate
-      persistence:
-        accessModes:
-          - ReadWriteOnce
-        claimRetentionPolicy: 
-          whenDeleted: Retain
-          whenScaled: Retain
-    environments: {}
-      # - name: key
-      #   value: value
+postgresql:
+  selected: true
+  external:
+    enabled: false
+    host: 127.0.0.1
+    port: 5432
+  internal:
+    enabled: true
+  cnpg:
+    enabled: false
+    replicas: 3
+    primaryUpdateStrategy: unsupervised
+  secret:
+    enabled: true
+    autoCreate: true
+    name: umami-postgresql
+    usernameKey: username
+    passwordKey: password
+    databaseKey: database
+  options:
+    database: umami
+    username: umami
+    password: umami
+  settings: #~ ignored if cnpg.enabled
+    podManagementPolicy: Parallel
+    updateStrategy:
+      type: RollingUpdate
+    persistence:
+      accessModes:
+        - ReadWriteOnce
+      claimRetentionPolicy: 
+        whenDeleted: Retain
+        whenScaled: Retain
+  environments: {}
+    # - name: key
+    #   value: value
 
-  mysql:
-    selected: false
-    external:
-      enabled: false
-      host: 127.0.0.1
-      port: 3306
-    internal:
-      enabled: true
-    secret:
-      enabled: true
-      autoCreate: true
-      name: umami-mysql
-      usernameKey: username
-      passwordKey: password
-      rootPasswordKey: root_password
-      databaseKey: database
-    options:
-      database: umami
-      username: umami
-      password: umami
-      rootPassword: my_secret_root_password
-    settings:
-      podManagementPolicy: Parallel
-      updateStrategy:
-        type: RollingUpdate
-      persistence:
-        accessModes:
-          - ReadWriteOnce
-        claimRetentionPolicy: 
-          whenDeleted: Retain
-          whenScaled: Retain
-    environments: {}
-      # - name: key
-      #   value: value
+mysql:
+  selected: false
+  external:
+    enabled: false
+    host: 127.0.0.1
+    port: 3306
+  internal:
+    enabled: true
+  secret:
+    enabled: true
+    autoCreate: true
+    name: umami-mysql
+    usernameKey: username
+    passwordKey: password
+    rootPasswordKey: root_password
+    databaseKey: database
+  options:
+    database: umami
+    username: umami
+    password: umami
+    rootPassword: my_secret_root_password
+  settings:
+    podManagementPolicy: Parallel
+    updateStrategy:
+      type: RollingUpdate
+    persistence:
+      accessModes:
+        - ReadWriteOnce
+      claimRetentionPolicy: 
+        whenDeleted: Retain
+        whenScaled: Retain
+  environments: {}
+    # - name: key
+    #   value: value
 
 service:
   type: ClusterIP

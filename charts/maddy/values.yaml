@@ -4,39 +4,38 @@ image:
     pullPolicy: IfNotPresent
     # tag: 0.8.1
 
-global:
-  main:
-    tls:
-      enabled: true
-      serverName: mail.example.com
-      secretName: wildcard-example.com-tls
-    options:
-      domain: example.com
-      hostname: mail.example.com
-      aliases: |
-        info@example.com: root@example.com
-      extraConfig: {}
-        # filename: |
-        #   content
-    ports:
-      - containerPort: 25
-        hostPort: 25
-        protocol: TCP
-      - containerPort: 143
-        hostPort: 143
-        protocol: TCP
-      - containerPort: 465
-        hostPort: 465
-        protocol: TCP
-      - containerPort: 587
-        hostPort: 587
-        protocol: TCP
-      - containerPort: 993
-        hostPort: 993
-        protocol: TCP
-    environments: {}
-      # - name: key
-      #  value: value
+main:
+  tls:
+    enabled: true
+    serverName: mail.example.com
+    secretName: wildcard-example.com-tls
+  options:
+    domain: example.com
+    hostname: mail.example.com
+    aliases: |
+      info@example.com: root@example.com
+    extraConfig: {}
+      # filename: |
+      #   content
+  ports:
+    - containerPort: 25
+      hostPort: 25
+      protocol: TCP
+    - containerPort: 143
+      hostPort: 143
+      protocol: TCP
+    - containerPort: 465
+      hostPort: 465
+      protocol: TCP
+    - containerPort: 587
+      hostPort: 587
+      protocol: TCP
+    - containerPort: 993
+      hostPort: 993
+      protocol: TCP
+  environments: {}
+    # - name: key
+    #  value: value
 
 service:
   type: ClusterIP

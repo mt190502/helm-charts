@@ -30,7 +30,7 @@ spec:
         - name: "{{ .Release.Name }}-main"
           image: {{ template "anki-server.main.image" . }}
           env:
-          {{- range .Values.global.main.accounts }}
+          {{- range .Values.main.accounts }}
             - name: {{ .key | quote }}
               {{- if .secret.enabled }}
               valueFrom:
@@ -41,11 +41,11 @@ spec:
               value: "{{ .name }}:{{ .password }}"
               {{- end }}
           {{- end }}
-          {{- range .Values.global.main.environments }}
+          {{- range .Values.main.environments }}
             - name: {{ .name }}
               value: {{ .value | quote }}
           {{- end }}
-          {{- with .Values.global.main.ports }}
+          {{- with .Values.main.ports }}
           ports:
             {{- toYaml . | nindent 12 }}
           {{- end }}

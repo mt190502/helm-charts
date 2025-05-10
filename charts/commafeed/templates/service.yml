@@ -13,7 +13,7 @@ spec:
     {{- toYaml . | nindent 4 }}
   {{- end }}
     
-{{ if and .Values.global.postgresql.internal.enabled (eq .Values.global.postgresql.cnpg.enabled false) }}
+{{ if and .Values.postgresql.internal.enabled (eq .Values.postgresql.cnpg.enabled false) }}
 ---
 apiVersion: v1
 kind: Service

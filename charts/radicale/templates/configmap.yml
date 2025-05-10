@@ -7,82 +7,82 @@ metadata:
 data:
   auth.conf: |
     [auth]
-    cache_failed_logins_expiry = {{ .Values.global.main.options.auth.cacheFailedLoginsExpiry | default 90 }}
-    cache_logins = {{ .Values.global.main.options.auth.cacheLogins | default false }}
-    cache_successful_logins_expiry = {{ .Values.global.main.options.auth.cacheSuccessfulLoginsExpiry | default 15 }}
-    delay = {{ .Values.global.main.options.auth.delay | default 1 }}
-    htpasswd_cache = {{ .Values.global.main.options.auth.htpasswdCache | default false }}
-    htpasswd_encryption = {{ .Values.global.main.options.auth.htpasswdEncryption | default "autodetect" }}
+    cache_failed_logins_expiry = {{ .Values.main.options.auth.cacheFailedLoginsExpiry | default 90 }}
+    cache_logins = {{ .Values.main.options.auth.cacheLogins | default false }}
+    cache_successful_logins_expiry = {{ .Values.main.options.auth.cacheSuccessfulLoginsExpiry | default 15 }}
+    delay = {{ .Values.main.options.auth.delay | default 1 }}
+    htpasswd_cache = {{ .Values.main.options.auth.htpasswdCache | default false }}
+    htpasswd_encryption = {{ .Values.main.options.auth.htpasswdEncryption | default "autodetect" }}
     htpasswd_filename = /app/data/users
-    realm = {{ .Values.global.main.options.auth.realm | default "Radicale - Password Required" }}
-    strip_domain = {{ .Values.global.main.options.auth.stripDomain | default false }}
-    type = {{ .Values.global.main.options.auth.type | default "htpasswd" }}
+    realm = {{ .Values.main.options.auth.realm | default "Radicale - Password Required" }}
+    strip_domain = {{ .Values.main.options.auth.stripDomain | default false }}
+    type = {{ .Values.main.options.auth.type | default "htpasswd" }}
 
   encoding.conf: |
     [encoding]
-    request = {{ .Values.global.main.options.encoding.request | default "utf-8" }}
-    stock = {{ .Values.global.main.options.encoding.stock | default "utf-8" }}
+    request = {{ .Values.main.options.encoding.request | default "utf-8" }}
+    stock = {{ .Values.main.options.encoding.stock | default "utf-8" }}
 
   headers.conf: |
     [headers]
-    {{- range $key, $value := .Values.global.main.options.headers }}
+    {{- range $key, $value := .Values.main.options.headers }}
     {{ $key }} = {{ $value | quote }}
     {{- end }}
 
   hook.conf: |
     [hook]
-    rabbitmq_endpoint = {{ .Values.global.main.options.hook.rabbitmqEndpoint | default "" }}
-    rabbitmq_queue_type = {{ .Values.global.main.options.hook.rabbitmqQueueType | default "classic" }}
-    rabbitmq_topic = {{ .Values.global.main.options.hook.rabbitmqTopic | default "" }}
-    type = {{ .Values.global.main.options.hook.type | default "none" }}
+    rabbitmq_endpoint = {{ .Values.main.options.hook.rabbitmqEndpoint | default "" }}
+    rabbitmq_queue_type = {{ .Values.main.options.hook.rabbitmqQueueType | default "classic" }}
+    rabbitmq_topic = {{ .Values.main.options.hook.rabbitmqTopic | default "" }}
+    type = {{ .Values.main.options.hook.type | default "none" }}
 
   logging.conf: |
     [logging]
-    backtrace_on_debug = {{ .Values.global.main.options.logging.backtraceOnDebug | default false }}
-    bad_put_request_content = {{ .Values.global.main.options.logging.badPutRequestContent | default false }}
-    level = {{ .Values.global.main.options.logging.level | default "INFO" }}
-    mask_passwords = {{ .Values.global.main.options.logging.maskPasswords | default false }}
-    request_content_on_debug = {{ .Values.global.main.options.logging.requestContentOnDebug | default false }}
-    request_header_on_debug = {{ .Values.global.main.options.logging.requestHeaderOnDebug | default false }}
-    response_content_on_debug = {{ .Values.global.main.options.logging.responseContentOnDebug | default false }}
-    rights_rule_doesnt_match_on_debug = {{ .Values.global.main.options.logging.rightsRuleDoesntMatchOnDebug | default false }}
-    storage_cache_actions_on_debug = {{ .Values.global.main.options.logging.storageCacheActionsOnDebug | default false }}
+    backtrace_on_debug = {{ .Values.main.options.logging.backtraceOnDebug | default false }}
+    bad_put_request_content = {{ .Values.main.options.logging.badPutRequestContent | default false }}
+    level = {{ .Values.main.options.logging.level | default "INFO" }}
+    mask_passwords = {{ .Values.main.options.logging.maskPasswords | default false }}
+    request_content_on_debug = {{ .Values.main.options.logging.requestContentOnDebug | default false }}
+    request_header_on_debug = {{ .Values.main.options.logging.requestHeaderOnDebug | default false }}
+    response_content_on_debug = {{ .Values.main.options.logging.responseContentOnDebug | default false }}
+    rights_rule_doesnt_match_on_debug = {{ .Values.main.options.logging.rightsRuleDoesntMatchOnDebug | default false }}
+    storage_cache_actions_on_debug = {{ .Values.main.options.logging.storageCacheActionsOnDebug | default false }}
 
   reporting.conf: |
     [reporting]
-    max_freebusy_occurrence = {{ .Values.global.main.options.reporting.maxFreebusyOccurrence | default "10000" | int }}
+    max_freebusy_occurrence = {{ .Values.main.options.reporting.maxFreebusyOccurrence | default "10000" | int }}
 
   server.conf: |
     [server]
-    hosts = 0.0.0.0:5232{{- if .Values.global.main.options.server.hosts }}, {{ join ", " .Values.global.main.options.server.hosts }}{{- end }}
-    max_connections = {{ .Values.global.main.options.server.maxConnections | default 8 }}
-    max_content_length = {{ .Values.global.main.options.server.maxContentLength | default "100000000" | int }}
-    ssl = {{ .Values.global.main.tls.enabled | default false }}
-    {{- if .Values.global.main.tls.enabled }}
+    hosts = 0.0.0.0:5232{{- if .Values.main.options.server.hosts }}, {{ join ", " .Values.main.options.server.hosts }}{{- end }}
+    max_connections = {{ .Values.main.options.server.maxConnections | default 8 }}
+    max_content_length = {{ .Values.main.options.server.maxContentLength | default "100000000" | int }}
+    ssl = {{ .Values.main.tls.enabled | default false }}
+    {{- if .Values.main.tls.enabled }}
     certificate = /app/ssl/tls.crt
     key = /app/ssl/tls.key
     {{- end }}
-    timeout = {{ .Values.global.main.options.server.timeout | default 30 }}
+    timeout = {{ .Values.main.options.server.timeout | default 30 }}
 
   storage.conf: |
     [storage]
     filesystem_cache_folder = /app/data/cache
     filesystem_folder = /app/data/collections
-    hook = {{ .Values.global.main.options.storage.hook | default "" }}
-    max_sync_token_age = {{ .Values.global.main.options.storage.maxSyncTokenAge | default "2592000" | int }}
-    predefined_collections = {{ .Values.global.main.options.storage.predefinedCollections | default "" }}
-    skip_broken_item = {{ .Values.global.main.options.storage.skipBrokenItem | default true }}
-    type = {{ .Values.global.main.options.storage.type | default "multifilesystem" }}
-    use_cache_subfolder_for_history = {{ .Values.global.main.options.storage.useCacheSubfolderForHistory | default false }}
-    use_cache_subfolder_for_item = {{ .Values.global.main.options.storage.useCacheSubfolderForItem | default false }}
-    use_cache_subfolder_for_synctoken = {{ .Values.global.main.options.storage.useCacheSubfolderForSynctoken | default false }}
-    use_mtime_and_size_for_item_cache = {{ .Values.global.main.options.storage.useMtimeAndSizeForItemCache | default false }}
+    hook = {{ .Values.main.options.storage.hook | default "" }}
+    max_sync_token_age = {{ .Values.main.options.storage.maxSyncTokenAge | default "2592000" | int }}
+    predefined_collections = {{ .Values.main.options.storage.predefinedCollections | default "" }}
+    skip_broken_item = {{ .Values.main.options.storage.skipBrokenItem | default true }}
+    type = {{ .Values.main.options.storage.type | default "multifilesystem" }}
+    use_cache_subfolder_for_history = {{ .Values.main.options.storage.useCacheSubfolderForHistory | default false }}
+    use_cache_subfolder_for_item = {{ .Values.main.options.storage.useCacheSubfolderForItem | default false }}
+    use_cache_subfolder_for_synctoken = {{ .Values.main.options.storage.useCacheSubfolderForSynctoken | default false }}
+    use_mtime_and_size_for_item_cache = {{ .Values.main.options.storage.useMtimeAndSizeForItemCache | default false }}
 
   web.conf: |
     [web]
-    type = {{ .Values.global.main.options.web.type | default "internal" }}
+    type = {{ .Values.main.options.web.type | default "internal" }}
 
-{{- range $filename, $content := .Values.global.main.options.extraConfig }}
+{{- range $filename, $content := .Values.main.options.extraConfig }}
   custom.{{ $filename }}: |
 {{ $content | indent 4 }}
 {{- end }}

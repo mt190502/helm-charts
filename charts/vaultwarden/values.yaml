@@ -8,55 +8,54 @@ image:
     pullPolicy: IfNotPresent
     tag: 17
 
-global:
-  main:
-    ports:
-      - containerPort: 8080
-    options:
-      enable_websocket: true
-      signups_allowed: false
-      invitations_allowed: false
-      show_password_hint: false
-      rocket_port: 8080
-    environments: {}
-      # - name: key
-      #  value: value
+main:
+  ports:
+    - containerPort: 8080
+  options:
+    enable_websocket: true
+    signups_allowed: false
+    invitations_allowed: false
+    show_password_hint: false
+    rocket_port: 8080
+  environments: {}
+    # - name: key
+    #  value: value
 
-  postgresql:
-    external:
-      enabled: false
-      host: 127.0.0.1
-      port: 5432
-    internal:
-      enabled: true
-    cnpg:
-      enabled: false
-      replicas: 3
-      primaryUpdateStrategy: unsupervised
-    secret:
-      enabled: true
-      autoCreate: true
-      name: vaultwarden-postgresql
-      usernameKey: username
-      passwordKey: password
-      databaseKey: database
-    options:
-      database: vaultwarden
-      username: vaultwarden
-      password: vaultwarden
-    settings: #~ ignored if cnpg.enabled
-      podManagementPolicy: Parallel
-      updateStrategy:
-        type: RollingUpdate
-      persistence:
-        accessModes:
-          - ReadWriteOnce
-        claimRetentionPolicy: 
-          whenDeleted: Retain
-          whenScaled: Retain
-    environments: {}
-      # - name: key
-      #   value: value
+postgresql:
+  external:
+    enabled: false
+    host: 127.0.0.1
+    port: 5432
+  internal:
+    enabled: true
+  cnpg:
+    enabled: false
+    replicas: 3
+    primaryUpdateStrategy: unsupervised
+  secret:
+    enabled: true
+    autoCreate: true
+    name: vaultwarden-postgresql
+    usernameKey: username
+    passwordKey: password
+    databaseKey: database
+  options:
+    database: vaultwarden
+    username: vaultwarden
+    password: vaultwarden
+  settings: #~ ignored if cnpg.enabled
+    podManagementPolicy: Parallel
+    updateStrategy:
+      type: RollingUpdate
+    persistence:
+      accessModes:
+        - ReadWriteOnce
+      claimRetentionPolicy: 
+        whenDeleted: Retain
+        whenScaled: Retain
+  environments: {}
+    # - name: key
+    #   value: value
 
 service:
   type: ClusterIP

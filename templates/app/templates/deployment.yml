@@ -30,22 +30,22 @@ spec:
         - name: "{{ .Release.Name }}-main"
           image: {{ template "<<<APPNAME>>>.main.image" . }}
           env:
-          {{- if .Values.global.main.appSecret.enabled }}
+          {{- if .Values.main.appSecret.enabled }}
             - name: APP_SECRET
-              {{- if or (eq (.Values.global.main.appSecret.autoCreate | toString) "true") (eq (.Values.global.main.appSecret.autoCreate | toString) "kustomize") }}
+              {{- if or (eq (.Values.main.appSecret.autoCreate | toString) "true") (eq (.Values.main.appSecret.autoCreate | toString) "kustomize") }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ if .Values.global.main.appSecret.name }}{{ .Values.global.main.appSecret.name }}{{ else }}{{ .Release.Name }}-main{{ end }}
-                  key: {{ .Values.global.main.appSecret.key }}
+                  name: {{ if .Values.main.appSecret.name }}{{ .Values.main.appSecret.name }}{{ else }}{{ .Release.Name }}-main{{ end }}
+                  key: {{ .Values.main.appSecret.key }}
               {{- else }}
-              value: {{ .Values.global.main.options.app_secret | quote }}
+              value: {{ .Values.main.options.app_secret | quote }}
               {{- end }}
           {{- end }}
-          {{- range .Values.global.main.environments }}
+          {{- range .Values.main.environments }}
             - name: {{ .name }}
               value: {{ .value | quote }}
           {{- end }}
-          {{- with .Values.global.main.ports }}
+          {{- with .Values.main.ports }}
           ports:
             {{- toYaml . | nindent 12 }}
           {{- end }}

@@ -2,7 +2,7 @@ apiVersion: v2
 name: filestash
 description: A Dropbox-like file manager that let you manage your data anywhere
 type: application
-version: 3.0.1
+version: 4.0.0
 appVersion: latest
 projectUrl: https://github.com/mickael-kerjean/filestash
 maintainers:

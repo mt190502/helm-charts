@@ -12,92 +12,91 @@ image:
     pullPolicy: IfNotPresent
     tag: 11.6
 
-global:
-  main:
-    ports:
-      - containerPort: 1234
-    appSecret:
-      enabled: true
-      autoCreate: true
-      name: <<<APPNAME>>>-secret
-      key: app_secret
-    options:
-      app_secret: my_strong_secret
-    environments: {}
-      # - name: key
-      #  value: value
+main:
+  ports:
+    - containerPort: 1234
+  appSecret:
+    enabled: true
+    autoCreate: true
+    name: <<<APPNAME>>>-secret
+    key: app_secret
+  options:
+    app_secret: my_strong_secret
+  environments: {}
+    # - name: key
+    #  value: value
 
-  postgresql:
-    selected: true
-    external:
-      enabled: false
-      host: 127.0.0.1
-      port: 5432
-    internal:
-      enabled: true
-    cnpg:
-      enabled: false
-      replicas: 3
-      primaryUpdateStrategy: unsupervised
-    secret:
-      enabled: true
-      autoCreate: true
-      name: <<<APPNAME>>>-postgresql
-      usernameKey: username
-      passwordKey: password
-      databaseKey: database
-    options:
-      database: <<<APPNAME>>>
-      username: <<<APPNAME>>>
-      password: <<<APPNAME>>>
-    settings: #~ ignored if cnpg.enabled
-      podManagementPolicy: Parallel
-      updateStrategy:
-        type: RollingUpdate
-      persistence:
-        accessModes:
-          - ReadWriteOnce
-        claimRetentionPolicy: 
-          whenDeleted: Retain
-          whenScaled: Retain
-    environments: {}
-      # - name: key
-      #   value: value
+postgresql:
+  selected: true
+  external:
+    enabled: false
+    host: 127.0.0.1
+    port: 5432
+  internal:
+    enabled: true
+  cnpg:
+    enabled: false
+    replicas: 3
+    primaryUpdateStrategy: unsupervised
+  secret:
+    enabled: true
+    autoCreate: true
+    name: <<<APPNAME>>>-postgresql
+    usernameKey: username
+    passwordKey: password
+    databaseKey: database
+  options:
+    database: <<<APPNAME>>>
+    username: <<<APPNAME>>>
+    password: <<<APPNAME>>>
+  settings: #~ ignored if cnpg.enabled
+    podManagementPolicy: Parallel
+    updateStrategy:
+      type: RollingUpdate
+    persistence:
+      accessModes:
+        - ReadWriteOnce
+      claimRetentionPolicy: 
+        whenDeleted: Retain
+        whenScaled: Retain
+  environments: {}
+    # - name: key
+    #   value: value
 
-  mysql:
-    selected: false
-    external:
-      enabled: false
-      host: 127.0.0.1
-      port: 3306
-    internal:
-      enabled: true
-    secret:
-      enabled: true
-      autoCreate: true
-      name: <<<APPNAME>>>-mysql
-      usernameKey: username
-      passwordKey: password
-      rootPasswordKey: root_password
-      databaseKey: database
-    options:
-      database: <<<APPNAME>>>
-      username: <<<APPNAME>>>
-      password: <<<APPNAME>>>
-      rootPassword: my_secret_root_password
-    settings:
-      podManagementPolicy: Parallel
-      updateStrategy:
-        type: RollingUpdate
-      persistence:
-        accessModes:
-          - ReadWriteOnce
-        claimRetentionPolicy: 
-          whenDeleted: Retain
-          whenScaled: Retain
-    environments: {}
-      # - name: key
-      #   value: value
+mysql:
+  selected: false
+  external:
+    enabled: false
+    host: 127.0.0.1
+    port: 3306
+  internal:
+    enabled: true
+  secret:
+    enabled: true
+    autoCreate: true
+    name: <<<APPNAME>>>-mysql
+    usernameKey: username
+    passwordKey: password
+    rootPasswordKey: root_password
+    databaseKey: database
+  options:
+    database: <<<APPNAME>>>
+    username: <<<APPNAME>>>
+    password: <<<APPNAME>>>
+    rootPassword: my_secret_root_password
+  settings:
+    podManagementPolicy: Parallel
+    updateStrategy:
+      type: RollingUpdate
+    persistence:
+      accessModes:
+        - ReadWriteOnce
+      claimRetentionPolicy: 
+        whenDeleted: Retain
+        whenScaled: Retain
+  environments: {}
+    # - name: key
+    #   value: value
 
 service:
   type: ClusterIP

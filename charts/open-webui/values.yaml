@@ -8,52 +8,51 @@ image:
     pullPolicy: IfNotPresent
     tag: 17
 
-global:
-  main:
-    ports:
-      - containerPort: 8080
-    options:
-      enable_ollama_api: false
-      openai_api_base_url: https://api.openai.com/v1
-    environments: {}
-      # - name: key
-      #  value: value
+main:
+  ports:
+    - containerPort: 8080
+  options:
+    enable_ollama_api: false
+    openai_api_base_url: https://api.openai.com/v1
+  environments: {}
+    # - name: key
+    #  value: value
 
-  postgresql:
-    external:
-      enabled: false
-      host: 127.0.0.1
-      port: 5432
-    internal:
-      enabled: true
-    cnpg:
-      enabled: false
-      replicas: 3
-      primaryUpdateStrategy: unsupervised
-    secret:
-      enabled: true
-      autoCreate: true
-      name: open-webui-postgresql
-      usernameKey: username
-      passwordKey: password
-      databaseKey: database
-    options:
-      database: open-webui
-      username: open-webui
-      password: open-webui
-    settings: #~ ignored if cnpg.enabled
-      podManagementPolicy: Parallel
-      updateStrategy:
-        type: RollingUpdate
-      persistence:
-        accessModes:
-          - ReadWriteOnce
-        claimRetentionPolicy: 
-          whenDeleted: Retain
-          whenScaled: Retain
-    environments: {}
-      # - name: key
-      #   value: value
+postgresql:
+  external:
+    enabled: false
+    host: 127.0.0.1
+    port: 5432
+  internal:
+    enabled: true
+  cnpg:
+    enabled: false
+    replicas: 3
+    primaryUpdateStrategy: unsupervised
+  secret:
+    enabled: true
+    autoCreate: true
+    name: open-webui-postgresql
+    usernameKey: username
+    passwordKey: password
+    databaseKey: database
+  options:
+    database: open-webui
+    username: open-webui
+    password: open-webui
+  settings: #~ ignored if cnpg.enabled
+    podManagementPolicy: Parallel
+    updateStrategy:
+      type: RollingUpdate
+    persistence:
+      accessModes:
+        - ReadWriteOnce
+      claimRetentionPolicy: 
+        whenDeleted: Retain
+        whenScaled: Retain
+  environments: {}
+    # - name: key
+    #   value: value
 
 service:
   type: ClusterIP

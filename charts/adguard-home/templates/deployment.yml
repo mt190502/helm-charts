@@ -45,18 +45,18 @@ spec:
               yq eval  '.tls.private_key_path = "/opt/adguardhome/tls/tls.key" | 
                         .tls.certificate_path = "/opt/adguardhome/tls/tls.crt" |
                         .tls.enabled = true |
-                        .tls.server_name = "{{ .Values.global.main.tls.serverName }}" |
+                        .tls.server_name = "{{ .Values.main.tls.serverName }}" |
                         .tls.force_https = true' /opt/adguardhome/conf/AdGuardHome.yaml > /tmp/AdGuardHome.yaml.new \
                         && mv /tmp/AdGuardHome.yaml.new /opt/adguardhome/conf/AdGuardHome.yaml
-              if [ "$(yq eval '.dns.trusted_proxies' /opt/adguardhome/conf/AdGuardHome.yaml | grep -q "{{ .Values.global.main.podCIDR }}"; echo $?)" -eq 0 ]; then
-                echo "Trusted proxies already contains: {{ .Values.global.main.podCIDR }}, skipping"
+              if [ "$(yq eval '.dns.trusted_proxies' /opt/adguardhome/conf/AdGuardHome.yaml | grep -q "{{ .Values.main.podCIDR }}"; echo $?)" -eq 0 ]; then
+                echo "Trusted proxies already contains: {{ .Values.main.podCIDR }}, skipping"
                 exit 0
               fi
-              yq eval '.dns.trusted_proxies += ["{{ .Values.global.main.podCIDR }}"]' /opt/adguardhome/conf/AdGuardHome.yaml > /tmp/AdGuardHome.yaml.new \
+              yq eval '.dns.trusted_proxies += ["{{ .Values.main.podCIDR }}"]' /opt/adguardhome/conf/AdGuardHome.yaml > /tmp/AdGuardHome.yaml.new \
                         && mv /tmp/AdGuardHome.yaml.new /opt/adguardhome/conf/AdGuardHome.yaml
           env:
             - name: TLS_IS_ENABLED
-              value: {{ .Values.global.main.tls.enabled | quote }} 
+              value: {{ .Values.main.tls.enabled | quote }} 
           volumeMounts:
             - name: "{{ .Release.Name }}-data"
               mountPath: /opt/adguardhome/work
@@ -69,14 +69,14 @@ spec:
       containers:
         - name: "{{ .Release.Name }}-main"
           image: {{ template "adguard-home.main.image" . }}
-          {{- if .Values.global.main.environments }}
+          {{- if .Values.main.environments }}
           env:
-          {{- range .Values.global.main.environments }}
+          {{- range .Values.main.environments }}
             - name: {{ .name }}
               value: {{ .value | quote }}
           {{- end }}
           {{- end }}
-          {{- with .Values.global.main.ports }}
+          {{- with .Values.main.ports }}
           ports:
             {{- toYaml . | nindent 12 }}
           {{- end }}
@@ -100,4 +100,4 @@ spec:
             claimName: "{{ .Release.Name }}-data-pvc"
         - name: "{{ .Release.Name }}-tls"
           secret:
-            secretName: "{{ .Values.global.main.tls.secretName }}"
+            secretName: "{{ .Values.main.tls.secretName }}"

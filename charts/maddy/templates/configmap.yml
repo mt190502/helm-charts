@@ -17,11 +17,11 @@ data:
     # ----------------------------------------------------------------------------
     # Base variables
 
-    $(hostname) = {{ .Values.global.main.options.hostname }}
-    $(primary_domain) = {{ .Values.global.main.options.domain }}
+    $(hostname) = {{ .Values.main.options.hostname }}
+    $(primary_domain) = {{ .Values.main.options.domain }}
     $(local_domains) = $(primary_domain)
 
-    {{- if .Values.global.main.tls.enabled }}
+    {{- if .Values.main.tls.enabled }}
     tls file /app/tls/tls.crt /app/tls/tls.key
     {{- end }}
 
@@ -191,12 +191,12 @@ data:
         storage &local_mailboxes
     }
   
-{{- if .Values.global.main.options.aliases }}
+{{- if .Values.main.options.aliases }}
   aliases: |
-{{ .Values.global.main.options.aliases | indent 4 }}
+{{ .Values.main.options.aliases | indent 4 }}
 {{- end }}
 
-{{- range $filename, $content := .Values.global.main.options.extraConfig }}
+{{- range $filename, $content := .Values.main.options.extraConfig }}
   custom.{{ $filename }}: |
 {{ $content | indent 4 }}
 {{- end }}

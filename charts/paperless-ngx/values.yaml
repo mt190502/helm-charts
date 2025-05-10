@@ -12,80 +12,79 @@ image:
     pullPolicy: IfNotPresent
     tag: 7
 
-global:
-  main:
-    ports:
-      - containerPort: 8000
-    appSecret:
-      enabled: true
-      autoCreate: true
-      name: paperless-ngx-secret
-      key: app_secret
-    options:
-      app_secret: my_strong_secret
-      paperless_port: 8000
-      paperless_url: https://paperless.example.com
-      usermap_uid: 1000
-      usermap_gid: 1000
-    environments: {}
-      # - name: key
-      #  value: value
-
-  redis:
+main:
+  ports:
+    - containerPort: 8000
+  appSecret:
     enabled: true
-    external:
-      enabled: false
-      host: 127.0.0.1
-      port: 6379
-    internal:
-      enabled: true
-    settings:
-      podManagementPolicy: Parallel
-      updateStrategy:
-        type: RollingUpdate
-      persistence:
-        accessModes:
-          - ReadWriteOnce
-        claimRetentionPolicy: 
-          whenDeleted: Retain
-          whenScaled: Retain
-    environments: {}
+    autoCreate: true
+    name: paperless-ngx-secret
+    key: app_secret
+  options:
+    app_secret: my_strong_secret
+    paperless_port: 8000
+    paperless_url: https://paperless.example.com
+    usermap_uid: 1000
+    usermap_gid: 1000
+  environments: {}
+    # - name: key
+    #  value: value
 
-  postgresql:
-    external:
-      enabled: false
-      host: 127.0.0.1
-      port: 5432
-    internal:
-      enabled: true
-    cnpg:
-      enabled: false
-      replicas: 3
-      primaryUpdateStrategy: unsupervised
-    secret:
-      enabled: true
-      autoCreate: true
-      name: paperless-ngx-postgresql
-      usernameKey: username
-      passwordKey: password
-      databaseKey: database
-    options:
-      database: paperless-ngx
-      username: paperless-ngx
-      password: paperless-ngx
-    settings: #~ ignored if cnpg.enabled
-      podManagementPolicy: Parallel
-      updateStrategy:
-        type: RollingUpdate
-      persistence:
-        accessModes:
-          - ReadWriteOnce
-        claimRetentionPolicy: 
-          whenDeleted: Retain
-          whenScaled: Retain
-    environments: {}
-      # - name: key
-      #   value: value
+redis:
+  enabled: true
+  external:
+    enabled: false
+    host: 127.0.0.1
+    port: 6379
+  internal:
+    enabled: true
+  settings:
+    podManagementPolicy: Parallel
+    updateStrategy:
+      type: RollingUpdate
+    persistence:
+      accessModes:
+        - ReadWriteOnce
+      claimRetentionPolicy: 
+        whenDeleted: Retain
+        whenScaled: Retain
+  environments: {}
+
+postgresql:
+  external:
+    enabled: false
+    host: 127.0.0.1
+    port: 5432
+  internal:
+    enabled: true
+  cnpg:
+    enabled: false
+    replicas: 3
+    primaryUpdateStrategy: unsupervised
+  secret:
+    enabled: true
+    autoCreate: true
+    name: paperless-ngx-postgresql
+    usernameKey: username
+    passwordKey: password
+    databaseKey: database
+  options:
+    database: paperless-ngx
+    username: paperless-ngx
+    password: paperless-ngx
+  settings: #~ ignored if cnpg.enabled
+    podManagementPolicy: Parallel
+    updateStrategy:
+      type: RollingUpdate
+    persistence:
+      accessModes:
+        - ReadWriteOnce
+      claimRetentionPolicy: 
+        whenDeleted: Retain
+        whenScaled: Retain
+  environments: {}
+    # - name: key
+    #   value: value
 
 service:
   type: ClusterIP

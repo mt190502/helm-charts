@@ -4,15 +4,14 @@ image:
     pullPolicy: IfNotPresent
     # tag: latest
 
-global:
-  main:
-    ports:
-      - containerPort: 8334
-    options:
-      application_url: https://files.example.com
-    environments: {}
-      # - name: key
-      #  value: value
+main:
+  ports:
+    - containerPort: 8334
+  options:
+    application_url: https://files.example.com
+  environments: {}
+    # - name: key
+    #  value: value
 
 service:
   type: ClusterIP

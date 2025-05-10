@@ -46,12 +46,12 @@ spec:
           image: {{ template "filestash.main.image" . }}
           env:
             - name: APPLICATION_URL
-              value: {{ .Values.global.main.options.application_url | quote }}
-          {{- range .Values.global.main.environments }}
+              value: {{ .Values.main.options.application_url | quote }}
+          {{- range .Values.main.environments }}
             - name: {{ .name }}
               value: {{ .value | quote }}
           {{- end }}
-          {{- with .Values.global.main.ports }}
+          {{- with .Values.main.ports }}
           ports:
             {{- toYaml . | nindent 12 }}
           {{- end }}

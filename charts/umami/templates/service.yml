@@ -13,7 +13,7 @@ spec:
     {{- toYaml . | nindent 4 }}
   {{- end }}
     
-{{ if and .Values.global.postgresql.internal.enabled .Values.global.postgresql.selected (eq .Values.global.postgresql.cnpg.enabled false) }}
+{{ if and .Values.postgresql.internal.enabled .Values.postgresql.selected (eq .Values.postgresql.cnpg.enabled false) }}
 ---
 apiVersion: v1
 kind: Service
@@ -27,7 +27,7 @@ spec:
     app: "{{ .Release.Name }}-postgresql"
 {{- end }}
 
-{{ if and .Values.global.mysql.internal.enabled .Values.global.mysql.selected }}
+{{ if and .Values.mysql.internal.enabled .Values.mysql.selected }}
 ---
 apiVersion: v1
 kind: Service

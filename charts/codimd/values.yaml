@@ -8,55 +8,54 @@ image:
     pullPolicy: IfNotPresent
     tag: 17
 
-global:
-  main:
-    ports:
-      - containerPort: 3000
-    options:
-      codimd_usecdn: false
-      codimd_domain: localhost
-      codimd_allow_anonymous: false
-      codimd_allow_email_registration: false
-      codimd_protocol_usessl: true
-    environments: {}
-      # - name: key
-      #  value: value
+main:
+  ports:
+    - containerPort: 3000
+  options:
+    codimd_usecdn: false
+    codimd_domain: localhost
+    codimd_allow_anonymous: false
+    codimd_allow_email_registration: false
+    codimd_protocol_usessl: true
+  environments: {}
+    # - name: key
+    #  value: value
 
-  postgresql:
-    external:
-      enabled: false
-      host: 127.0.0.1
-      port: 5432
-    internal:
-      enabled: true
-    cnpg:
-      enabled: false
-      replicas: 3
-      primaryUpdateStrategy: unsupervised
-    secret:
-      enabled: true
-      autoCreate: true
-      name: codimd-postgresql
-      usernameKey: username
-      passwordKey: password
-      databaseKey: database
-    options:
-      database: codimd
-      username: codimd
-      password: codimd
-    settings: #~ ignored if cnpg.enabled
-      podManagementPolicy: Parallel
-      updateStrategy:
-        type: RollingUpdate
-      persistence:
-        accessModes:
-          - ReadWriteOnce
-        claimRetentionPolicy: 
-          whenDeleted: Retain
-          whenScaled: Retain
-    environments: {}
-      # - name: key
-      #   value: value
+postgresql:
+  external:
+    enabled: false
+    host: 127.0.0.1
+    port: 5432
+  internal:
+    enabled: true
+  cnpg:
+    enabled: false
+    replicas: 3
+    primaryUpdateStrategy: unsupervised
+  secret:
+    enabled: true
+    autoCreate: true
+    name: codimd-postgresql
+    usernameKey: username
+    passwordKey: password
+    databaseKey: database
+  options:
+    database: codimd
+    username: codimd
+    password: codimd
+  settings: #~ ignored if cnpg.enabled
+    podManagementPolicy: Parallel
+    updateStrategy:
+      type: RollingUpdate
+    persistence:
+      accessModes:
+        - ReadWriteOnce
+      claimRetentionPolicy: 
+        whenDeleted: Retain
+        whenScaled: Retain
+  environments: {}
+    # - name: key
+    #   value: value
 
 service:
   type: ClusterIP

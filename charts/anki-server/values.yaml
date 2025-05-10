@@ -4,30 +4,29 @@ image:
     pullPolicy: IfNotPresent
     # tag: 25.02.4
 
-global:
-  main:
-    ports:
-      - containerPort: 8080
-    accounts:
-      - key: SYNC_USER1
-        name: username
-        password: password # (optional if using appSecret with kustomize option)
-        secret: 
-          enabled: true
-          autoCreate: true
-          name: username1-secret
-          key: cred
-      # - key: SYNC_USER2
-      #   name: username2
-      #   password: password2
-      #   secret: 
-      #     enabled: true
-      #     autoCreate: true
-      #     name: username2-secret
-      #     key: cred
-    environments: {}
-      # - name: key
-      #  value: value
+main:
+  ports:
+    - containerPort: 8080
+  accounts:
+    - key: SYNC_USER1
+      name: username
+      password: password # (optional if using appSecret with kustomize option)
+      secret: 
+        enabled: true
+        autoCreate: true
+        name: username1-secret
+        key: cred
+    # - key: SYNC_USER2
+    #   name: username2
+    #   password: password2
+    #   secret: 
+    #     enabled: true
+    #     autoCreate: true
+    #     name: username2-secret
+    #     key: cred
+  environments: {}
+    # - name: key
+    #  value: value
 
 service:
   type: ClusterIP

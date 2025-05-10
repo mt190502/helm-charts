@@ -13,7 +13,7 @@ spec:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 
-{{ if and .Values.global.mysql.internal.enabled }}
+{{ if and .Values.mysql.internal.enabled }}
 ---
 apiVersion: v1
 kind: Service

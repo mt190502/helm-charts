@@ -39,14 +39,14 @@ spec:
             - name: MADDY_CONFIG
               value: /app/config/maddy.conf
             - name: MADDY_HOSTNAME
-              value: {{ .Values.global.main.options.hostname | quote }}
+              value: {{ .Values.main.options.hostname | quote }}
             - name: MADDY_DOMAIN
-              value: {{ .Values.global.main.options.domain | quote }}
-          {{- range .Values.global.main.environments }}
+              value: {{ .Values.main.options.domain | quote }}
+          {{- range .Values.main.environments }}
             - name: {{ .name }}
               value: {{ .value | quote }}
           {{- end }}
-          {{- with .Values.global.main.ports }}
+          {{- with .Values.main.ports }}
           ports:
             {{- toYaml . | nindent 12 }}
           {{- end }}
@@ -60,7 +60,7 @@ spec:
               mountPath: /data
             - name: "{{ .Release.Name }}-config"
               mountPath: /app/config
-              {{- if .Values.global.main.tls.enabled }}
+              {{- if .Values.main.tls.enabled }}
             - name: "{{ .Release.Name }}-ssl"
               mountPath: /app/tls
               {{- end }}
@@ -71,8 +71,8 @@ spec:
         - name: "{{ .Release.Name }}-config"
           configMap:
             name: "{{ .Release.Name }}-config"
-          {{- if .Values.global.main.tls.enabled }}
+          {{- if .Values.main.tls.enabled }}
         - name: "{{ .Release.Name }}-ssl"
           secret:
-            secretName: "{{ .Values.global.main.tls.secretName }}"
+            secretName: "{{ .Values.main.tls.secretName }}"
           {{- end }}
