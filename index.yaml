@@ -3,6 +3,19 @@ entries:
   adguard-home:
   - apiVersion: v2
     appVersion: 0.107.61
+    created: "2025-05-10T18:52:23.792317013Z"
+    description: A self hosted DNS server with ad blocking capabilities
+    digest: d6429437b86827eab35b1769b5198459a9049c47d631119de002b3287eb9cefa
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: adguard-home
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/adguard-home-4.0.0/adguard-home-4.0.0.tgz
+    version: 4.0.0
+  - apiVersion: v2
+    appVersion: 0.107.61
     created: "2025-04-22T18:21:47.884865016Z"
     description: A self hosted DNS server with ad blocking capabilities
     digest: cb098a7b7523063816796f0ce449b5105c8892e7216bb5355ecb98b03148e9ba
@@ -160,6 +173,19 @@ entries:
   anki-server:
   - apiVersion: v2
     appVersion: 25.02.4
+    created: "2025-05-10T18:52:23.963903261Z"
+    description: A self hosted sync server for Anki
+    digest: f74ac6353292c572512c4f41399f676fb90014e23bc8cdfa6b765139d1c722e2
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: anki-server
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/anki-server-2.0.0/anki-server-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v2
+    appVersion: 25.02.4
     created: "2025-05-03T08:52:16.710861368Z"
     description: A self hosted sync server for Anki
     digest: ce49fa30fcd80c901226e4f126b1cad0a8f824290cf96b56cc6070ca4dd7e4f5
@@ -185,6 +211,19 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/anki-server-1.0.0/anki-server-1.0.0.tgz
     version: 1.0.0
   codimd:
+  - apiVersion: v2
+    appVersion: 2.5.4
+    created: "2025-05-10T18:52:24.133229465Z"
+    description: A self hosted markdown compatible note taking app
+    digest: 69eed93fdabbc71c390ce405767485b7646eca82887230b837f331b2bdf1dbd0
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: codimd
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/codimd-7.0.0/codimd-7.0.0.tgz
+    version: 7.0.0
   - apiVersion: v2
     appVersion: 2.5.4
     created: "2025-04-14T15:59:35.94378825Z"
@@ -342,6 +381,19 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/codimd-1.0.0/codimd-1.0.0.tgz
     version: 1.0.0
   commafeed:
+  - apiVersion: v2
+    appVersion: 5.8.0
+    created: "2025-05-10T18:52:24.299751192Z"
+    description: A RSS Aggregator
+    digest: 3c8c2fc9bf33bd73de8d5a82923b17d7c3ef96002e126570c2d0f761cfa67151
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: commafeed
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/commafeed-7.0.0/commafeed-7.0.0.tgz
+    version: 7.0.0
   - apiVersion: v2
     appVersion: 5.8.0
     created: "2025-05-06T18:22:27.866406413Z"
@@ -618,6 +670,20 @@ entries:
   copilot-api:
   - apiVersion: v2
     appVersion: 0.2.1
+    created: "2025-05-10T18:52:24.548266021Z"
+    description: Reverse-engineered implementation of the GitHub Copilot API created
+      for EDUCATIONAL PRURPOSES ONLY
+    digest: 6bca0bc9b3c3e397840cf657ba546a9fa9904251399c53afc51c60792eb252c0
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: copilot-api
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/copilot-api-2.0.0/copilot-api-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v2
+    appVersion: 0.2.1
     created: "2025-05-07T01:16:56.77502045Z"
     description: Reverse-engineered implementation of the GitHub Copilot API created
       for EDUCATIONAL PRURPOSES ONLY
@@ -659,6 +725,19 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/copilot-api-1.0.0/copilot-api-1.0.0.tgz
     version: 1.0.0
   filestash:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2025-05-10T18:52:24.737996315Z"
+    description: A Dropbox-like file manager that let you manage your data anywhere
+    digest: 93b9fd827f5e75fec467565c0c50b519d2c44fd56e80ec52508b3a1f87bf5e39
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: filestash
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/filestash-4.0.0/filestash-4.0.0.tgz
+    version: 4.0.0
   - apiVersion: v2
     appVersion: latest
     created: "2025-04-14T15:59:36.196659656Z"
@@ -764,6 +843,20 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/filestash-1.0.0/filestash-1.0.0.tgz
     version: 1.0.0
   ghost:
+  - apiVersion: v2
+    appVersion: 5.119.2
+    created: "2025-05-10T18:52:24.904773059Z"
+    description: A simple, powerful publishing platform that allows you to share your
+      stories with the world.
+    digest: 2f25c15747edd7f9968c023aa4cc5b171adac45f4cc031cb2867e3389cbf30f0
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: ghost
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/ghost-7.0.0/ghost-7.0.0.tgz
+    version: 7.0.0
   - apiVersion: v2
     appVersion: 5.119.2
     created: "2025-05-09T18:21:48.990831683Z"
@@ -1173,6 +1266,19 @@ entries:
   maddy:
   - apiVersion: v2
     appVersion: 0.8.1
+    created: "2025-05-10T18:52:25.075625273Z"
+    description: A self hosted minimal mail server
+    digest: f7080ba95435a4019bfc4adb2f2c7775ff03576030a7d16206f17152ed610e09
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: maddy
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/maddy-4.0.0/maddy-4.0.0.tgz
+    version: 4.0.0
+  - apiVersion: v2
+    appVersion: 0.8.1
     created: "2025-04-14T15:59:36.418319524Z"
     description: A self hosted minimal mail server
     digest: 552281bc630174dcb07c68e0e961a26c5e783a60ab2b2bc243c223a2b1266f8a
@@ -1211,6 +1317,19 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/maddy-2.0.0/maddy-2.0.0.tgz
     version: 2.0.0
   memos:
+  - apiVersion: v2
+    appVersion: 0.24.2
+    created: "2025-05-10T18:52:25.268705543Z"
+    description: A self hosted note taking app
+    digest: 98f6536c826a64ac775c8c967d10552236815867868cbb16c91c0144a6712a46
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: memos
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/memos-7.0.0/memos-7.0.0.tgz
+    version: 7.0.0
   - apiVersion: v2
     appVersion: 0.24.2
     created: "2025-04-14T15:59:36.51355408Z"
@@ -1435,6 +1554,19 @@ entries:
   open-webui:
   - apiVersion: v2
     appVersion: 0.6.8
+    created: "2025-05-10T18:52:25.434277009Z"
+    description: "A User-Friendly Web Interface for Chat Interactions \U0001F44B"
+    digest: c463f0dc9f55e1ea4d983bbaf4b9dc8141a8802dcd08c678d197bfb96dfa26b8
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: open-webui
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/open-webui-2.0.0/open-webui-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v2
+    appVersion: 0.6.8
     created: "2025-05-10T18:19:29.693253055Z"
     description: "A User-Friendly Web Interface for Chat Interactions \U0001F44B"
     digest: 55802f982b0e8aef70322fa2775260ebebb04560b00039f6a904c1f0f0c6d497
@@ -1460,6 +1592,20 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/open-webui-1.0.0/open-webui-1.0.0.tgz
     version: 1.0.0
   paperless-ngx:
+  - apiVersion: v2
+    appVersion: 2.15.3
+    created: "2025-05-10T18:52:25.606236293Z"
+    description: A community-supported supercharged version of paperless; scan, index
+      and archive all your physical documents
+    digest: 68dc03ea97c7be8b5f75e566f3bbc44ebc104b372149b189f0450e7edc3ca926
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: paperless-ngx
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/paperless-ngx-7.0.0/paperless-ngx-7.0.0.tgz
+    version: 7.0.0
   - apiVersion: v2
     appVersion: 2.15.3
     created: "2025-04-20T01:19:13.726879215Z"
@@ -1925,6 +2071,19 @@ entries:
   radicale:
   - apiVersion: v2
     appVersion: 3.5.2.0
+    created: "2025-05-10T18:52:25.796498515Z"
+    description: A simple CalDAV (calendar) and CardDAV (contact) server
+    digest: dc46f02782eff53753c133a40b2a516cc4d91601eb4611a3b4acff3762e6bae3
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: radicale
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/radicale-4.0.0/radicale-4.0.0.tgz
+    version: 4.0.0
+  - apiVersion: v2
+    appVersion: 3.5.2.0
     created: "2025-04-27T12:28:30.994945856Z"
     description: A simple CalDAV (calendar) and CardDAV (contact) server
     digest: 9db29f3c129df18e2191ea3acb7a42ff612130729a85e165dacc6eb5892bece9
@@ -2043,6 +2202,19 @@ entries:
   redmine:
   - apiVersion: v2
     appVersion: 6.0.5
+    created: "2025-05-10T18:52:25.97321179Z"
+    description: A project management web application
+    digest: 17d0f659f785b73c9fa22e267466b6da0f9a35e90063300fdfdbaaeb24a7ba0e
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: redmine
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/redmine-7.0.0/redmine-7.0.0.tgz
+    version: 7.0.0
+  - apiVersion: v2
+    appVersion: 6.0.5
     created: "2025-04-22T01:14:58.6658274Z"
     description: A project management web application
     digest: 55d43b54992604d429e4776e0a94f254a46bee932d02cf3da820a39abb880e27
@@ -2120,6 +2292,19 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/redmine-4.0.1/redmine-4.0.1.tgz
     version: 4.0.1
   umami:
+  - apiVersion: v2
+    appVersion: 2.18.0
+    created: "2025-05-10T18:52:26.144194034Z"
+    description: A self hosted web analytics platform
+    digest: 9b102221f62fd851d9808b4b5c4e16b3410a110fd68e4ee6d6aaf5b0b96a2cf5
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: umami
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/umami-7.0.0/umami-7.0.0.tgz
+    version: 7.0.0
   - apiVersion: v2
     appVersion: 2.18.0
     created: "2025-05-08T12:32:26.367128147Z"
@@ -2368,6 +2553,19 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/umami-1.1.0/umami-1.1.0.tgz
     version: 1.1.0
   vaultwarden:
+  - apiVersion: v2
+    appVersion: 1.33.2
+    created: "2025-05-10T18:52:26.329784657Z"
+    description: A self hosted password manager
+    digest: 74d594e220fe8550205819ce38eb137a1fba0960036e436e42ef55a69183e0da
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: vaultwarden
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/vaultwarden-7.0.0/vaultwarden-7.0.0.tgz
+    version: 7.0.0
   - apiVersion: v2
     appVersion: 1.33.2
     created: "2025-04-14T15:59:37.112057231Z"
@@ -2631,6 +2829,19 @@ entries:
   vikunja:
   - apiVersion: v2
     appVersion: 0.24.6
+    created: "2025-05-10T18:52:26.494139583Z"
+    description: A self hosted task management application
+    digest: bd3090b64fa4b2701c9f4ecf23628f2bb98b87efa3d0b8ef6814ea11fb5a8e44
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: vikunja
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/vikunja-7.0.0/vikunja-7.0.0.tgz
+    version: 7.0.0
+  - apiVersion: v2
+    appVersion: 0.24.6
     created: "2025-04-14T15:59:37.22364331Z"
     description: A self hosted task management application
     digest: 15f3942830164893cba1196fa1ec8dc0891754acefb9ccbcec59ce71f4bbc798
@@ -2681,4 +2892,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-05-10T18:19:29.693705041Z"
+generated: "2025-05-10T18:52:26.495057231Z"
