@@ -7,6 +7,8 @@ image:
 main:
   ports:
     - containerPort: 4141
+  extraArgs:
+    - --vision
   environments: {}
     # - name: key
     #  value: value

@@ -34,6 +34,9 @@ spec:
             - run
             - dist/main.js
             - start
+          {{- with .Values.main.extraArgs }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           env:
           {{- range .Values.main.environments }}
             - name: {{ .name }}
