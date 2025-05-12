@@ -1,0 +1,95 @@
+image:
+  main:
+    repository: quay.io/keycloak/keycloak
+    pullPolicy: IfNotPresent
+    # tag: 26.2.4
+  postgresql:
+    repository: postgres
+    pullPolicy: IfNotPresent
+    tag: 17
+
+main:
+  ports:
+    - containerPort: 8080
+  secret:
+    enabled: true
+    autoCreate: true
+    name: keycloak-secret
+    values: # optional if using autoCreate with kustomize option 
+      username: keycloak
+      password: my_strong_password
+    usernameKey: username
+    passwordKey: password
+  options:
+    kc_hostname: https://keycloak.example.com
+    kc_hostname_strict_backchannel: false
+    kc_http_enabled: true
+    kc_hostname_strict_https: false
+    kc_health_enabled: true
+  environments: {}
+    # - name: key
+    #  value: value
+
+postgresql:
+  external:
+    enabled: false
+    host: 127.0.0.1
+    port: 5432
+  internal:
+    enabled: true
+  cnpg:
+    enabled: false
+    replicas: 3
+    primaryUpdateStrategy: unsupervised
+  secret:
+    enabled: true
+    autoCreate: true
+    name: keycloak-postgresql
+    usernameKey: username
+    passwordKey: password
+    databaseKey: database
+  options:
+    database: keycloak
+    username: keycloak
+    password: keycloak
+  settings: #~ ignored if cnpg.enabled
+    podManagementPolicy: Parallel
+    updateStrategy:
+      type: RollingUpdate
+    persistence:
+      accessModes:
+        - ReadWriteOnce
+      claimRetentionPolicy: 
+        whenDeleted: Retain
+        whenScaled: Retain
+  environments: {}
+    # - name: key
+    #   value: value
+
+service:
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+
+resources:
+  limits:
+    main:
+      memory: 512Mi
+    postgresql:
+      memory: 512Mi
+  requests:
+    main:
+      storage: 512Mi
+    postgresql:
+      storage: 1Gi
+
+replicaCount: 1
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
