@@ -50,6 +50,9 @@ spec:
           command: 
             - /opt/keycloak/bin/kc.sh
             - start
+          {{- with .Values.main.extraArgs }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           env:
             - name: KC_DB_USERNAME
               {{- if .Values.postgresql.secret.enabled }}

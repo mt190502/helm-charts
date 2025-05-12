@@ -20,6 +20,8 @@ main:
       password: my_strong_password
     usernameKey: username
     passwordKey: password
+  extraArgs:
+    - --optimized
   options:
     kc_hostname: https://keycloak.example.com
     kc_hostname_strict_backchannel: false
