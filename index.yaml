@@ -669,6 +669,20 @@ entries:
     version: 1.0.0
   copilot-api:
   - apiVersion: v2
+    appVersion: 0.2.3
+    created: "2025-05-12T18:22:31.071259247Z"
+    description: Reverse-engineered implementation of the GitHub Copilot API created
+      for EDUCATIONAL PRURPOSES ONLY
+    digest: 3ed1b091900e3d175beea055a0c9cc7a803da36dbc42fee14e87ab8b0e27e9b1
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: copilot-api
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/copilot-api-2.0.2/copilot-api-2.0.2.tgz
+    version: 2.0.2
+  - apiVersion: v2
     appVersion: 0.2.1
     created: "2025-05-11T15:52:01.86549284Z"
     description: Reverse-engineered implementation of the GitHub Copilot API created
@@ -1430,6 +1444,19 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/maddy-2.0.0/maddy-2.0.0.tgz
     version: 2.0.0
   memos:
+  - apiVersion: v2
+    appVersion: 0.24.3
+    created: "2025-05-12T18:22:31.187034461Z"
+    description: A self hosted note taking app
+    digest: f1eb96ab941e5951817ad62c5da82c58416180e66a6d5b3a182c7471d07d7ce5
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: memos
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/memos-7.0.1/memos-7.0.1.tgz
+    version: 7.0.1
   - apiVersion: v2
     appVersion: 0.24.2
     created: "2025-05-10T18:52:25.268705543Z"
@@ -3031,4 +3058,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-05-12T12:33:49.395423134Z"
+generated: "2025-05-12T18:22:31.187446944Z"
