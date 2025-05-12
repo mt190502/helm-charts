@@ -78,7 +78,7 @@ service:
 resources:
   limits:
     main:
-      memory: 512Mi
+      memory: 1Gi
     postgresql:
       memory: 512Mi
   requests:
