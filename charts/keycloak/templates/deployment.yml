@@ -78,6 +78,24 @@ spec:
               {{- else }}
               value: {{ .Values.postgresql.options.database | quote }}
               {{- end }}
+            - name: KEYCLOAK_ADMIN
+              {{- if .Values.main.secret.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ if .Values.main.secret.name }}{{ .Values.main.secret.name }}{{ else }}{{ .Release.Name }}-secret{{ end }}
+                  key: {{ .Values.main.secret.usernameKey | quote }}
+              {{- else }}
+              value: {{ .Values.main.secret.values.username | quote }}
+              {{- end }}
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              {{- if .Values.main.secret.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ if .Values.main.secret.name }}{{ .Values.main.secret.name }}{{ else }}{{ .Release.Name }}-secret{{ end }}
+                  key: {{ .Values.main.secret.passwordKey | quote }}
+              {{- else }}
+              value: {{ .Values.main.secret.values.password | quote }}
+              {{- end }}
             - name: DB_HOST
               {{- if .Values.postgresql.internal.enabled }}
               value: {{ .Release.Name }}-postgresql{{ if .Values.postgresql.cnpg.enabled }}-rw{{ end }}
