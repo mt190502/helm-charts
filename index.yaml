@@ -1277,6 +1277,21 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/ghost-2.0.1/ghost-2.0.1.tgz
     version: 2.0.1
+  keycloak:
+  - apiVersion: v2
+    appVersion: 26.2.4
+    created: "2025-05-12T08:40:09.882250253Z"
+    description: A identity and access management solution for modern applications
+      and services
+    digest: a79fc5f613ab2b4e3ab89b87e43ef6450460471592cd50fba4f9ea5847d98e71
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: keycloak
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/keycloak-1.0.0/keycloak-1.0.0.tgz
+    version: 1.0.0
   maddy:
   - apiVersion: v2
     appVersion: 0.8.1
@@ -2919,4 +2934,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-05-11T15:52:01.866034059Z"
+generated: "2025-05-12T08:40:09.882897118Z"
