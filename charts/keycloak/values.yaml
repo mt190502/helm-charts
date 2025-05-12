@@ -20,8 +20,7 @@ main:
       password: my_strong_password
     usernameKey: username
     passwordKey: password
-  extraArgs:
-    # - --optimized # add this flag after keycloak build is finished
+  extraArgs: # --optimized                    # add this flag after keycloak build is finished
   options:
     kc_hostname: https://keycloak.example.com
     kc_hostname_strict_backchannel: false

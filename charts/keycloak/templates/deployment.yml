@@ -48,11 +48,11 @@ spec:
         - name: "{{ .Release.Name }}-main"
           image: {{ template "keycloak.main.image" . }}
           command: 
-            - /opt/keycloak/bin/kc.sh
-            - start
-          {{- with .Values.main.extraArgs }}
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
+            - sh
+            - -c 
+            - |
+              /opt/keycloak/bin/kc.sh build
+              /opt/keycloak/bin/kc.sh start {{ if .Values.main.extraArgs }}{{ .Values.main.extraArgs }}{{ end }}
           env:
             - name: KC_DB_USERNAME
               {{- if .Values.postgresql.secret.enabled }}
