@@ -81,7 +81,7 @@ spec:
               {{- else }}
               value: {{ .Values.postgresql.options.database | quote }}
               {{- end }}
-            - name: KEYCLOAK_ADMIN
+            - name: KC_BOOTSTRAP_ADMIN_USERNAME
               {{- if .Values.main.secret.enabled }}
               valueFrom:
                 secretKeyRef:
@@ -90,7 +90,7 @@ spec:
               {{- else }}
               value: {{ .Values.main.secret.values.username | quote }}
               {{- end }}
-            - name: KEYCLOAK_ADMIN_PASSWORD
+            - name: KC_BOOTSTRAP_ADMIN_PASSWORD
               {{- if .Values.main.secret.enabled }}
               valueFrom:
                 secretKeyRef:
