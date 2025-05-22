@@ -83,7 +83,7 @@ def update_version():
             if 'github.com' in project_url:
                 image = project_url.split("github.com/")[1]
                 response = requests.get(f'https://api.github.com/repos/{image}/tags')
-                versions.extend(filter_valid_versions([tag['name'] for tag in response.json() if re.match(r'^v?\d{,3}\.\d{,3}\.\d{,3}$', tag['name'])]))
+                versions.extend(filter_valid_versions([match.group(1) for tag in response.json() if (match := re.match(r'v?(\d{1,3}\.\d{1,3}\.\d{1,3})$', tag['name']))]))
                 versions.sort(key=Version, reverse=True)
                 if not versions:
                     response = requests.get(f'https://api.github.com/repos/{image}/releases/latest')
