@@ -82,13 +82,30 @@ def update_version():
         try:
             if 'github.com' in project_url:
                 image = project_url.split("github.com/")[1]
-                response = requests.get(f'https://api.github.com/repos/{image}/tags')
-                versions.extend(filter_valid_versions([match.group(1) for tag in response.json() if (match := re.match(r'v?(\d{1,3}\.\d{1,3}\.\d{1,3})$', tag['name']))]))
-                versions.sort(key=Version, reverse=True)
-                if not versions:
-                    response = requests.get(f'https://api.github.com/repos/{image}/releases/latest')
-                    versions.extend(filter_valid_versions([re.sub(r'[a-zA-Z]', '', response.json()['tag_name'])]))
+                chart_dir = os.path.dirname(chart.get("file"))
+                do_release_check = os.path.exists(os.path.join(chart_dir, ".do-release-check"))
+
+                if do_release_check:
+                    tag_response = requests.get(f'https://api.github.com/repos/{image}/tags')
+                    tag_versions = filter_valid_versions([match.group(1) for tag in tag_response.json() if (match := re.match(r'v?(\d{1,3}\.\d{1,3}\.\d{1,3})$', tag['name']))])
+                    tag_versions.sort(key=Version, reverse=True)
+
+                    release_response = requests.get(f'https://api.github.com/repos/{image}/releases/latest')
+                    raw_tag = release_response.json().get('tag_name', '')
+                    release_version = re.sub(r'^[vV]', '', re.sub(r'[a-zA-Z]', '', raw_tag))
+
+                    if not tag_versions or tag_versions[0] != release_version:
+                        print(f"Skipping '{chart_app_name}': latest tag '{tag_versions[0] if tag_versions else None}' does not match release '{release_version}'")
+                        continue
+                    versions = [release_version]
+                else:
+                    response = requests.get(f'https://api.github.com/repos/{image}/tags')
+                    versions.extend(filter_valid_versions([match.group(1) for tag in response.json() if (match := re.match(r'v?(\d{1,3}\.\d{1,3}\.\d{1,3})$', tag['name']))]))
                     versions.sort(key=Version, reverse=True)
+                    if not versions:
+                        response = requests.get(f'https://api.github.com/repos/{image}/releases/latest')
+                        versions.extend(filter_valid_versions([re.sub(r'[a-zA-Z]', '', response.json()['tag_name'])]))
+                        versions.sort(key=Version, reverse=True)
             else:
                 path_parts = project_url.strip('/').split('/')[-2:]
                 if path_parts[0] == '_':
