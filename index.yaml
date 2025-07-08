@@ -3061,6 +3061,19 @@ entries:
     version: 2.0.0
   redmine:
   - apiVersion: v2
+    appVersion: 6.0.6
+    created: "2025-07-08T06:25:27.766198415Z"
+    description: A project management web application
+    digest: 59c1990cc5874a0084f94796e0264da9da3be7d42ad68935896ec113ee15c566
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: redmine
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/redmine-7.0.1/redmine-7.0.1.tgz
+    version: 7.0.1
+  - apiVersion: v2
     appVersion: 6.0.5
     created: "2025-05-10T18:52:25.97321179Z"
     description: A project management web application
@@ -3778,4 +3791,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-07-07T18:23:42.052716138Z"
+generated: "2025-07-08T06:25:27.766699981Z"
