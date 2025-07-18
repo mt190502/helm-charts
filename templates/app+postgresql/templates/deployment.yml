@@ -94,7 +94,7 @@ spec:
               {{- if or (eq (.Values.main.appSecret.autoCreate | toString) "true") (eq (.Values.main.appSecret.autoCreate | toString) "kustomize") }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.main.appSecret.name }}
+                  name: {{ if .Values.main.appSecret.name }}{{ .Values.main.appSecret.name }}{{ else }}{{ .Release.Name }}-secret{{ end }}
                   key: {{ .Values.main.appSecret.key | quote }}
               {{- else }}
               value: {{ .Values.main.options.app_secret | quote }}
