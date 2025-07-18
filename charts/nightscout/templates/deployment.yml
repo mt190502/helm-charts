@@ -1,0 +1,245 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-main"
+  namespace: "{{ if eq .Release.Namespace "default" }}nightscout-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
+spec:
+  replicas: {{ .Values.replicaCount | default (printf "%d" 1) }}
+  selector:
+    matchLabels:
+      app: "{{ .Release.Name }}-main"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Release.Name }}-main"
+    spec:
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+      initContainers:
+        - name: "{{ .Release.Name }}-main-init"
+          image: busybox
+          command:
+            - sh
+            - -c
+            - |
+              {{- if .Values.mongo.internal.enabled }}
+              until nc -z -v -w30 {{ .Release.Name }}-mongo 27017
+              {{- else }}
+              until nc -z -v -w30 {{ .Values.mongo.external.host }} {{ .Values.mongo.external.port }}
+              {{- end }}
+              do
+                echo "Waiting for the database to be ready..."
+                sleep 5
+              done
+      containers:
+        - name: "{{ .Release.Name }}-main"
+          image: {{ template "nightscout.main.image" . }}
+          env:
+            - name: DB_USERNAME
+              {{- if .Values.mongo.secret.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ if .Values.mongo.secret.name }}{{ .Values.mongo.secret.name }}{{ else }}{{ .Release.Name }}-mongo{{ end }}
+                  key: {{ .Values.mongo.secret.usernameKey | quote }}
+              {{- else }}
+              value: {{ .Values.mongo.options.username | quote }}
+              {{- end }}
+            - name: DB_PASSWORD
+              {{- if .Values.mongo.secret.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ if .Values.mongo.secret.name }}{{ .Values.mongo.secret.name }}{{ else }}{{ .Release.Name }}-mongo{{ end }}
+                  key: {{ .Values.mongo.secret.passwordKey | quote }}
+              {{- else }}
+              value: {{ .Values.mongo.options.password | quote }}
+              {{- end }}
+            - name: DB_DATABASE
+              {{- if .Values.mongo.secret.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ if .Values.mongo.secret.name }}{{ .Values.mongo.secret.name }}{{ else }}{{ .Release.Name }}-mongo{{ end }}
+                  key: {{ .Values.mongo.secret.databaseKey | quote }}
+              {{- else }}
+              value: {{ .Values.mongo.options.database | quote }}
+              {{- end }}
+            - name: DB_HOST
+              {{- if .Values.mongo.internal.enabled }}
+              value: {{ .Release.Name }}-mongo
+              {{- else }}
+              value: {{ .Values.mongo.external.host }}
+              {{- end }}
+            - name: DB_PORT
+              {{- if .Values.mongo.internal.enabled }}
+              value: "27017"
+              {{- else }}
+              value: {{ .Values.mongo.external.port | quote }}
+              {{- end }}
+            - name: MONGO_CONNECTION
+              value: {{ template "mongo.credentials" . }}
+          {{- if .Values.main.appSecret.enabled }}
+            - name: API_SECRET
+              {{- if or (eq (.Values.main.appSecret.autoCreate | toString) "true") (eq (.Values.main.appSecret.autoCreate | toString) "kustomize") }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ if .Values.main.appSecret.name }}{{ .Values.main.appSecret.name }}{{ else }}{{ .Release.Name }}-secret{{ end }}
+                  key: {{ .Values.main.appSecret.key | quote }}
+              {{- else }}
+              value: {{ .Values.main.options.app_secret | quote }}
+              {{- end }}
+          {{- end }}
+            - name: NODE_ENV
+              value: production
+            - name: TZ
+              value: {{ .Values.main.options.timezone | default "Etc/UTC" | quote }}
+            - name: AUTH_DEFAULT_ROLES
+              value: {{ .Values.main.options.auth_default_roles | default "denied" | quote }}
+            - name: INSECURE_USE_HTTP
+              value: {{ .Values.main.options.insecure_use_http | default "true" | quote }}
+            - name: OPTIONAL_FEATURES
+              value: {{ .Values.main.options.optional_features | default "careportal rawbg iob" | quote }}
+          {{- range .Values.main.environments }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+          {{- end }}
+          {{- with .Values.main.ports }}
+          ports:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.resources.limits.main }}
+          resources:
+            limits:
+              {{- toYaml . | nindent 14 }}
+          {{- end }}
+
+{{ if .Values.mongo.internal.enabled }}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: "{{ .Release.Name }}-mongo"
+  namespace: "{{ if eq .Release.Namespace "default" }}nightscout-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
+spec:
+  replicas: {{ .Values.replicaCount | default (printf "%d" 1) }}
+  podManagementPolicy: {{ .Values.mongo.settings.podManagementPolicy | default "Parallel" | quote }}
+  serviceName: "{{ .Release.Name }}-mongo"
+  {{- if .Values.mongo.settings.updateStrategy }}
+  updateStrategy:
+    type: {{ .Values.mongo.settings.updateStrategy.type | default "RollingUpdate" | quote }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: "{{ .Release.Name }}-mongo"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Release.Name }}-mongo"
+    spec:
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+      initContainers:
+        - name: "{{ .Release.Name }}-mongo-init"
+          image: {{ template "nightscout.mongo.image" . }}
+          command:
+            - sh
+            - -c
+            - |
+              mongod &
+              until bash -c "echo > /dev/tcp/localhost/27017"
+              do
+                echo "Waiting for the database to be ready..."
+                sleep 5
+              done
+              mongo --host localhost \
+                    --eval "db = db.getSiblingDB('${MONGO_INITDB_DATABASE}'); if (!db.getUser('${MONGO_INITDB_ROOT_USERNAME}')) { db.createUser({user: '${MONGO_INITDB_ROOT_USERNAME}', pwd: '${MONGO_INITDB_ROOT_PASSWORD}', roles: [{role: 'readWrite', db: '${MONGO_INITDB_DATABASE}'}]}); }"
+              mongo --host localhost --eval "db.getSiblingDB('admin').shutdownServer()"
+              sleep 5
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              {{- if .Values.mongo.secret.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ if .Values.mongo.secret.name }}{{ .Values.mongo.secret.name }}{{ else }}{{ .Release.Name }}-mongo{{ end }}
+                  key: {{ .Values.mongo.secret.usernameKey | quote }}
+              {{- else }}
+              value: {{ .Values.mongo.options.username | quote }}
+              {{- end }}
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              {{- if .Values.mongo.secret.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ if .Values.mongo.secret.name }}{{ .Values.mongo.secret.name }}{{ else }}{{ .Release.Name }}-mongo{{ end }}
+                  key: {{ .Values.mongo.secret.passwordKey | quote }}
+              {{- else }}
+              value: {{ .Values.mongo.options.password | quote }}
+              {{- end }}
+            - name: MONGO_INITDB_DATABASE
+              {{- if .Values.mongo.secret.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ if .Values.mongo.secret.name }}{{ .Values.mongo.secret.name }}{{ else }}{{ .Release.Name }}-mongo{{ end }}
+                  key: {{ .Values.mongo.secret.databaseKey | quote }}
+              {{- else }}
+              value: {{ .Values.mongo.options.database | quote }}
+              {{- end }}
+          volumeMounts:
+            - name: "database"
+              mountPath: /data/db
+      containers:
+        - name: "{{ .Release.Name }}-mongo"
+          image: {{ template "nightscout.mongo.image" . }}
+          env:
+          {{- range .Values.mongo.environments }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+          {{- end }}
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: "database"
+              mountPath: /data/db
+      volumes:
+        - name: "database"
+  {{- if .Values.mongo.settings.persistence.claimRetentionPolicy }}
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: {{ .Values.mongo.settings.persistence.claimRetentionPolicy.whenDeleted | default "Retain" | quote }}
+    whenScaled: {{ .Values.mongo.settings.persistence.claimRetentionPolicy.whenScaled | default "Retain" | quote }}
+  {{- end }}
+  volumeClaimTemplates:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: "database"
+        namespace: "{{ if eq .Release.Namespace "default" }}nightscout-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
+      spec:
+        accessModes:
+        {{- if .Values.mongo.settings.persistence.accessModes }}
+          {{- toYaml .Values.mongo.settings.persistence.accessModes | nindent 8 }} 
+        {{- else }}
+          - ReadWriteOnce
+        {{- end }}
+        resources:
+          requests:
+            storage: "{{ .Values.resources.requests.mongo.storage }}"
+{{- end }}
+

@@ -1,0 +1,87 @@
+image:
+  main:
+    repository: nightscout/cgm-remote-monitor
+    pullPolicy: IfNotPresent
+    # tag: 15.0.3
+  mongo:
+    repository: mongo
+    pullPolicy: IfNotPresent
+    tag: 4.4
+
+main:
+  ports:
+    - containerPort: 1337
+  appSecret:
+    enabled: true
+    autoCreate: true
+    name: nightscout-secret
+    key: api_secret
+  options:
+    app_secret: my_strong_secret
+    auth_default_roles: "denied"
+    insecure_use_http: true
+    optional_features: "careportal rawbg iob"
+    timezone: Etc/UTC
+  environments: {}
+    # - name: key
+    #  value: value
+
+mongo:
+  external:
+    enabled: false
+    host: 127.0.0.1
+    port: 27017
+  internal:
+    enabled: true
+  secret:
+    enabled: true
+    autoCreate: true
+    name: nightscout-mongo
+    usernameKey: username
+    passwordKey: password
+    databaseKey: database
+  options:
+    database: nightscout
+    username: nightscout
+    password: nightscout
+  settings:
+    podManagementPolicy: Parallel
+    updateStrategy:
+      type: RollingUpdate
+    persistence:
+      accessModes:
+        - ReadWriteOnce
+      claimRetentionPolicy: 
+        whenDeleted: Retain
+        whenScaled: Retain
+  environments: {}
+    # - name: key
+    #   value: value
+
+service:
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 1337
+      targetPort: 1337
+
+resources:
+  limits:
+    main:
+      memory: 512Mi
+    mongo:
+      memory: 1Gi
+  requests:
+    main:
+      storage: 1Gi
+    mongo:
+      storage: 1Gi
+
+replicaCount: 1
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
