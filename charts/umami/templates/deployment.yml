@@ -156,10 +156,14 @@ spec:
               {{- end }}
           {{- if .Values.main.appSecret.enabled }}
             - name: APP_SECRET
+              {{- if or (eq (.Values.main.appSecret.autoCreate | toString) "true") (eq (.Values.main.appSecret.autoCreate | toString) "kustomize") }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.main.appSecret.name }}
-                  key: {{ .Values.main.appSecret.key | quote }}
+                  name: {{ if .Values.main.appSecret.name }}{{ .Values.main.appSecret.name }}{{ else }}{{ .Release.Name }}-secret{{ end }}
+                  key: {{ .Values.main.appSecret.key }}
+              {{- else }}
+              value: {{ .Values.main.options.app_secret | quote }}
+              {{- end }}
           {{- end }}
           {{- range .Values.main.environments }}
             - name: {{ .name }}

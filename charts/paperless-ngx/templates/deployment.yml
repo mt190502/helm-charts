@@ -104,7 +104,7 @@ spec:
              {{- if .Values.main.appSecret.enabled }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ if .Values.main.appSecret.name }}{{ .Values.main.appSecret.name }}{{ else }}{{ .Release.Name }}-main{{ end }}
+                  name: {{ if .Values.main.appSecret.name }}{{ .Values.main.appSecret.name }}{{ else }}{{ .Release.Name }}-secret{{ end }}
                   key: {{ .Values.main.appSecret.key | quote }}
              {{- else }}
               value: {{ .Values.main.options.paperless_app_secret | quote }}

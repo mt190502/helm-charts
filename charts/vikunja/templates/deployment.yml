@@ -151,7 +151,7 @@ spec:
             - name: VIKUNJA_SERVICE_JWTSECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.main.appSecret.name }}
+                  name: {{ if .Values.main.appSecret.name }}{{ .Values.main.appSecret.name }}{{ else }}{{ .Release.Name }}-secret{{ end }}
                   key: {{ .Values.main.appSecret.key | quote }}
           {{- range .Values.main.environments }}
             - name: {{ .name }}
