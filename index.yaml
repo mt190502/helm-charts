@@ -2293,6 +2293,20 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/memos-1.0.0/memos-1.0.0.tgz
     version: 1.0.0
+  nightscout:
+  - apiVersion: v2
+    appVersion: 15.0.3
+    created: "2025-07-18T21:12:37.571246273Z"
+    description: A self-hosted diabetes management application
+    digest: 8dc69e3e20a106df86cefb8e29d978e1f1d467d4c31a84f5a9f38fccb18fbf87
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: nightscout
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/nightscout-1.0.0/nightscout-1.0.0.tgz
+    version: 1.0.0
   open-webui:
   - apiVersion: v2
     appVersion: 0.6.16
@@ -3913,4 +3927,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-07-18T13:43:44.061504049Z"
+generated: "2025-07-18T21:12:37.57162635Z"
