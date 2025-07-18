@@ -826,6 +826,20 @@ entries:
   copilot-api:
   - apiVersion: v2
     appVersion: 0.5.1
+    created: "2025-07-18T13:43:43.658421879Z"
+    description: Reverse-engineered implementation of the GitHub Copilot API created
+      for EDUCATIONAL PRURPOSES ONLY
+    digest: bc5737ac48293b6dedce8bb28fe3e55f52c6b35f644a5807465e811ec191ba00
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: copilot-api
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/copilot-api-2.2.1/copilot-api-2.2.1.tgz
+    version: 2.2.1
+  - apiVersion: v2
+    appVersion: 0.5.1
     created: "2025-06-26T12:34:55.621097697Z"
     description: Reverse-engineered implementation of the GitHub Copilot API created
       for EDUCATIONAL PRURPOSES ONLY
@@ -2426,6 +2440,20 @@ entries:
   paperless-ngx:
   - apiVersion: v2
     appVersion: 2.17.1
+    created: "2025-07-18T13:43:43.78144786Z"
+    description: A community-supported supercharged version of paperless; scan, index
+      and archive all your physical documents
+    digest: bc9ed9001a34a00494f33bf55f12cfd21d747a42ff51b62fb1c1f03d770ae445
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: paperless-ngx
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/paperless-ngx-7.2.2/paperless-ngx-7.2.2.tgz
+    version: 7.2.2
+  - apiVersion: v2
+    appVersion: 2.17.1
     created: "2025-06-20T01:19:13.673939536Z"
     description: A community-supported supercharged version of paperless; scan, index
       and archive all your physical documents
@@ -3235,6 +3263,19 @@ entries:
   umami:
   - apiVersion: v2
     appVersion: 2.18.1
+    created: "2025-07-18T13:43:43.921675995Z"
+    description: A self hosted web analytics platform
+    digest: 937134bd81eb8047c66136d98a5e4d9fe972d34aa7da20ae76f0b73ea63058b5
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: umami
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/umami-7.0.2/umami-7.0.2.tgz
+    version: 7.0.2
+  - apiVersion: v2
+    appVersion: 2.18.1
     created: "2025-05-12T12:33:49.394923292Z"
     description: A self hosted web analytics platform
     digest: ffffcdc3c076b101ed842228047c79b9f8da96b7ebd7ceffe73d338943fdc364
@@ -3796,6 +3837,19 @@ entries:
   vikunja:
   - apiVersion: v2
     appVersion: 0.24.6
+    created: "2025-07-18T13:43:44.060272132Z"
+    description: A self hosted task management application
+    digest: 472fd218cfbdd02abd0e0d54c20977f63884676a6666839a51925f52550a0fee
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: vikunja
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/vikunja-7.0.1/vikunja-7.0.1.tgz
+    version: 7.0.1
+  - apiVersion: v2
+    appVersion: 0.24.6
     created: "2025-05-10T18:52:26.494139583Z"
     description: A self hosted task management application
     digest: bd3090b64fa4b2701c9f4ecf23628f2bb98b87efa3d0b8ef6814ea11fb5a8e44
@@ -3859,4 +3913,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-07-16T18:25:04.589494463Z"
+generated: "2025-07-18T13:43:44.061504049Z"
