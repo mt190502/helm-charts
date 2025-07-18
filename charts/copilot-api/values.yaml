@@ -1,6 +1,6 @@
 image:
   main:
-    repository: ghcr.io/kreatoo/copilot-api-docker
+    repository: ghcr.io/bouquet2/copilot-api-docker
     pullPolicy: IfNotPresent
     # tag: 0.1.1
 
