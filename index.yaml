@@ -198,6 +198,19 @@ entries:
     version: 2.0.0
   anki-server:
   - apiVersion: v2
+    appVersion: 25.07.3
+    created: "2025-07-21T12:37:32.976624333Z"
+    description: A self hosted sync server for Anki
+    digest: ee9018a723b60df05d1906204ee868ce4d79d8fd3e5af73251649023dd39986b
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: anki-server
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/anki-server-2.1.2/anki-server-2.1.2.tgz
+    version: 2.1.2
+  - apiVersion: v2
     appVersion: 25.07.2
     created: "2025-07-07T18:23:42.05208973Z"
     description: A self hosted sync server for Anki
@@ -1083,6 +1096,20 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/filestash-1.0.0/filestash-1.0.0.tgz
     version: 1.0.0
   ghost:
+  - apiVersion: v2
+    appVersion: 5.130.2
+    created: "2025-07-21T12:37:33.124710966Z"
+    description: A simple, powerful publishing platform that allows you to share your
+      stories with the world.
+    digest: 2d205071d327ba3106221d76859f61cb7ef2a46937bd1e69218bc6f589e32509
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: ghost
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/ghost-7.11.2/ghost-7.11.2.tgz
+    version: 7.11.2
   - apiVersion: v2
     appVersion: 5.130.1
     created: "2025-07-19T01:21:48.16543054Z"
@@ -3967,4 +3994,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-07-20T01:40:30.92779891Z"
+generated: "2025-07-21T12:37:33.125215577Z"
