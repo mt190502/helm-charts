@@ -198,6 +198,19 @@ entries:
     version: 2.0.0
   anki-server:
   - apiVersion: v2
+    appVersion: 25.07.4
+    created: "2025-07-24T18:25:25.229618787Z"
+    description: A self hosted sync server for Anki
+    digest: 9f548d98a4f4172ec877c9eada2a3efbeb8be7a645a04c2dd702c035ccd3f416
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: anki-server
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/anki-server-2.1.3/anki-server-2.1.3.tgz
+    version: 2.1.3
+  - apiVersion: v2
     appVersion: 25.07.3
     created: "2025-07-21T12:37:32.976624333Z"
     description: A self hosted sync server for Anki
@@ -4036,4 +4049,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-07-24T12:37:22.72931803Z"
+generated: "2025-07-24T18:25:25.23010206Z"
