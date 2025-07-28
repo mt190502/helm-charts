@@ -2,6 +2,19 @@ apiVersion: v1
 entries:
   adguard-home:
   - apiVersion: v2
+    appVersion: 0.107.64
+    created: "2025-07-28T18:27:11.947186514Z"
+    description: A self hosted DNS server with ad blocking capabilities
+    digest: efa3cc217d51954a40c864a1dea13f6a41e8b9f9c5073be93c41f2a53b2f146d
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: adguard-home
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/adguard-home-4.0.3/adguard-home-4.0.3.tgz
+    version: 4.0.3
+  - apiVersion: v2
     appVersion: 0.107.63
     created: "2025-06-26T18:23:54.161155746Z"
     description: A self hosted DNS server with ad blocking capabilities
@@ -863,6 +876,20 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/commafeed-1.0.0/commafeed-1.0.0.tgz
     version: 1.0.0
   copilot-api:
+  - apiVersion: v2
+    appVersion: 0.5.6
+    created: "2025-07-28T18:27:12.141243806Z"
+    description: Reverse-engineered implementation of the GitHub Copilot API created
+      for EDUCATIONAL PRURPOSES ONLY
+    digest: 6c35d1b37de3d024560f438953c1b0a87fb12e1e8a909fdc6a862b13375bdc9c
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: copilot-api
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/copilot-api-2.2.4/copilot-api-2.2.4.tgz
+    version: 2.2.4
   - apiVersion: v2
     appVersion: 0.5.3
     created: "2025-07-24T01:25:04.371337971Z"
@@ -4088,4 +4115,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-07-28T01:39:48.682086291Z"
+generated: "2025-07-28T18:27:12.141789022Z"
