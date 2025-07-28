@@ -3411,6 +3411,19 @@ entries:
     version: 4.0.1
   umami:
   - apiVersion: v2
+    appVersion: 2.19.0
+    created: "2025-07-28T01:39:48.570652143Z"
+    description: A self hosted web analytics platform
+    digest: 3efcd4a59911a98201e012d9d16c1403ad0990aa562ea4f49a91f8eafdafa425
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: umami
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/umami-7.1.0/umami-7.1.0.tgz
+    version: 7.1.0
+  - apiVersion: v2
     appVersion: 2.18.1
     created: "2025-07-18T13:43:43.921675995Z"
     description: A self hosted web analytics platform
@@ -3697,6 +3710,19 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/umami-1.1.0/umami-1.1.0.tgz
     version: 1.1.0
   vaultwarden:
+  - apiVersion: v2
+    appVersion: 1.34.2
+    created: "2025-07-28T01:39:48.681370133Z"
+    description: A self hosted password manager
+    digest: 5cc9a8f1d560a48b8351da3df0abcfb8be102647d88336e90e6967fc12638a7c
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: vaultwarden
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/vaultwarden-7.1.1/vaultwarden-7.1.1.tgz
+    version: 7.1.1
   - apiVersion: v2
     appVersion: 1.34.1
     created: "2025-05-27T01:16:55.286281564Z"
@@ -4062,4 +4088,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-07-25T18:25:04.965905448Z"
+generated: "2025-07-28T01:39:48.682086291Z"
