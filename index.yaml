@@ -890,6 +890,20 @@ entries:
     version: 1.0.0
   copilot-api:
   - apiVersion: v2
+    appVersion: 0.5.12
+    created: "2025-08-11T18:26:14.382377059Z"
+    description: Reverse-engineered implementation of the GitHub Copilot API created
+      for EDUCATIONAL PRURPOSES ONLY
+    digest: 60a086e1a8b7ac1ad1eee9be3138fc2b6e2d90fea594ec3118e376c4f8fa8fcd
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: copilot-api
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/copilot-api-2.2.5/copilot-api-2.2.5.tgz
+    version: 2.2.5
+  - apiVersion: v2
     appVersion: 0.5.6
     created: "2025-07-28T18:27:12.141243806Z"
     description: Reverse-engineered implementation of the GitHub Copilot API created
@@ -2471,6 +2485,19 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/nightscout-1.0.0/nightscout-1.0.0.tgz
     version: 1.0.0
   open-webui:
+  - apiVersion: v2
+    appVersion: 0.6.22
+    created: "2025-08-11T18:26:14.533218125Z"
+    description: "A User-Friendly Web Interface for Chat Interactions \U0001F44B"
+    digest: 778438fbcdcd4a1d4ed4f99a32101c2523a4b1b722ca0e9e5b61098494b195f3
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: open-webui
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/open-webui-2.0.13/open-webui-2.0.13.tgz
+    version: 2.0.13
   - apiVersion: v2
     appVersion: 0.6.21
     created: "2025-08-10T18:22:20.785667769Z"
@@ -4181,4 +4208,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-08-10T18:22:20.786430602Z"
+generated: "2025-08-11T18:26:14.533831636Z"
