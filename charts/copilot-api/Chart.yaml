@@ -2,8 +2,8 @@ apiVersion: v2
 name: copilot-api
 description: Reverse-engineered implementation of the GitHub Copilot API created for EDUCATIONAL PRURPOSES ONLY
 type: application
-version: 2.2.4
-appVersion: 0.5.6
+version: 2.2.5
+appVersion: 0.5.12
 projectUrl: https://github.com/bouquet2/copilot-api-docker
 maintainers:
 - name: Taha
