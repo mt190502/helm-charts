@@ -106,7 +106,7 @@ spec:
               value: {{ .Values.main.options.auth_default_roles | default "denied" | quote }}
             - name: INSECURE_USE_HTTP
               value: {{ .Values.main.options.insecure_use_http | default "true" | quote }}
-            - name: OPTIONAL_FEATURES
+            - name: ENABLE
               value: {{ .Values.main.options.optional_features | default "careportal rawbg iob" | quote }}
           {{- range .Values.main.environments }}
             - name: {{ .name }}
