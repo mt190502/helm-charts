@@ -2473,6 +2473,19 @@ entries:
   nightscout:
   - apiVersion: v2
     appVersion: 15.0.3
+    created: "2025-08-14T18:52:19.550355005Z"
+    description: A self-hosted diabetes management application
+    digest: 84e2ced0bd143c805a208ba059d1173bf864e4e99a9a726f49f51d1bb89cb760
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: nightscout
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/nightscout-1.1.0/nightscout-1.1.0.tgz
+    version: 1.1.0
+  - apiVersion: v2
+    appVersion: 15.0.3
     created: "2025-07-18T21:12:37.571246273Z"
     description: A self-hosted diabetes management application
     digest: 8dc69e3e20a106df86cefb8e29d978e1f1d467d4c31a84f5a9f38fccb18fbf87
@@ -4208,4 +4221,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-08-11T18:26:14.533831636Z"
+generated: "2025-08-14T18:52:19.550787587Z"
