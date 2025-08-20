@@ -2,6 +2,19 @@ apiVersion: v1
 entries:
   adguard-home:
   - apiVersion: v2
+    appVersion: 0.107.65
+    created: "2025-08-20T18:23:57.309795403Z"
+    description: A self hosted DNS server with ad blocking capabilities
+    digest: 4a850b68670a548dbb55ea47ab4274ded271878246d88c1aa13be15b2c10069e
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: adguard-home
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/adguard-home-4.0.4/adguard-home-4.0.4.tgz
+    version: 4.0.4
+  - apiVersion: v2
     appVersion: 0.107.64
     created: "2025-07-28T18:27:11.947186514Z"
     description: A self hosted DNS server with ad blocking capabilities
@@ -1204,6 +1217,20 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/filestash-1.0.0/filestash-1.0.0.tgz
     version: 1.0.0
   ghost:
+  - apiVersion: v2
+    appVersion: 6.0.4
+    created: "2025-08-20T18:23:57.458937467Z"
+    description: A simple, powerful publishing platform that allows you to share your
+      stories with the world.
+    digest: 40ef3a7ce2c18558b8b0120b9ae3b5cff93ed53316e1cdc055d6fc1f8aa0ecbb
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: ghost
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/ghost-8.0.4/ghost-8.0.4.tgz
+    version: 8.0.4
   - apiVersion: v2
     appVersion: 5.130.3
     created: "2025-07-30T18:26:16.667195782Z"
@@ -4263,4 +4290,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-08-20T12:34:09.144584229Z"
+generated: "2025-08-20T18:23:57.459618655Z"
