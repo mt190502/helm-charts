@@ -1218,6 +1218,20 @@ entries:
     version: 1.0.0
   ghost:
   - apiVersion: v2
+    appVersion: 6.0.5
+    created: "2025-08-22T18:22:34.40571867Z"
+    description: A simple, powerful publishing platform that allows you to share your
+      stories with the world.
+    digest: ebec2cdc41fe55145bb19cc9a0a08c0ccf235aa659752ef134f74bc03caee0cc
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: ghost
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/ghost-8.0.5/ghost-8.0.5.tgz
+    version: 8.0.5
+  - apiVersion: v2
     appVersion: 6.0.4
     created: "2025-08-20T18:23:57.458937467Z"
     description: A simple, powerful publishing platform that allows you to share your
@@ -2539,6 +2553,19 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/nightscout-1.0.0/nightscout-1.0.0.tgz
     version: 1.0.0
   open-webui:
+  - apiVersion: v2
+    appVersion: 0.6.25
+    created: "2025-08-22T18:22:34.591577392Z"
+    description: "A User-Friendly Web Interface for Chat Interactions \U0001F44B"
+    digest: 6822ca1b560a20ff5002116aaefc39d32c6f066e5f8e6ddc36a15d4658779f43
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: open-webui
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/open-webui-2.0.16/open-webui-2.0.16.tgz
+    version: 2.0.16
   - apiVersion: v2
     appVersion: 0.6.24
     created: "2025-08-22T12:32:42.062346753Z"
@@ -4316,4 +4343,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-08-22T12:32:42.063253861Z"
+generated: "2025-08-22T18:22:34.592216782Z"
