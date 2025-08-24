@@ -3405,6 +3405,19 @@ entries:
     version: 1.0.0
   radicale:
   - apiVersion: v2
+    appVersion: 3.5.5.0
+    created: "2025-08-24T12:30:40.838174714Z"
+    description: A simple CalDAV (calendar) and CardDAV (contact) server
+    digest: 930b24a5c4734eadca5f46fb8ad67c94d0c30a3b2c9aeed1d3c2dbdbafd5d2e6
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: radicale
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/radicale-4.0.3/radicale-4.0.3.tgz
+    version: 4.0.3
+  - apiVersion: v2
     appVersion: 3.5.4.0
     created: "2025-05-26T12:32:30.065075146Z"
     description: A simple CalDAV (calendar) and CardDAV (contact) server
@@ -4357,4 +4370,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-08-23T01:12:59.887150989Z"
+generated: "2025-08-24T12:30:40.838656999Z"
