@@ -2,8 +2,8 @@ apiVersion: v2
 name: open-webui
 description: "A User-Friendly Web Interface for Chat Interactions \U0001F44B"
 type: application
-version: 2.0.17
-appVersion: 0.6.26
+version: 2.0.18
+appVersion: 0.6.27
 projectUrl: https://github.com/open-webui/open-webui
 maintainers:
 - name: Taha
