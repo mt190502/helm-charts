@@ -1246,6 +1246,20 @@ entries:
     version: 1.0.0
   ghost:
   - apiVersion: v2
+    appVersion: 6.0.8
+    created: "2025-09-12T18:18:28.302986496Z"
+    description: A simple, powerful publishing platform that allows you to share your
+      stories with the world.
+    digest: a5d0ae2f16442b30f8fdefde26158c26642b1a59ac299c3c8e73a5363c18f19e
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: ghost
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/ghost-8.0.8/ghost-8.0.8.tgz
+    version: 8.0.8
+  - apiVersion: v2
     appVersion: 6.0.7
     created: "2025-09-05T18:20:23.718204218Z"
     description: A simple, powerful publishing platform that allows you to share your
@@ -2086,6 +2100,20 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/ghost-2.0.1/ghost-2.0.1.tgz
     version: 2.0.1
   keycloak:
+  - apiVersion: v2
+    appVersion: 26.3.4
+    created: "2025-09-12T18:18:28.452521713Z"
+    description: A identity and access management solution for modern applications
+      and services
+    digest: 6a4ab7d98379ee69c6fb1798b498c48fe76ad269dc5dbfefb3fcd36bbaebddc3
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: keycloak
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/keycloak-1.1.4/keycloak-1.1.4.tgz
+    version: 1.1.4
   - apiVersion: v2
     appVersion: 26.3.3
     created: "2025-08-20T12:34:09.144108486Z"
@@ -4493,4 +4521,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-09-10T12:31:51.049823401Z"
+generated: "2025-09-12T18:18:28.453136602Z"
