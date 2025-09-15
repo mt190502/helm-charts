@@ -2,6 +2,19 @@ apiVersion: v1
 entries:
   adguard-home:
   - apiVersion: v2
+    appVersion: 0.107.66
+    created: "2025-09-15T18:22:06.470286956Z"
+    description: A self hosted DNS server with ad blocking capabilities
+    digest: 285fb623d954a4c1c696ad7899ba4f8bfe434ca20520141b20951309b2e40bec
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: adguard-home
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/adguard-home-4.0.5/adguard-home-4.0.5.tgz
+    version: 4.0.5
+  - apiVersion: v2
     appVersion: 0.107.65
     created: "2025-08-20T18:23:57.309795403Z"
     description: A self hosted DNS server with ad blocking capabilities
@@ -2351,6 +2364,19 @@ entries:
     version: 2.0.0
   memos:
   - apiVersion: v2
+    appVersion: 0.25.1
+    created: "2025-09-15T18:22:06.6399188Z"
+    description: A self hosted note taking app
+    digest: d557a2c554d60411a8b0ca682f227ecfa71509614319d2f32b8fe4395d396ac5
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: memos
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/memos-7.1.1/memos-7.1.1.tgz
+    version: 7.1.1
+  - apiVersion: v2
     appVersion: 0.25.0
     created: "2025-07-16T18:25:04.589039129Z"
     description: A self hosted note taking app
@@ -4535,4 +4561,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-09-14T18:18:55.201760791Z"
+generated: "2025-09-15T18:22:06.640626819Z"
