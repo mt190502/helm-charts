@@ -2,7 +2,7 @@ apiVersion: v2
 name: redmine
 description: A project management web application
 type: application
-version: 7.0.2
+version: 7.1.2
 appVersion: 6.0.7
 projectUrl: https://hub.docker.com/_/redmine
 maintainers:
