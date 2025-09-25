@@ -2168,6 +2168,20 @@ entries:
     version: 2.0.1
   keycloak:
   - apiVersion: v2
+    appVersion: 26.3.5
+    created: "2025-09-25T06:24:25.094486433Z"
+    description: A identity and access management solution for modern applications
+      and services
+    digest: 47056a3343e866f237e0c6b6321ce0d4301979e8547e26cd356f7b46bd6e8817
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: keycloak
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/keycloak-1.1.5/keycloak-1.1.5.tgz
+    version: 1.1.5
+  - apiVersion: v2
     appVersion: 26.3.4
     created: "2025-09-12T18:18:28.452521713Z"
     description: A identity and access management solution for modern applications
@@ -3832,6 +3846,19 @@ entries:
     version: 2.0.0
   redmine:
   - apiVersion: v2
+    appVersion: 6.1.0
+    created: "2025-09-25T06:24:25.25472962Z"
+    description: A project management web application
+    digest: 5f5dfa0541e9e8e6a5a192b20f3a396b45a5af3964d88a88f48cdeee5ac3a25e
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: redmine
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/redmine-7.2.0/redmine-7.2.0.tgz
+    version: 7.2.0
+  - apiVersion: v2
     appVersion: 6.0.7
     created: "2025-09-23T20:44:34.057086358Z"
     description: A project management web application
@@ -4653,4 +4680,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-09-23T20:44:34.057695791Z"
+generated: "2025-09-25T06:24:25.255336285Z"
