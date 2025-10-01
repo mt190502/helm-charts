@@ -433,6 +433,19 @@ entries:
     version: 1.0.0
   codimd:
   - apiVersion: v2
+    appVersion: 2.6.1
+    created: "2025-10-01T12:35:03.851510522Z"
+    description: A self hosted markdown compatible note taking app
+    digest: 2494f5bfdba9ae948bde8dc3b3ff1b0c5c371ef498e7fea3f795bb18f60f1410
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: codimd
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/codimd-7.1.1/codimd-7.1.1.tgz
+    version: 7.1.1
+  - apiVersion: v2
     appVersion: 2.6.0
     created: "2025-06-11T12:34:44.063973582Z"
     description: A self hosted markdown compatible note taking app
@@ -4747,4 +4760,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-09-30T12:34:18.388829489Z"
+generated: "2025-10-01T12:35:03.85209369Z"
