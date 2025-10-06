@@ -968,6 +968,20 @@ entries:
     version: 1.0.0
   copilot-api:
   - apiVersion: v2
+    appVersion: 0.7.0
+    created: "2025-10-06T18:23:30.532841551Z"
+    description: Reverse-engineered implementation of the GitHub Copilot API created
+      for EDUCATIONAL PRURPOSES ONLY
+    digest: 12b5657d1151779819ba8a03b3c5006780f689a062197b7e1362ef9b2777a18b
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: copilot-api
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/copilot-api-2.3.0/copilot-api-2.3.0.tgz
+    version: 2.3.0
+  - apiVersion: v2
     appVersion: 0.5.14
     created: "2025-09-08T18:23:25.950295477Z"
     description: Reverse-engineered implementation of the GitHub Copilot API created
@@ -4787,4 +4801,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-10-03T18:22:11.868629338Z"
+generated: "2025-10-06T18:23:30.533675446Z"
