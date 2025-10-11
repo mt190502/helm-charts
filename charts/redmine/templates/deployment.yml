@@ -126,34 +126,6 @@ spec:
               value: {{ .Values.mysql.external.host }}
                 {{- end }}
               {{- end }}
-            - name: DB_PORT
-              {{- if .Values.postgresql.selected }}
-                {{- if .Values.postgresql.internal.enabled }}
-              value: "5432"
-                {{- else if .Values.postgresql.external.enabled }}
-              value: {{ .Values.postgresql.external.port }}
-                {{- end }}
-              {{- else if .Values.mysql.selected }}
-                {{- if .Values.mysql.internal.enabled }}
-              value: "3306"
-                {{- else if .Values.mysql.external.enabled }}
-              value: {{ .Values.mysql.external.port }}
-                {{- end }}
-              {{- end }}
-            - name: DB_TYPE
-              {{- if .Values.postgresql.selected }}
-              value: postgresql
-              {{- else if .Values.mysql.selected }}
-              value: mysql
-              {{- end }}
-            - name: DB_CONNECTION_STRING
-              {{- if .Values.postgresql.selected }}
-              value: {{ template "postgresql.credentials" . }}
-              {{- else if .Values.mysql.selected }}
-              value: {{ template "mysql.credentials" . }}
-              {{- else }}
-                {{- fail "Either Postgres or MySQL must be selected." }}
-              {{- end }}
           {{- range .Values.main.environments }}
             - name: {{ .name }}
               value: {{ .value | quote }}
