@@ -3222,6 +3222,20 @@ entries:
     version: 1.0.0
   paperless-ngx:
   - apiVersion: v2
+    appVersion: 2.19.0
+    created: "2025-10-21T18:22:53.732657674Z"
+    description: A community-supported supercharged version of paperless; scan, index
+      and archive all your physical documents
+    digest: c944f0baa6152eb581da96c56dac9f982ed1673d47dfc06257de0821937d2036
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: paperless-ngx
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/paperless-ngx-7.4.0/paperless-ngx-7.4.0.tgz
+    version: 7.4.0
+  - apiVersion: v2
     appVersion: 2.18.4
     created: "2025-09-08T01:15:47.396477314Z"
     description: A community-supported supercharged version of paperless; scan, index
@@ -4896,4 +4910,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-10-17T18:21:03.83534224Z"
+generated: "2025-10-21T18:22:53.733427693Z"
