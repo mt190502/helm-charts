@@ -2,6 +2,19 @@ apiVersion: v1
 entries:
   adguard-home:
   - apiVersion: v2
+    appVersion: 0.107.68
+    created: "2025-10-23T18:23:59.14920169Z"
+    description: A self hosted DNS server with ad blocking capabilities
+    digest: d4b6890017a61090305df163853d6d61634766625ee2135b03368d3770a67c93
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: adguard-home
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/adguard-home-4.0.7/adguard-home-4.0.7.tgz
+    version: 4.0.7
+  - apiVersion: v2
     appVersion: 0.107.67
     created: "2025-09-29T18:23:38.356002741Z"
     description: A self hosted DNS server with ad blocking capabilities
@@ -3264,6 +3277,20 @@ entries:
     version: 1.0.0
   paperless-ngx:
   - apiVersion: v2
+    appVersion: 2.19.2
+    created: "2025-10-23T18:23:59.260397196Z"
+    description: A community-supported supercharged version of paperless; scan, index
+      and archive all your physical documents
+    digest: df6e2c836aa7be75fe70962e175834ea6abdd682892f2cdf6484d6359f5c1dcd
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: paperless-ngx
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/paperless-ngx-7.4.2/paperless-ngx-7.4.2.tgz
+    version: 7.4.2
+  - apiVersion: v2
     appVersion: 2.19.1
     created: "2025-10-23T01:15:20.487532631Z"
     description: A community-supported supercharged version of paperless; scan, index
@@ -4966,4 +4993,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-10-23T12:35:25.66287929Z"
+generated: "2025-10-23T18:23:59.261894997Z"
