@@ -2611,6 +2611,19 @@ entries:
     version: 2.0.0
   memos:
   - apiVersion: v2
+    appVersion: 0.25.2
+    created: "2025-10-24T12:35:43.99556792Z"
+    description: A self hosted note taking app
+    digest: 38dce4e15b6ef522f053b661112e63dfc921050bbb6182c37a6c10bfd8e1cfb9
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: memos
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/memos-7.1.2/memos-7.1.2.tgz
+    version: 7.1.2
+  - apiVersion: v2
     appVersion: 0.25.1
     created: "2025-09-15T18:22:06.6399188Z"
     description: A self hosted note taking app
@@ -4993,4 +5006,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-10-23T18:23:59.261894997Z"
+generated: "2025-10-24T12:35:43.996212726Z"
