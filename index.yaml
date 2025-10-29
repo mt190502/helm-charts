@@ -2923,6 +2923,20 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/memos-1.0.0/memos-1.0.0.tgz
     version: 1.0.0
+  miniflux:
+  - apiVersion: v2
+    appVersion: 2.2.14
+    created: "2025-10-29T20:33:01.553847275Z"
+    description: Miniflux is a minimalist RSS feed reader
+    digest: c31b6eef90ad229da74a98f563a8fb0ac2ac5811d0fe77dceaed8a60da997a6c
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: miniflux
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/miniflux-1.0.0/miniflux-1.0.0.tgz
+    version: 1.0.0
   nightscout:
   - apiVersion: v2
     appVersion: 15.0.3
@@ -3303,6 +3317,20 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/open-webui-1.0.0/open-webui-1.0.0.tgz
     version: 1.0.0
   paperless-ngx:
+  - apiVersion: v2
+    appVersion: 2.19.3
+    created: "2025-10-29T20:33:01.672255112Z"
+    description: A community-supported supercharged version of paperless; scan, index
+      and archive all your physical documents
+    digest: ac03ad19400e104c480566a8d90c52e9a7c956e44b3a59f8143b47d3c8e35110
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: paperless-ngx
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/paperless-ngx-7.4.3/paperless-ngx-7.4.3.tgz
+    version: 7.4.3
   - apiVersion: v2
     appVersion: 2.19.2
     created: "2025-10-23T18:23:59.260397196Z"
@@ -5020,4 +5048,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-10-24T18:23:03.258001814Z"
+generated: "2025-10-29T20:33:01.673000603Z"
