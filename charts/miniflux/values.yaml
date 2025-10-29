@@ -1,0 +1,90 @@
+image:
+  main:
+    repository: docker.io/miniflux/miniflux
+    pullPolicy: IfNotPresent
+    # tag: 2.2.14
+  postgresql:
+    repository: postgres
+    pullPolicy: IfNotPresent
+    tag: 17
+
+main:
+  ports:
+    - containerPort: 8080
+  appSecret:
+    enabled: true
+    autoCreate: true
+    name: miniflux-admin-password
+    key: admin_password
+  options:
+    create_admin: 1
+    admin_username: admin
+    admin_password: changeme
+    run_migrations: 1
+  environments: {}
+    # - name: key
+    #  value: value
+
+postgresql:
+  external:
+    enabled: false
+    host: 127.0.0.1
+    port: 5432
+  internal:
+    enabled: true
+  cnpg:
+    enabled: false
+    replicas: 3
+    primaryUpdateStrategy: unsupervised
+  secret:
+    enabled: true
+    autoCreate: true
+    name: miniflux-postgresql
+    usernameKey: username
+    passwordKey: password
+    databaseKey: database
+  options:
+    database: miniflux
+    username: miniflux
+    password: miniflux
+  settings: #~ ignored if cnpg.enabled
+    podManagementPolicy: Parallel
+    updateStrategy:
+      type: RollingUpdate
+    persistence:
+      accessModes:
+        - ReadWriteOnce
+      claimRetentionPolicy: 
+        whenDeleted: Retain
+        whenScaled: Retain
+  environments: {}
+    # - name: key
+    #   value: value
+
+service:
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+
+resources:
+  limits:
+    main:
+      memory: 512Mi
+    postgresql:
+      memory: 512Mi
+  requests:
+    main:
+      storage: 1Gi
+    postgresql:
+      storage: 1Gi
+
+replicaCount: 1
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

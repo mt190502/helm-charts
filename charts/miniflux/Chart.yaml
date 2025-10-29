@@ -1,0 +1,10 @@
+apiVersion: v2
+name: miniflux
+description: Miniflux is a minimalist RSS feed reader
+type: application
+version: 1.0.0
+appVersion: 2.2.14
+projectUrl: https://github.com/miniflux/v2
+maintainers:
+- name: Taha
+  email: mt190502@mtaha.dev
