@@ -107,6 +107,8 @@ spec:
               {{- end }}
             - name: RUN_MIGRATIONS
               value: {{ .Values.main.options.run_migrations | default "1" | quote }}
+            - name: BASE_URL
+              value: {{ .Values.main.options.base_url | quote }}
           {{- end }}
           {{- range .Values.main.environments }}
             - name: {{ .name }}

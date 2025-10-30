@@ -2,7 +2,7 @@ apiVersion: v2
 name: miniflux
 description: Miniflux is a minimalist RSS feed reader
 type: application
-version: 1.0.0
+version: 1.0.1
 appVersion: 2.2.14
 projectUrl: https://github.com/miniflux/v2
 maintainers:

@@ -17,6 +17,7 @@ main:
     name: miniflux-admin-password
     key: admin_password
   options:
+    base_url: http://localhost
     create_admin: 1
     admin_username: admin
     admin_password: changeme
