@@ -3117,6 +3117,19 @@ entries:
     version: 1.0.0
   open-webui:
   - apiVersion: v2
+    appVersion: 0.6.38
+    created: "2025-11-24T12:35:59.170433433Z"
+    description: "A User-Friendly Web Interface for Chat Interactions \U0001F44B"
+    digest: a86a2aaf90d5e819c6e55eb47acd7e86c2448798b517c04046816c0c187c7759
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: open-webui
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/open-webui-2.0.27/open-webui-2.0.27.tgz
+    version: 2.0.27
+  - apiVersion: v2
     appVersion: 0.6.37
     created: "2025-11-24T06:27:03.485705479Z"
     description: "A User-Friendly Web Interface for Chat Interactions \U0001F44B"
@@ -5294,4 +5307,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-11-24T06:27:03.486398503Z"
+generated: "2025-11-24T12:35:59.171150394Z"
