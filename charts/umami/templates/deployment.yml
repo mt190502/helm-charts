@@ -33,16 +33,12 @@ spec:
             - sh
             - -c
             - |
-              {{- if and .Values.postgresql.cnpg.enabled .Values.postgresql.selected }}
+              {{- if and .Values.postgresql.cnpg.enabled }}
               until nc -z -v -w30 {{ .Release.Name }}-postgresql-rw 5432
-              {{- else if and .Values.postgresql.internal.enabled .Values.postgresql.selected }}
+              {{- else if and .Values.postgresql.internal.enabled }}
               until nc -z -v -w30 {{ .Release.Name }}-postgresql 5432
-              {{- else if and .Values.postgresql.external.enabled .Values.postgresql.selected }}
+              {{- else }}
               until nc -z -v -w30 {{ .Values.postgresql.external.host }} {{ .Values.postgresql.external.port }}
-              {{- else if and .Values.mysql.internal.enabled .Values.mysql.selected }}
-              until nc -z -v -w30 {{ .Release.Name }}-mysql 3306
-              {{- else if and .Values.mysql.external.enabled .Values.mysql.selected }}
-              until nc -z -v -w30 {{ .Values.mysql.external.host }} {{ .Values.mysql.external.port }}
               {{- end }}
               do
                 echo "Waiting for the database to be ready..."
@@ -53,107 +49,48 @@ spec:
           image: {{ template "umami.main.image" . }}
           env:
             - name: DB_USERNAME
-              {{- if .Values.postgresql.selected }}
-                {{- if .Values.postgresql.secret.enabled }}
+              {{- if .Values.postgresql.secret.enabled }}
               valueFrom:
                 secretKeyRef:
                   name: {{ if .Values.postgresql.secret.name }}{{ .Values.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
                   key: {{ .Values.postgresql.secret.usernameKey | quote }}
-                {{- else }}
+              {{- else }}
               value: {{ .Values.postgresql.options.username | quote }}
-                {{- end }}
-              {{- else if .Values.mysql.selected }}
-                {{- if .Values.mysql.secret.enabled }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ if .Values.mysql.secret.name }}{{ .Values.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
-                  key: {{ .Values.mysql.secret.usernameKey | quote }}
-                {{- else }}
-              value: {{ .Values.mysql.options.username | quote }}
-                {{- end }}
               {{- end }}
             - name: DB_PASSWORD
-              {{- if .Values.postgresql.selected }}
-                {{- if .Values.postgresql.secret.enabled }}
+              {{- if .Values.postgresql.secret.enabled }}
               valueFrom:
                 secretKeyRef:
                   name: {{ if .Values.postgresql.secret.name }}{{ .Values.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
                   key: {{ .Values.postgresql.secret.passwordKey | quote }}
-                {{- else }}
+              {{- else }}
               value: {{ .Values.postgresql.options.password | quote }}
-                {{- end }}
-              {{- else if .Values.mysql.selected }}
-                {{- if .Values.mysql.secret.enabled }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ if .Values.mysql.secret.name }}{{ .Values.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
-                  key: {{ .Values.mysql.secret.passwordKey | quote }}
-                {{- else }}
-              value: {{ .Values.mysql.options.password | quote }}
-                {{- end }}
               {{- end }}
             - name: DB_DATABASE
-              {{- if .Values.postgresql.selected }}
-                {{- if .Values.postgresql.secret.enabled }}
+              {{- if .Values.postgresql.secret.enabled }}
               valueFrom:
                 secretKeyRef:
                   name: {{ if .Values.postgresql.secret.name }}{{ .Values.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
                   key: {{ .Values.postgresql.secret.databaseKey | quote }}
-                {{- else }}
+              {{- else }}
               value: {{ .Values.postgresql.options.database | quote }}
-                {{- end }}
-              {{- else if .Values.mysql.selected }}
-                {{- if .Values.mysql.secret.enabled }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ if .Values.mysql.secret.name }}{{ .Values.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
-                  key: {{ .Values.mysql.secret.databaseKey | quote }}
-                {{- else }}
-              value: {{ .Values.mysql.options.database | quote }}
-                {{- end }}
               {{- end }}
             - name: DB_HOST
-              {{- if .Values.postgresql.selected }}
-                {{- if .Values.postgresql.internal.enabled }}
+              {{- if .Values.postgresql.internal.enabled }}
               value: {{ .Release.Name }}-postgresql{{ if .Values.postgresql.cnpg.enabled }}-rw{{ end }}
-                {{- else if .Values.postgresql.external.enabled }}
+              {{- else if .Values.postgresql.external.enabled }}
               value: {{ .Values.postgresql.external.host }}
-                {{- end }}
-              {{- else if .Values.mysql.selected }}
-                {{- if .Values.mysql.internal.enabled }}
-              value: {{ .Release.Name }}-mysql
-                {{- else if .Values.mysql.external.enabled }}
-              value: {{ .Values.mysql.external.host }}
-                {{- end }}
               {{- end }}
             - name: DB_PORT
-              {{- if .Values.postgresql.selected }}
-                {{- if .Values.postgresql.internal.enabled }}
+              {{- if .Values.postgresql.internal.enabled }}
               value: "5432"
-                {{- else if .Values.postgresql.external.enabled }}
+              {{- else if .Values.postgresql.external.enabled }}
               value: {{ .Values.postgresql.external.port }}
-                {{- end }}
-              {{- else if .Values.mysql.selected }}
-                {{- if .Values.mysql.internal.enabled }}
-              value: "3306"
-                {{- else if .Values.mysql.external.enabled }}
-              value: {{ .Values.mysql.external.port }}
-                {{- end }}
               {{- end }}
             - name: DB_TYPE
-              {{- if .Values.postgresql.selected }}
               value: postgresql
-              {{- else if .Values.mysql.selected }}
-              value: mysql
-              {{- end }}
             - name: DATABASE_URL
-              {{- if .Values.postgresql.selected }}
               value: {{ template "postgresql.credentials" . }}
-              {{- else if .Values.mysql.selected }}
-              value: {{ template "mysql.credentials" . }}
-              {{- else }}
-                {{- fail "Either Postgres or MySQL must be selected." }}
-              {{- end }}
           {{- if .Values.main.appSecret.enabled }}
             - name: APP_SECRET
               {{- if or (eq (.Values.main.appSecret.autoCreate | toString) "true") (eq (.Values.main.appSecret.autoCreate | toString) "kustomize") }}
@@ -179,7 +116,7 @@ spec:
               {{- toYaml . | nindent 14 }}
           {{- end }}
 
-{{ if and .Values.postgresql.internal.enabled .Values.postgresql.selected (eq .Values.postgresql.cnpg.enabled false) }}
+{{ if and .Values.postgresql.internal.enabled (eq .Values.postgresql.cnpg.enabled false) }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -289,125 +226,4 @@ spec:
         resources:
           requests:
             storage: "{{ .Values.resources.requests.postgresql.storage }}"
-{{- end }}
-
-{{ if and .Values.mysql.internal.enabled .Values.mysql.selected }}
----
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: "{{ .Release.Name }}-mysql"
-  namespace: "{{ if eq .Release.Namespace "default" }}umami-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
-spec:
-  replicas: {{ .Values.replicaCount | default (printf "%d" 1) }}
-  podManagementPolicy: {{ .Values.mysql.settings.podManagementPolicy | default "Parallel" | quote }}
-  serviceName: "{{ .Release.Name }}-mysql"
-  {{- if .Values.mysql.settings.updateStrategy }}
-  updateStrategy:
-    type: {{ .Values.mysql.settings.updateStrategy.type | default "RollingUpdate" | quote }}
-  {{- end }}
-  selector:
-    matchLabels:
-      app: "{{ .Release.Name }}-mysql"
-  template:
-    metadata:
-      labels:
-        app: "{{ .Release.Name }}-mysql"
-    spec:
-    {{- with .Values.nodeSelector }}
-      nodeSelector:
-      {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .Values.affinity }}
-      affinity:
-      {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
-      tolerations:
-      {{- toYaml . | nindent 8 }}
-    {{- end }}
-      initContainers:
-        - name: "{{ .Release.Name }}-mysql-init"
-          image: busybox
-          command:
-            - sh
-            - -c
-            - |
-              [ -d "/mnt/lost+found" ] && rm -rf /mnt/lost+found
-              exit 0
-          volumeMounts:
-            - name: "database"
-              mountPath: /mnt
-      containers:
-        - name: "{{ .Release.Name }}-mysql"
-          image: {{ template "umami.mysql.image" . }}
-          env:
-            - name: {{ if eq .Values.image.mysql.repository "mariadb"}}MARIADB{{ else }}MYSQL{{ end }}_DATABASE
-              {{- if .Values.mysql.secret.enabled }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ if .Values.mysql.secret.name }}{{ .Values.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
-                  key: {{ .Values.mysql.secret.databaseKey | quote }}
-              {{- else }}
-              value: {{ .Values.mysql.options.database | quote }}
-              {{- end }}
-            - name: {{ if eq .Values.image.mysql.repository "mariadb"}}MARIADB{{ else }}MYSQL{{ end }}_USER
-              {{- if .Values.mysql.secret.enabled }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ if .Values.mysql.secret.name }}{{ .Values.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
-                  key: {{ .Values.mysql.secret.usernameKey | quote }}
-              {{- else }}
-              value: {{ .Values.mysql.options.username | quote }}
-              {{- end }}
-            - name: {{ if eq .Values.image.mysql.repository "mariadb"}}MARIADB{{ else }}MYSQL{{ end }}_PASSWORD
-              {{- if .Values.mysql.secret.enabled }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ if .Values.mysql.secret.name }}{{ .Values.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
-                  key: {{ .Values.mysql.secret.passwordKey | quote }}
-              {{- else }}
-              value: {{ .Values.mysql.options.password | quote }}
-              {{- end }}
-            - name: {{ if eq .Values.image.mysql.repository "mariadb"}}MARIADB{{ else }}MYSQL{{ end }}_ROOT_PASSWORD
-              {{- if .Values.mysql.secret.enabled }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ if .Values.mysql.secret.name }}{{ .Values.mysql.secret.name }}{{ else }}{{ .Release.Name }}-mysql{{ end }}
-                  key: {{ .Values.mysql.secret.rootPasswordKey | quote }}
-              {{- else }}
-              value: {{ .Values.mysql.options.rootPasswordKey | quote }}
-              {{- end }}
-          {{- range .Values.mysql.environments }}
-            - name: {{ .name }}
-              value: {{ .value | quote }}
-          {{- end }}
-          ports:
-            - containerPort: 3306
-          volumeMounts:
-            - name: "database"
-              mountPath: /var/lib/mysql
-      volumes:
-        - name: "database"
-  {{- if .Values.mysql.settings.persistence.claimRetentionPolicy }}
-  persistentVolumeClaimRetentionPolicy:
-    whenDeleted: {{ .Values.mysql.settings.persistence.claimRetentionPolicy.whenDeleted | default "Retain" | quote }}
-    whenScaled: {{ .Values.mysql.settings.persistence.claimRetentionPolicy.whenScaled | default "Retain" | quote }}
-  {{- end }}
-  volumeClaimTemplates:
-    - apiVersion: v1
-      kind: PersistentVolumeClaim
-      metadata:
-        name: "database"
-        namespace: "{{ if eq .Release.Namespace "default" }}umami-k8s{{ else }}{{ .Release.Namespace }}{{ end }}"
-      spec:
-        accessModes:
-        {{- if .Values.mysql.settings.persistence.accessModes }}
-        {{- toYaml .Values.mysql.settings.persistence.accessModes | nindent 8 }} 
-        {{- else }}
-          - ReadWriteOnce
-        {{- end }}
-        resources:
-          requests:
-            storage: "{{ .Values.resources.requests.mysql.storage }}"
 {{- end }}

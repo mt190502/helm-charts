@@ -2,15 +2,11 @@ image:
   main:
     repository: ghcr.io/umami-software/umami
     pullPolicy: IfNotPresent
-    # tag: 2.17.0
+    # tag: 3.0.1
   postgresql:
     repository: postgres
     pullPolicy: IfNotPresent
     tag: 17
-  mysql:
-    repository: mariadb
-    pullPolicy: IfNotPresent
-    tag: 11.6
 
 main:
   ports:
@@ -27,7 +23,6 @@ main:
     #  value: value
 
 postgresql:
-  selected: true
   external:
     enabled: false
     host: 127.0.0.1
@@ -63,41 +58,6 @@ postgresql:
     # - name: key
     #   value: value
 
-mysql:
-  selected: false
-  external:
-    enabled: false
-    host: 127.0.0.1
-    port: 3306
-  internal:
-    enabled: true
-  secret:
-    enabled: true
-    autoCreate: true
-    name: umami-mysql
-    usernameKey: username
-    passwordKey: password
-    rootPasswordKey: root_password
-    databaseKey: database
-  options:
-    database: umami
-    username: umami
-    password: umami
-    rootPassword: my_secret_root_password
-  settings:
-    podManagementPolicy: Parallel
-    updateStrategy:
-      type: RollingUpdate
-    persistence:
-      accessModes:
-        - ReadWriteOnce
-      claimRetentionPolicy: 
-        whenDeleted: Retain
-        whenScaled: Retain
-  environments: {}
-    # - name: key
-    #   value: value
-
 service:
   type: ClusterIP
   ports:
@@ -112,14 +72,10 @@ resources:
       memory: 512Mi
     postgresql:
       memory: 512Mi
-    mysql:
-      memory: 512Mi
   requests:
     main:
       storage: 1Gi
     postgresql:
-      storage: 1Gi
-    mysql:
       storage: 1Gi
 
 replicaCount: 1
