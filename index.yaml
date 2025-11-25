@@ -2457,6 +2457,20 @@ entries:
     version: 2.0.1
   keycloak:
   - apiVersion: v2
+    appVersion: 26.4.6
+    created: "2025-11-25T18:26:24.497566883Z"
+    description: A identity and access management solution for modern applications
+      and services
+    digest: fbe80a4f11efcc046c84869c14cce84dc8ef4f66237ad068cdcf8d0603044fff
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: keycloak
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/keycloak-1.2.6/keycloak-1.2.6.tgz
+    version: 1.2.6
+  - apiVersion: v2
     appVersion: 26.4.5
     created: "2025-11-12T18:24:34.587719916Z"
     description: A identity and access management solution for modern applications
@@ -2790,6 +2804,19 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/maddy-2.0.0/maddy-2.0.0.tgz
     version: 2.0.0
   memos:
+  - apiVersion: v2
+    appVersion: 0.25.3
+    created: "2025-11-25T18:26:24.651173479Z"
+    description: A self hosted note taking app
+    digest: c5f880b0e8f9d543d887dfc7bc6a26e696594e1f66e6abb10fc081efb8fbe846
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: memos
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/memos-7.1.3/memos-7.1.3.tgz
+    version: 7.1.3
   - apiVersion: v2
     appVersion: 0.25.2
     created: "2025-10-24T12:35:43.99556792Z"
@@ -5361,4 +5388,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-11-25T12:36:33.157836557Z"
+generated: "2025-11-25T18:26:24.651862076Z"
