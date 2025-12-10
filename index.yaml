@@ -3200,6 +3200,19 @@ entries:
     version: 1.0.0
   miniflux:
   - apiVersion: v2
+    appVersion: 2.2.15
+    created: "2025-12-10T01:21:31.233314592Z"
+    description: Miniflux is a minimalist RSS feed reader
+    digest: 25859d24c76b64271eeb077281defd376d59e8765d787abe4c574f89bef2d391
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: miniflux
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/miniflux-1.0.2/miniflux-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v2
     appVersion: 2.2.14
     created: "2025-10-30T06:52:32.901647609Z"
     description: Miniflux is a minimalist RSS feed reader
@@ -5523,4 +5536,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-12-08T18:27:18.451927915Z"
+generated: "2025-12-10T01:21:31.234475879Z"
