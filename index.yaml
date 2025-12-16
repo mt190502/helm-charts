@@ -486,6 +486,19 @@ entries:
   codimd:
   - apiVersion: v2
     appVersion: 2.6.1
+    created: "2025-12-16T14:43:29.388618741Z"
+    description: A self hosted markdown compatible note taking app
+    digest: df359f1819b2922987a1121aa4b0d88e904eb3a93487b0bf909db49ec3750fbd
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: codimd
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/codimd-7.2.2/codimd-7.2.2.tgz
+    version: 7.2.2
+  - apiVersion: v2
+    appVersion: 2.6.1
     created: "2025-12-16T14:29:03.973941006Z"
     description: A self hosted markdown compatible note taking app
     digest: f5b06f8d9cb408343576be7cbf1bd510b92b0527627e8c5d615277f1c9cdd603
@@ -693,6 +706,19 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/codimd-1.0.0/codimd-1.0.0.tgz
     version: 1.0.0
   commafeed:
+  - apiVersion: v2
+    appVersion: 5.12.0
+    created: "2025-12-16T14:43:29.549879904Z"
+    description: A RSS Aggregator
+    digest: 4640afe0bb09f6014f1bba4ae44b8e7a989438498354a3cc350884b5cbfd0185
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: commafeed
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/commafeed-7.5.1/commafeed-7.5.1.tgz
+    version: 7.5.1
   - apiVersion: v2
     appVersion: 5.12.0
     created: "2025-12-16T14:29:04.15473051Z"
@@ -2580,6 +2606,20 @@ entries:
   keycloak:
   - apiVersion: v2
     appVersion: 26.4.7
+    created: "2025-12-16T14:43:29.720876024Z"
+    description: A identity and access management solution for modern applications
+      and services
+    digest: 21debb013d9ed6bced1b7465df3e82b636ac73fec8a422f1f9824747dc9a7c5c
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: keycloak
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/keycloak-1.3.8/keycloak-1.3.8.tgz
+    version: 1.3.8
+  - apiVersion: v2
+    appVersion: 26.4.7
     created: "2025-12-16T14:29:04.286570399Z"
     description: A identity and access management solution for modern applications
       and services
@@ -2956,6 +2996,19 @@ entries:
   memos:
   - apiVersion: v2
     appVersion: 0.25.3
+    created: "2025-12-16T14:43:29.875214874Z"
+    description: A self hosted note taking app
+    digest: 53665bc80d84c86b867bebc435ecac6acd78704f439a5b4733aede714a9802de
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: memos
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/memos-7.2.4/memos-7.2.4.tgz
+    version: 7.2.4
+  - apiVersion: v2
+    appVersion: 0.25.3
     created: "2025-12-16T14:29:04.420775809Z"
     description: A self hosted note taking app
     digest: 837ec6a28c598e3d5588c55dad4abb4e9ecae43d81f53770665eb6b0569e789f
@@ -3282,6 +3335,19 @@ entries:
   miniflux:
   - apiVersion: v2
     appVersion: 2.2.15
+    created: "2025-12-16T14:43:30.031731731Z"
+    description: Miniflux is a minimalist RSS feed reader
+    digest: ac4101bbfe7822f818db6850f96c51aea23a6391348dbc2450c5c3e7fd578d05
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: miniflux
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/miniflux-1.1.3/miniflux-1.1.3.tgz
+    version: 1.1.3
+  - apiVersion: v2
+    appVersion: 2.2.15
     created: "2025-12-16T14:29:04.582976851Z"
     description: Miniflux is a minimalist RSS feed reader
     digest: d1b4b4c880848f37c87d69ebfc275a4e6fbbfac73f0e096085a16e8e55ccd564
@@ -3360,6 +3426,19 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/nightscout-1.0.0/nightscout-1.0.0.tgz
     version: 1.0.0
   open-webui:
+  - apiVersion: v2
+    appVersion: 0.6.41
+    created: "2025-12-16T14:43:30.307245554Z"
+    description: "A User-Friendly Web Interface for Chat Interactions \U0001F44B"
+    digest: 81d3f3d26255f5291788155cbf3ba5fa2fbdc0d1283d81cc712149cb8864480d
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: open-webui
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/open-webui-2.1.30/open-webui-2.1.30.tgz
+    version: 2.1.30
   - apiVersion: v2
     appVersion: 0.6.41
     created: "2025-12-16T14:29:04.70887637Z"
@@ -3790,6 +3869,20 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/open-webui-1.0.0/open-webui-1.0.0.tgz
     version: 1.0.0
   paperless-ngx:
+  - apiVersion: v2
+    appVersion: 2.20.2
+    created: "2025-12-16T14:43:30.484576246Z"
+    description: A community-supported supercharged version of paperless; scan, index
+      and archive all your physical documents
+    digest: d69994e8ce07e830b4b34e2981e79147def0cbc73bb802d44c6dd25b841f06a4
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: paperless-ngx
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/paperless-ngx-7.6.3/paperless-ngx-7.6.3.tgz
+    version: 7.6.3
   - apiVersion: v2
     appVersion: 2.20.2
     created: "2025-12-16T14:29:05.074041616Z"
@@ -4785,6 +4878,19 @@ entries:
   redmine:
   - apiVersion: v2
     appVersion: 6.1.0
+    created: "2025-12-16T14:43:30.642494133Z"
+    description: A project management web application
+    digest: 153960711c6b95aa8fa077a24ae511475b3056b8896a5e52bb5166624954e937
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: redmine
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/redmine-7.3.2/redmine-7.3.2.tgz
+    version: 7.3.2
+  - apiVersion: v2
+    appVersion: 6.1.0
     created: "2025-12-16T14:29:05.241037257Z"
     description: A project management web application
     digest: 4e74732d5ddf4056e00457515d36246b774131c22702f2791afaf0106153a743
@@ -4953,6 +5059,19 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/redmine-4.0.1/redmine-4.0.1.tgz
     version: 4.0.1
   umami:
+  - apiVersion: v2
+    appVersion: 3.0.3
+    created: "2025-12-16T14:43:30.803985855Z"
+    description: A self hosted web analytics platform
+    digest: d4171d8a38e36a42bf001cf5bc3c8b708e4959ddc6e6bdff389f8eebe9c7c81c
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: umami
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/umami-8.1.4/umami-8.1.4.tgz
+    version: 8.1.4
   - apiVersion: v2
     appVersion: 3.0.3
     created: "2025-12-16T14:29:05.367453266Z"
@@ -5307,6 +5426,19 @@ entries:
   vaultwarden:
   - apiVersion: v2
     appVersion: 1.34.3
+    created: "2025-12-16T14:43:30.967572073Z"
+    description: A self hosted password manager
+    digest: 08665a064e9003a8db63447a27f0eb325f9b12af281f210cec0710fa7834a07b
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: vaultwarden
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/vaultwarden-7.2.3/vaultwarden-7.2.3.tgz
+    version: 7.2.3
+  - apiVersion: v2
+    appVersion: 1.34.3
     created: "2025-12-16T14:29:05.505797376Z"
     description: A self hosted password manager
     digest: eee5422d36cb121360651c4a53e9fd89cf8d671eed075dec01f00e7174852e97
@@ -5633,6 +5765,19 @@ entries:
   vikunja:
   - apiVersion: v2
     appVersion: 0.24.6
+    created: "2025-12-16T14:43:31.139378475Z"
+    description: A self hosted task management application
+    digest: 65c40a28a9f6a2daf9b5afac4b26cf7eb3b4fb69e57537fbfaa863c837474927
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: vikunja
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/vikunja-7.1.2/vikunja-7.1.2.tgz
+    version: 7.1.2
+  - apiVersion: v2
+    appVersion: 0.24.6
     created: "2025-12-16T14:29:05.651994557Z"
     description: A self hosted task management application
     digest: 54aa9cc1fc6c50c0c78904049be1ae8cb17a83e88f9893fe9b316a3402abdcc8
@@ -5722,4 +5867,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-12-16T14:29:05.654254321Z"
+generated: "2025-12-16T14:43:31.140750999Z"
