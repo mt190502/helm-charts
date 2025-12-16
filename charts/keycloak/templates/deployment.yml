@@ -199,6 +199,86 @@ spec:
           volumeMounts:
             - name: "database"
               mountPath: /mnt
+        - name: "{{ .Release.Name }}-postgresql-upgrade-to-18"
+          image: {{ template "keycloak.postgresql.image" . }}
+          command:
+            - sh
+            - -c
+            - |
+              if [ -f /var/lib/postgresql/PG_VERSION ]; then
+                VERSION=$(cat /var/lib/postgresql/PG_VERSION)
+                if [ "$VERSION" -lt "18" ]; then
+                  echo "Upgrading database from version $VERSION to 18..."
+                  apt update && apt install -y postgresql-$VERSION
+                  export PGBINOLD="/usr/lib/postgresql/$VERSION/bin"
+                  export PGBINNEW="/usr/lib/postgresql/18/bin"
+                  export PGDATAOLD="/var/lib/postgresql/$VERSION/docker"
+                  export PGDATANEW="/var/lib/postgresql/18/docker"
+                  su - postgres -c "$PGBINOLD/pg_ctl -D /var/lib/postgresql start"
+                  su - postgres -c "$PGBINOLD/pg_ctl -D /var/lib/postgresql stop"
+                  su - postgres -c "$PGBINOLD/pg_checksums --enable -D /var/lib/postgresql"
+
+                  echo "Creating temporary directory for upgrade..."
+                  mkdir /mnt/$VERSION
+
+                  echo "Moving existing data to temporary directory..."
+                  mv /var/lib/postgresql/* /mnt/$VERSION
+
+                  echo "Initializing new PostgreSQL 18 data directory..."
+                  mkdir -p /var/lib/postgresql/$VERSION/docker /var/lib/postgresql/18/docker/
+
+                  echo "Moving old data back to new version directory..."
+                  mv /mnt/$VERSION/* /var/lib/postgresql/$VERSION/docker/
+
+                  echo "Setting ownership and permissions..."
+                  chown -R postgres:postgres /var/lib/postgresql/
+                  chmod 0750 /var/lib/postgresql/*/docker
+
+                  echo "Running pg_upgrade..."
+                  su - postgres -c "$PGBINNEW/initdb -D $PGDATANEW -U $POSTGRES_USER"
+                  su - postgres -c "$PGBINOLD/pg_ctl -D $PGDATAOLD start"
+                  su - postgres -c "$PGBINOLD/pg_ctl -D $PGDATAOLD stop"
+                  su - postgres -c "$PGBINNEW/pg_upgrade -b $PGBINOLD -d $PGDATAOLD -D $PGDATANEW -U $POSTGRES_USER"
+
+                  echo "Fixing collation versions..."
+                  su - postgres -c "$PGBINNEW/pg_ctl -D $PGDATANEW start"
+                  su - postgres -c "psql -U $POSTGRES_USER -d $POSTGRES_DB -c \"ALTER DATABASE \\\"$POSTGRES_DB\\\" REFRESH COLLATION VERSION;\""
+                  su - postgres -c "psql -U $POSTGRES_USER -d $POSTGRES_DB -c \"ALTER DATABASE \\\"template0\\\" REFRESH COLLATION VERSION;\""
+                  su - postgres -c "psql -U $POSTGRES_USER -d $POSTGRES_DB -c \"ALTER DATABASE \\\"template1\\\" REFRESH COLLATION VERSION;\""
+                  su - postgres -c "psql -U $POSTGRES_USER -d $POSTGRES_DB -c \"ALTER DATABASE \\\"postgres\\\" REFRESH COLLATION VERSION;\""
+                  su - postgres -c "$PGBINNEW/pg_ctl -D $PGDATANEW stop"
+
+                  echo "Cleaning up temporary files..."
+                  rm -rf /mnt/$VERSION
+                  su - postgres -c "./delete_old_cluster.sh"
+                else
+                  echo "No upgrade needed. Current version is $VERSION"
+                fi
+              fi
+          env:
+            - name: POSTGRES_USER
+              {{- if .Values.postgresql.secret.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ if .Values.postgresql.secret.name }}{{ .Values.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
+                  key: {{ .Values.postgresql.secret.usernameKey | quote }}
+              {{- else }}
+              value: {{ .Values.postgresql.options.username | quote }}
+              {{- end }}
+            - name: POSTGRES_DB
+              {{- if .Values.postgresql.secret.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ if .Values.postgresql.secret.name }}{{ .Values.postgresql.secret.name }}{{ else }}{{ .Release.Name }}-postgresql{{ end }}
+                  key: {{ .Values.postgresql.secret.databaseKey | quote }}
+              {{- else }}
+              value: {{ .Values.postgresql.options.database | quote }}
+              {{- end }}
+          volumeMounts:
+            - name: "database"
+              mountPath: /var/lib/postgresql
+            - name: "tmp"
+              mountPath: /mnt
       containers:
         - name: "{{ .Release.Name }}-postgresql"
           image: {{ template "keycloak.postgresql.image" . }}
@@ -238,8 +318,11 @@ spec:
             - containerPort: 5432
           volumeMounts:
             - name: "database"
-              mountPath: /var/lib/postgresql/data
+              mountPath: /var/lib/postgresql
       volumes:
+        - name: "tmp"
+          emptyDir:
+            medium: Memory
         - name: "database"
   {{- if .Values.postgresql.settings.persistence.claimRetentionPolicy }}
   persistentVolumeClaimRetentionPolicy:

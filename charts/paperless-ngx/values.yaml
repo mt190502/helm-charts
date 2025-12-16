@@ -6,7 +6,7 @@ image:
   postgresql:
     repository: postgres
     pullPolicy: IfNotPresent
-    tag: 17
+    tag: 18
   redis:
     repository: redis
     pullPolicy: IfNotPresent
