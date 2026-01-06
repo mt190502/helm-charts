@@ -2618,6 +2618,20 @@ entries:
     version: 2.0.1
   keycloak:
   - apiVersion: v2
+    appVersion: 26.5.0
+    created: "2026-01-06T12:38:25.581640662Z"
+    description: A identity and access management solution for modern applications
+      and services
+    digest: b01b3ce95bded970e3e8c6b567e03106b1fca180b6d68ae66e4e0f1d60cf2c31
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: keycloak
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/keycloak-1.4.0/keycloak-1.4.0.tgz
+    version: 1.4.0
+  - apiVersion: v2
     appVersion: 26.4.7
     created: "2025-12-16T14:43:29.720876024Z"
     description: A identity and access management solution for modern applications
@@ -5959,4 +5973,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2025-12-31T12:38:04.660326538Z"
+generated: "2026-01-06T12:38:25.58244389Z"
