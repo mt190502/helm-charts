@@ -1455,6 +1455,20 @@ entries:
     version: 1.0.0
   ghost:
   - apiVersion: v2
+    appVersion: 6.12.0
+    created: "2026-01-09T18:28:06.36436809Z"
+    description: A simple, powerful publishing platform that allows you to share your
+      stories with the world.
+    digest: f0835c7d60d847a33b921d0d7267f0f89acf32c8cedcdac3acf0596aee09a289
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: ghost
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/ghost-8.12.0/ghost-8.12.0.tgz
+    version: 8.12.0
+  - apiVersion: v2
     appVersion: 6.11.0
     created: "2026-01-08T12:39:38.340863879Z"
     description: A simple, powerful publishing platform that allows you to share your
@@ -5545,6 +5559,19 @@ entries:
     version: 1.1.0
   vaultwarden:
   - apiVersion: v2
+    appVersion: 1.35.2
+    created: "2026-01-09T18:28:06.619180509Z"
+    description: A self hosted password manager
+    digest: c45d90240e61680b027dc2c00057cbc340ee05ed9336a86cf12c4d3937e2eca2
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: vaultwarden
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/vaultwarden-7.3.2/vaultwarden-7.3.2.tgz
+    version: 7.3.2
+  - apiVersion: v2
     appVersion: 1.35.1
     created: "2025-12-30T18:26:59.694938942Z"
     description: A self hosted password manager
@@ -6013,4 +6040,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2026-01-08T12:39:38.341550726Z"
+generated: "2026-01-09T18:28:06.620072137Z"
