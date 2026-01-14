@@ -2660,6 +2660,20 @@ entries:
     version: 2.0.1
   keycloak:
   - apiVersion: v2
+    appVersion: 26.5.1
+    created: "2026-01-14T18:29:09.034373669Z"
+    description: A identity and access management solution for modern applications
+      and services
+    digest: 5b3a50c40e8f8afc4def3eb3b78f8b47caf50e78c527ec2641e60d85e170b657
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: keycloak
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/keycloak-1.4.1/keycloak-1.4.1.tgz
+    version: 1.4.1
+  - apiVersion: v2
     appVersion: 26.5.0
     created: "2026-01-06T12:38:25.581640662Z"
     description: A identity and access management solution for modern applications
@@ -3010,6 +3024,19 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/keycloak-1.0.0/keycloak-1.0.0.tgz
     version: 1.0.0
   maddy:
+  - apiVersion: v2
+    appVersion: 0.8.2
+    created: "2026-01-14T18:29:09.23720479Z"
+    description: A self hosted minimal mail server
+    digest: b8dba73963e0529742908355ef74084fc74fb2d4606a9c74ae79d6e9ee13109f
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: maddy
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/maddy-4.0.1/maddy-4.0.1.tgz
+    version: 4.0.1
   - apiVersion: v2
     appVersion: 0.8.1
     created: "2025-05-10T18:52:25.075625273Z"
@@ -6107,4 +6134,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2026-01-14T12:39:37.376917274Z"
+generated: "2026-01-14T18:29:09.23812212Z"
