@@ -1455,6 +1455,20 @@ entries:
     version: 1.0.0
   ghost:
   - apiVersion: v2
+    appVersion: 6.12.1
+    created: "2026-01-14T12:39:37.214297616Z"
+    description: A simple, powerful publishing platform that allows you to share your
+      stories with the world.
+    digest: ba5f6773b22ebe81ffac32a364fcb522501d0c0f33d34c78979961a618a74c05
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: ghost
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/ghost-8.12.1/ghost-8.12.1.tgz
+    version: 8.12.1
+  - apiVersion: v2
     appVersion: 6.12.0
     created: "2026-01-09T18:28:06.36436809Z"
     description: A simple, powerful publishing platform that allows you to share your
@@ -4803,6 +4817,19 @@ entries:
     version: 1.0.0
   radicale:
   - apiVersion: v2
+    appVersion: 3.6.0.0
+    created: "2026-01-14T12:39:37.375592439Z"
+    description: A simple CalDAV (calendar) and CardDAV (contact) server
+    digest: e03df68a1e647cb3bdc9c10724e414371176525f26aa7c309860886c541d1f4f
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: radicale
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/radicale-4.1.0/radicale-4.1.0.tgz
+    version: 4.1.0
+  - apiVersion: v2
     appVersion: 3.5.10.0
     created: "2025-12-21T12:33:26.521122062Z"
     description: A simple CalDAV (calendar) and CardDAV (contact) server
@@ -6080,4 +6107,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2026-01-13T18:27:42.850877877Z"
+generated: "2026-01-14T12:39:37.376917274Z"
