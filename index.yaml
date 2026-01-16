@@ -1455,6 +1455,20 @@ entries:
     version: 1.0.0
   ghost:
   - apiVersion: v2
+    appVersion: 6.13.2
+    created: "2026-01-16T18:28:00.569984492Z"
+    description: A simple, powerful publishing platform that allows you to share your
+      stories with the world.
+    digest: c015f12dbb3b06caf01c84d72333889e4a788f010a6d002585d145af7c4daa7b
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: ghost
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/ghost-8.13.1/ghost-8.13.1.tgz
+    version: 8.13.1
+  - apiVersion: v2
     appVersion: 6.13.1
     created: "2026-01-16T01:25:36.002339863Z"
     description: A simple, powerful publishing platform that allows you to share your
@@ -6148,4 +6162,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2026-01-16T01:25:36.004217729Z"
+generated: "2026-01-16T18:28:00.570795741Z"
