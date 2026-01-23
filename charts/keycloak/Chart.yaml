@@ -2,8 +2,8 @@ apiVersion: v2
 name: keycloak
 description: A identity and access management solution for modern applications and services
 type: application
-version: 1.4.1
-appVersion: 26.5.1
+version: 1.4.2
+appVersion: 26.5.2
 projectUrl: https://github.com/keycloak/keycloak
 maintainers:
 - name: Taha
