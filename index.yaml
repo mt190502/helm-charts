@@ -707,6 +707,19 @@ entries:
     version: 1.0.0
   commafeed:
   - apiVersion: v2
+    appVersion: 6.1.0
+    created: "2026-01-25T12:36:35.343191924Z"
+    description: A RSS Aggregator
+    digest: 8190495604a64d59ef61b1387a1638b948990feb93c4f3498d3d1b99b56a01ed
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: commafeed
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/commafeed-8.1.0/commafeed-8.1.0.tgz
+    version: 8.1.0
+  - apiVersion: v2
     appVersion: 6.0.0
     created: "2026-01-19T18:27:53.918434772Z"
     description: A RSS Aggregator
@@ -6217,4 +6230,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2026-01-23T18:28:57.451863928Z"
+generated: "2026-01-25T12:36:35.344023335Z"
