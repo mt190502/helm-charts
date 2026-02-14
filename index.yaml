@@ -3718,6 +3718,19 @@ entries:
     version: 1.0.0
   miniflux:
   - apiVersion: v2
+    appVersion: 2.2.17
+    created: "2026-02-14T01:49:10.535812809Z"
+    description: Miniflux is a minimalist RSS feed reader
+    digest: 0bdaf84b9871732140bb3f5abb55f58674d972e5eb936c0a66d63d8e2293dd6c
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: miniflux
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/miniflux-1.1.5/miniflux-1.1.5.tgz
+    version: 1.1.5
+  - apiVersion: v2
     appVersion: 2.2.16
     created: "2026-01-07T12:39:08.942277289Z"
     description: Miniflux is a minimalist RSS feed reader
@@ -3823,6 +3836,19 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/nightscout-1.0.0/nightscout-1.0.0.tgz
     version: 1.0.0
   open-webui:
+  - apiVersion: v2
+    appVersion: 0.8.1
+    created: "2026-02-14T01:49:10.684574796Z"
+    description: "A User-Friendly Web Interface for Chat Interactions \U0001F44B"
+    digest: b866e64636cb5cf68ddd4dd4c0f6b18f8bfba25f3eebcd573f9505d5be986928
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: open-webui
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/open-webui-2.3.1/open-webui-2.3.1.tgz
+    version: 2.3.1
   - apiVersion: v2
     appVersion: 0.8.0
     created: "2026-02-13T01:59:26.85444759Z"
@@ -6476,4 +6502,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2026-02-13T18:42:54.671221368Z"
+generated: "2026-02-14T01:49:10.686563731Z"
