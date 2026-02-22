@@ -2,8 +2,8 @@ apiVersion: v2
 name: vikunja
 description: A self hosted task management application
 type: application
-version: 7.1.2
-appVersion: 0.24.6
+version: 8.0.3
+appVersion: 1.1.0
 projectUrl: https://github.com/go-vikunja/vikunja
 maintainers:
 - name: Taha
