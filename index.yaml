@@ -3408,6 +3408,19 @@ entries:
     version: 2.0.0
   memos:
   - apiVersion: v2
+    appVersion: 0.26.2
+    created: "2026-02-23T12:57:22.780054941Z"
+    description: A self hosted note taking app
+    digest: fe998002b55d6652c1ce7e1c6eab6a0ef0d1175cd6c3544f8fe3e5daf7c52216
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: memos
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/memos-7.3.2/memos-7.3.2.tgz
+    version: 7.3.2
+  - apiVersion: v2
     appVersion: 0.26.1
     created: "2026-02-08T18:32:38.285400067Z"
     description: A self hosted note taking app
@@ -3891,6 +3904,19 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/nightscout-1.0.0/nightscout-1.0.0.tgz
     version: 1.0.0
   open-webui:
+  - apiVersion: v2
+    appVersion: 0.8.5
+    created: "2026-02-23T12:57:23.004487222Z"
+    description: "A User-Friendly Web Interface for Chat Interactions \U0001F44B"
+    digest: a5a5696e604799ed7dd1cd64125af4783be1a9dedbd7bf6c71adbc820100b70e
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: open-webui
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/open-webui-2.3.4/open-webui-2.3.4.tgz
+    version: 2.3.4
   - apiVersion: v2
     appVersion: 0.8.3
     created: "2026-02-17T12:56:40.40578391Z"
@@ -6611,4 +6637,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2026-02-22T01:54:39.025750664Z"
+generated: "2026-02-23T12:57:23.005532914Z"
