@@ -1520,6 +1520,20 @@ entries:
     version: 1.0.0
   ghost:
   - apiVersion: v2
+    appVersion: 6.20.1
+    created: "2026-03-04T18:43:15.10625657Z"
+    description: A simple, powerful publishing platform that allows you to share your
+      stories with the world.
+    digest: 8173ff0ded49d65744236704f66dfc7d4b1e89bd5763a807ec7deb31c8fb26d9
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: ghost
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/ghost-8.20.1/ghost-8.20.1.tgz
+    version: 8.20.1
+  - apiVersion: v2
     appVersion: 6.20.0
     created: "2026-03-03T12:51:18.425684715Z"
     description: A simple, powerful publishing platform that allows you to share your
@@ -4533,6 +4547,20 @@ entries:
     version: 1.0.0
   paperless-ngx:
   - apiVersion: v2
+    appVersion: 2.20.10
+    created: "2026-03-04T18:43:15.288157688Z"
+    description: A community-supported supercharged version of paperless; scan, index
+      and archive all your physical documents
+    digest: 5d8c30998c72b6148a16acf312a888c91e483456b26831639c0f21d41b48a37a
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: paperless-ngx
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/paperless-ngx-7.6.11/paperless-ngx-7.6.11.tgz
+    version: 7.6.11
+  - apiVersion: v2
     appVersion: 2.20.9
     created: "2026-02-28T12:38:46.015179203Z"
     description: A community-supported supercharged version of paperless; scan, index
@@ -6745,4 +6773,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2026-03-03T12:51:18.426425516Z"
+generated: "2026-03-04T18:43:15.28908545Z"
