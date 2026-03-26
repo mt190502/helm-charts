@@ -3495,6 +3495,19 @@ entries:
     version: 1.0.0
   maddy:
   - apiVersion: v2
+    appVersion: 0.9.1
+    created: "2026-03-26T02:02:57.493246255Z"
+    description: A self hosted minimal mail server
+    digest: 6f9049a0919771d2aabd54a68c5780e5d7ea47717ea27f15662ee4b3e709e95a
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: maddy
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/maddy-4.1.1/maddy-4.1.1.tgz
+    version: 4.1.1
+  - apiVersion: v2
     appVersion: 0.9.0
     created: "2026-03-25T13:02:40.046934119Z"
     description: A self hosted minimal mail server
@@ -4083,6 +4096,19 @@ entries:
     - https://github.com/mt190502/helm-charts/releases/download/nightscout-1.0.0/nightscout-1.0.0.tgz
     version: 1.0.0
   open-webui:
+  - apiVersion: v2
+    appVersion: 0.8.11
+    created: "2026-03-26T02:02:57.619550143Z"
+    description: "A User-Friendly Web Interface for Chat Interactions \U0001F44B"
+    digest: 0fbc3f14510ddd87936ec116b3a78f9cd3be3cffd433501ea823046385e7e86e
+    maintainers:
+    - email: mt190502@mtaha.dev
+      name: Taha
+    name: open-webui
+    type: application
+    urls:
+    - https://github.com/mt190502/helm-charts/releases/download/open-webui-2.3.9/open-webui-2.3.9.tgz
+    version: 2.3.9
   - apiVersion: v2
     appVersion: 0.8.10
     created: "2026-03-09T06:57:55.484716484Z"
@@ -6977,4 +7003,4 @@ entries:
     urls:
     - https://github.com/mt190502/helm-charts/releases/download/vikunja-4.0.0/vikunja-4.0.0.tgz
     version: 4.0.0
-generated: "2026-03-25T13:02:40.047731408Z"
+generated: "2026-03-26T02:02:57.620620287Z"
