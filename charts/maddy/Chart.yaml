@@ -2,8 +2,8 @@ apiVersion: v2
 name: maddy
 description: A self hosted minimal mail server
 type: application
-version: 4.1.1
-appVersion: 0.9.1
+version: 4.1.2
+appVersion: 0.9.2
 projectUrl: https://github.com/foxcpp/maddy
 maintainers:
 - name: Taha
